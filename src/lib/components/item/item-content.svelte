@@ -9,13 +9,13 @@
 
   type Props = {
     piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
-    isInventory?: boolean;
-    showCount?: boolean;
-    showRecombobulated?: boolean;
     isDrawer?: boolean;
+    tab?: {
+      name: string;
+      icon: string;
+    };
   };
-
-  let { piece, isDrawer }: Props = $props();
+  let { piece, isDrawer, tab }: Props = $props();
 
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const itemName = $derived(skyblockItem.display_name ?? "???");
@@ -33,7 +33,6 @@
       <Image class="size-8" />
     </Avatar.Fallback>
   </Avatar.Root>
-
   <p class="relative text-wrap text-center text-base font-semibold uppercase data-[multicolor=true]:rounded-full data-[multicolor=true]:bg-background-lore data-[multicolor=true]:px-2 data-[multicolor=true]:py-1 data-[multicolor=false]:text-text sm:text-lg" data-multicolor={isMulticolor}>
     {@html isMulticolor ? itemNameHtml : removeFormatting(itemNameHtml)}
   </p>
@@ -60,8 +59,25 @@
       </div>
     {/if}
 
+    {#if typeof tab === "object" && tab.icon}
+      <div class="mt-4">
+        <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
+          <div class="flex items-center gap-2">
+            <Avatar.Root class="shrink-0 select-none">
+              <Avatar.Image loading="lazy" src={tab.icon} alt={tab.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
+              <Avatar.Fallback class="flex size-10 items-center justify-center rounded-lg bg-icon/90 text-center font-semibold uppercase">
+                {tab.name.slice(0, 2)}
+              </Avatar.Fallback>
+            </Avatar.Root>
+            <div class="font-semibold text-link">
+              You can find this item in the <span class="capitalize">{tab.name}</span> tab
+            </div>
+          </div>
+        </div>
+      </div>
+    {/if}
     {#if packData}
-      <div class="pt-4">
+      <div class="mt-4">
         <Button.Root href={packData.link} target="_blank">
           <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
             <div class="flex items-center gap-2">
