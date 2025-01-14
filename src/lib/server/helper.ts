@@ -187,8 +187,11 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
     return item;
   }
 
+  // ? NOTE: we're ignoring enchanted books because they're quite expensive to render and not really useful the performance hit
   if (item.tag?.ExtraAttributes?.id === "ENCHANTED_BOOK") {
-    item.texture_path = `/api/item/ENCHANTED_BOOK`;
+    const enchantedBookItem = getItemData({ id: 403 }) as ProcessedItem;
+    const texture = getTexture(enchantedBookItem);
+    item.texture_path = texture?.path ?? "";
     return item;
   }
 
@@ -383,6 +386,7 @@ export function getHeadTextureUUID(value: string) {
 import { STATS_DATA } from "$lib/shared/constants/stats";
 import { removeFormatting } from "$lib/shared/helper";
 import type { ItemStats } from "$types/processed/profile/stats";
+import { getItemData } from "./helper";
 
 /**
  * Gets the stats from an item
