@@ -28,6 +28,9 @@ const config = {
     },
     csrf: {
       checkOrigin: true
+    },
+    serviceWorker: {
+      register: process.env.NODE_ENV !== "development"
     }
   },
   // Hide build warnings from node_modules

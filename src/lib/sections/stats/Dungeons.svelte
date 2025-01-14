@@ -7,7 +7,7 @@
   import { formatNumber } from "$lib/shared/helper";
   import type { CatacombsData } from "$types/stats";
   import { Avatar, Collapsible } from "bits-ui";
-  import { formatDate, formatDistanceToNowStrict } from "date-fns";
+  import { formatDate, formatDistanceToNowStrict, formatDuration as formatDurationDateFns, intervalToDuration } from "date-fns";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
@@ -17,6 +17,19 @@
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
   const dungeons = $derived(profile.dungeons);
+
+  function formatDuration(end: number) {
+    const duration = formatDurationDateFns(intervalToDuration({ start: 0, end }), {
+      format: ["minutes", "seconds"],
+      delimiter: ":",
+      zero: true,
+      locale: {
+        formatDistance: (_token, count) => String(count).padStart(2, "0")
+      }
+    });
+    if (duration === "") return "-";
+    return duration;
+  }
 </script>
 
 <CollapsibleSection id="Dungeons" {order}>
@@ -93,6 +106,8 @@
               {#each Object.entries(catacomb.stats) as [key, value]}
                 {#if typeof value === "object"}
                   <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value.damage)} subData="({value.type})" />
+                {:else if key.includes("time")}
+                  <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
                 {:else}
                   <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />
                 {/if}
@@ -113,6 +128,8 @@
                       <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDistanceToNowStrict(value, { addSuffix: true })} asterisk={true}>
                         {formatDate(value, "dd MMMM yyyy 'at' HH:mm")}
                       </AdditionStat>
+                    {:else if key.includes("time")}
+                      <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
                     {:else}
                       <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />
                     {/if}

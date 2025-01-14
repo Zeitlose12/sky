@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
+  import { sections } from "$lib/sections/constants";
   import { packConfigs } from "$lib/shared/constants/packs";
   import type { Theme } from "$lib/shared/constants/themes";
   import themes from "$lib/shared/constants/themes";
@@ -31,9 +32,10 @@
     return JSON.stringify($disabledPacks.sort()) !== JSON.stringify(initialPackConfig.sort());
   });
 
+  const defaultSectionOrder = sections;
   const initialSectionOrderPreferences = get(sectionOrderPreferences);
-  const hasSectionOrderPreferencesChanged = derived(sectionOrderPreferences, ($sectionOrderPreferences) => {
-    return JSON.stringify($sectionOrderPreferences) !== JSON.stringify(initialSectionOrderPreferences);
+  const differsFromDefault = derived(sectionOrderPreferences, ($sectionOrderPreferences) => {
+    return JSON.stringify($sectionOrderPreferences) !== JSON.stringify(defaultSectionOrder);
   });
 
   let sectionOrder = $state(initialSectionOrderPreferences);
@@ -158,13 +160,13 @@
           </div>
         {/each}
       </div>
-      {#if $hasSectionOrderPreferencesChanged}
+      {#if $differsFromDefault}
         <Button.Root
           class="mt-4 w-full rounded-lg bg-text/65 p-1.5 text-sm font-semibold uppercase text-background/80 transition-colors hover:bg-text/80"
           on:click={() => {
-            window.location.reload();
+            sectionOrderPreferences.set(defaultSectionOrder);
           }}>
-          Reload to apply changes
+          Reset to default
         </Button.Root>
       {/if}
     </Tabs.Content>
