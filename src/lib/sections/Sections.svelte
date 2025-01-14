@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import Accessories from "$lib/sections/stats/Accessories.svelte";
+  import Armor from "$lib/sections/stats/Armor.svelte";
   import Bestiary from "$lib/sections/stats/Bestiary.svelte";
   import Collections from "$lib/sections/stats/Collections.svelte";
   import CrimsonIsle from "$lib/sections/stats/CrimsonIsle.svelte";
@@ -15,7 +16,6 @@
   import Weapons from "$lib/sections/stats/Weapons.svelte";
   import type { SectionName } from "$lib/sections/types";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
-  import Armor from "./stats/Armor.svelte";
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
