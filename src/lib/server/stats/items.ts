@@ -12,6 +12,7 @@ import { getMuseumItems } from "./museum";
 
 export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[]): GetItemsItems {
   const INVENTORY = userProfile.inventory;
+  const RIFT_INVENTORY = userProfile.rift.inventory;
   const outputPromises = {
     // INVENTORIES
     inventory: INVENTORY?.inv_contents?.data ?? "",
@@ -20,6 +21,12 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
     equipment: INVENTORY?.equipment_contents?.data ?? "",
     personal_vault: INVENTORY?.personal_vault_contents?.data ?? "",
     wardrobe: INVENTORY?.wardrobe_contents?.data ?? "",
+
+    // RIFT
+    rift_inventory: RIFT_INVENTORY?.inv_contents?.data ?? "",
+    rift_enderchest: RIFT_INVENTORY?.ender_chest_contents?.data ?? "",
+    rift_armor: RIFT_INVENTORY?.inv_armor?.data ?? "",
+    rift_equipment: RIFT_INVENTORY?.equipment_contents?.data ?? "",
 
     // BAGS
     potion_bag: INVENTORY?.bag_contents?.potion_bag?.data ?? "",
@@ -80,6 +87,8 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
   output.armor = getArmor(output.armor);
   output.equipment = getEquipment(output.equipment);
   output.wardrobe = getWardrobe(output.wardrobe);
+  output.rift_armor = getArmor(output.rift_armor);
+  output.rift_equipment = getEquipment(output.rift_equipment);
 
   const allItems = Object.values(output).flat();
   output.weapons = getWeapons(allItems);

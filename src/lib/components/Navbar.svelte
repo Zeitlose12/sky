@@ -51,7 +51,7 @@
   });
 
   $effect(() => {
-    if (firstActive) {
+    if (firstActive && page.state === "loaded") {
       scrollToTab(true, allLinks[firstActive]);
       replaceState("#" + firstActive, page.state);
     }

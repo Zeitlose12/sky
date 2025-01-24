@@ -180,6 +180,12 @@ export type Rift = {
   wither_cage: {
     killed_eyes: string[];
   };
+  inventory: {
+    inv_contents: DecodedInventory;
+    inv_armor: DecodedInventory;
+    ender_chest_contents: DecodedInventory;
+    equipment_contents: DecodedInventory;
+  };
 };
 
 export type NetherIslandPlayerData = {

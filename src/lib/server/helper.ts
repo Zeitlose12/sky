@@ -193,6 +193,10 @@ export function getHeadTextureUUID(value: string) {
 
 export function formatTimestamp(timestamp: number, formatType: string = "MMM d, yyyy, h:mm a") {
   if (new Date(Number(timestamp)).toString() == "Invalid Date") {
+    timestamp = new Date(timestamp).getTime();
+  }
+
+  if (new Date(Number(timestamp)).toString() == "Invalid Date") {
     return "Invalid Date";
   }
 

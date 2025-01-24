@@ -80,7 +80,7 @@ export function stripItems(items: Array<ProcessedItem | ProcessedPet>, keys?: st
 }
 
 const isToolCategory = (category: string) => ["farming_tools", "mining_tools", "fishing_tools"].includes(category);
-const isEquipmentCategory = (category: string) => ["armor", "equipment", "weapons"].includes(category);
+const isEquipmentCategory = (category: string) => ["armor", "rift_armor", "equipment", "rift_equipment", "weapons"].includes(category);
 
 export function stripAllItems(items: GetItemsItems) {
   return {
@@ -102,7 +102,7 @@ export function stripAllItems(items: GetItemsItems) {
         } else if (Array.isArray(value) && value.length > 0) {
           acc[key] = stripItems(value as ProcessedItem[]);
         } else {
-          const newKey = (isEquipmentCategory(key) ? key : key) as keyof GetItemsItems;
+          const newKey = ((isEquipmentCategory(key) ? key : key) as keyof GetItemsItems).replace("rift_", "");
           const newValue = value as Record<string, unknown>;
           if (!newValue[newKey]) {
             acc[key] = [];
@@ -111,7 +111,7 @@ export function stripAllItems(items: GetItemsItems) {
 
           acc[key] = {
             ...value,
-            [key]: stripItems(newValue[newKey] as ProcessedItem[])
+            [newKey]: stripItems(newValue[newKey] as ProcessedItem[])
           };
         }
 

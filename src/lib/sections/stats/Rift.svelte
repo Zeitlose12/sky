@@ -1,8 +1,10 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
+  import Bonus from "$lib/components/Bonus.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import Item from "$lib/components/Item.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { cn } from "$lib/shared/utils";
@@ -15,6 +17,9 @@
   const profile = $derived(ctx.profile);
 
   const rift = $derived(profile.rift);
+
+  const equipment = $derived(profile.items.rift_equipment);
+  const armor = $derived(profile.items.rift_armor);
 </script>
 
 <CollapsibleSection id="Rift" {order}>
@@ -50,8 +55,35 @@
           </div>
         </AdditionStat>
         <AdditionStat text="McGrubber's Burgers" data="{rift.castle.grubberStacks} / {rift.castle.maxBurgers}" maxed={rift.castle.grubberStacks === rift.castle.maxBurgers} />
+
+        <Items subtitle="Armor">
+          {#if armor.armor.length > 0}
+            {#each armor.armor as piece}
+              <Item {piece} />
+            {/each}
+          {:else}
+            <p class="space-x-0.5 leading-6">{profile.username} has no armor equipped</p>
+          {/if}
+          {#snippet info()}
+            <Bonus stats={armor.stats} />
+          {/snippet}
+        </Items>
+
+        <Items subtitle="Equipment">
+          {#if equipment.equipment.length > 0}
+            {#each equipment.equipment as piece}
+              <Item {piece} />
+            {/each}
+          {:else}
+            <p class="space-x-0.5 leading-6">{profile.username} has no equipment equipped</p>
+          {/if}
+          {#snippet info()}
+            <Bonus stats={equipment.stats} />
+          {/snippet}
+        </Items>
       </div>
     {/snippet}
+
     <div class="space-y-4">
       <SectionSubtitle class="my-0">Porthals</SectionSubtitle>
       <AdditionStat text="Porthals Unlocked" data={rift.porhtal.porhtalsFound} maxed={rift.porhtal.porhtalsFound === 7} />

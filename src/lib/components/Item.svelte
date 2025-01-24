@@ -37,7 +37,7 @@
       itemContent.set(piece);
       showItem.set(true);
     }}>
-    <div class={cn(`relative flex aspect-square items-center justify-center overflow-clip`, isInventory ? "p-0" : `p-2 ${bgColor}`)}>
+    <div class={cn(`relative flex aspect-square items-center justify-center overflow-clip`, isInventory ? "p-0" : `rounded-lg p-2 ${bgColor}`)}>
       <div class={cn("absolute inset-0 rounded-lg", { shine: shine })}></div>
       <Avatar.Root>
         <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-14 select-none [image-rendering:pixelated]" data-enchanted={enchanted} />

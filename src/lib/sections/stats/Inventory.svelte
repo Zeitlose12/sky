@@ -15,6 +15,8 @@
   const profile = $derived(ctx.profile);
 
   const inventory = $derived(profile.items.inventory.slice(9).concat(profile.items.inventory.slice(0, 9)));
+  const rift_inventory = $derived(profile.items.rift_inventory.slice(9).concat(profile.items.rift_inventory.slice(0, 9)));
+  const rift_enderchest = $derived(profile.items.rift_enderchest);
   const backpack = $derived(profile.items.backpack);
   const enderchest = $derived(profile.items.enderchest);
   const vault = $derived(profile.items.personal_vault);
@@ -79,6 +81,18 @@
         icon: "/api/head/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc",
         items: museum,
         gap: 54
+      },
+      {
+        id: "rift inv",
+        icon: "/api/head/445240fcf1a9796327dda5593985343af9121a7156bc76e3d6b341b02e6a6e52",
+        items: rift_inventory,
+        gap: 45
+      },
+      {
+        id: "rift ender",
+        icon: "/api/head/a6cc486c2be1cb9dfcb2e53dd9a3e9a883bfadb27cb956f1896d602b4067",
+        items: rift_enderchest,
+        gap: 45
       }
     ].filter((tab) => tab.items.length > 0)
   );
