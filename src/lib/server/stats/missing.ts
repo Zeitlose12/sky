@@ -204,6 +204,7 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
 
   output.recombobulated = activeAccessories.filter((a) => a.recombobulated === true).length;
   output.totalRecombobulated = constants.RECOMBABLE_ACCESSORIES_COUNT;
+  output.selectedPower = userProfile.accessory_bag_storage?.selected_power ?? null;
 
   const abiphoneContacts = (userProfile.nether_island_player_data?.abiphone?.active_contacts ?? []).length;
   const riftPrism = accessoryIds.find((a) => a.id === "RIFT_PRISM");

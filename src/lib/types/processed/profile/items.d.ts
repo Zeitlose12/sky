@@ -340,6 +340,7 @@ export type AccessoriesOutput = {
   total: number;
   recombobulated: number;
   totalRecombobulated: number;
+  selectedPower: string | null;
   magicalPower: {
     total: number;
     accessories: number;
