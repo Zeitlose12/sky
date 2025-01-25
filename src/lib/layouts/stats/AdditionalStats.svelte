@@ -17,7 +17,24 @@
     Joined on {dateFormat(profile.stats.joined, "dd MMMM yyyy 'at' HH:mm")}
   </AdditionStat>
   <AdditionStat text="Purse" data={`${formatNumber(profile.stats.purse)} Coins`} />
-  <AdditionStat text="Bank Account" data={`${formatNumber(profile.stats.bank)} Coins`} />
+  <AdditionStat text="Bank Account" data={`${formatNumber(profile.stats.bank + profile.stats.personalBank)} Coins`} asterisk={profile.stats.bank && profile.stats.personalBank ? true : false}>
+    <div>
+      <h3 class="font-bold text-text/85">
+        Bank:
+        <span class="text-text">
+          {formatNumber(profile.stats.bank)}
+        </span>
+      </h3>
+      {#if profile.stats.personalBank}
+        <h3 class="font-bold text-text/85">
+          Personal Bank:
+          <span class="text-text">
+            {formatNumber(profile.stats.personalBank)}
+          </span>
+        </h3>
+      {/if}
+    </div>
+  </AdditionStat>
   <AdditionStat text="Average Skill Level" data={profile.skills.averageSkillLevel.toFixed(2)} asterisk={true}>
     <div class="max-w-xs space-y-2">
       <div>

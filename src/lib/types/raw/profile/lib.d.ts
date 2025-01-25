@@ -95,6 +95,7 @@ export type MemberProfile = {
   first_join?: number;
   cookie_buff_active?: boolean;
   personal_bank_upgrade?: number;
+  bank_account?: number;
   deletion_notice?: {
     timestamp: number;
   };
