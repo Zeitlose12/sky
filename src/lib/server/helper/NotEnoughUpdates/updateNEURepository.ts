@@ -1,4 +1,4 @@
-import { building } from "$app/environment";
+import { building, dev } from "$app/environment";
 import fs from "node:fs";
 import { simpleGit } from "simple-git";
 
@@ -14,13 +14,20 @@ export async function updateNotEnoughUpdatesRepository() {
   try {
     console.log(`[NOT-ENOUGH-UPDATES] Checking for updates...`);
 
-    await gitSubmodule.submoduleUpdate(["--init", "--recursive"]);
-    await gitSubmodule.fetch();
     const diffSummary = await gitSubmodule.diffSummary(["origin/master"]);
 
     if (diffSummary.files.length > 0) {
       console.log(`[NOT-ENOUGH-UPDATES] Updating submodule...`);
-      await gitSubmodule.pull("origin", "master");
+
+      // If dev, this is a valid submodule
+      if (dev) {
+        await gitSubmodule.submoduleUpdate(["--init", "--recursive"]);
+        await gitSubmodule.fetch();
+      } else {
+        // If not dev, this is just a normal cloned repository
+        await gitSubmodule.pull();
+      }
+
       console.log(`[NOT-ENOUGH-UPDATES] Updated submodule!`);
     } else {
       console.log(`[NOT-ENOUGH-UPDATES] No updates found.`);

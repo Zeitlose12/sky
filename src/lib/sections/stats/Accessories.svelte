@@ -8,6 +8,7 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { RARITY_COLORS } from "$lib/shared/constants/items";
   import { STATS_DATA } from "$lib/shared/constants/stats";
+  import * as helper from "$lib/shared/helper";
   import { calculatePercentage } from "$lib/shared/helper";
   import { Collapsible } from "bits-ui";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
@@ -24,11 +25,13 @@
     <Items>
       {#snippet text()}
         <div>
-          <AdditionStat text="Unique Accessories" data={`${accessories.unique} / ${accessories.total}`} maxed={accessories.unique === accessories.total} />
-          <AdditionStat text="Completion" data={`${calculatePercentage(accessories.unique, accessories.total)}%`} maxed={accessories.unique === accessories.total} />
+          <AdditionStat text="Unique Accessories" data={`${accessories.unique} / ${accessories.total} (${calculatePercentage(accessories.unique, accessories.total)}%)`} maxed={accessories.unique === accessories.total} />
           <AdditionStat text="Recombobulated" data={`${accessories.recombobulated} / ${accessories.totalRecombobulated}`} maxed={accessories.recombobulated === accessories.totalRecombobulated} />
-          <AdditionStat text="Magical Power" data={accessories.magicalPower.total} asterisk={true} maxed={accessories.unique === accessories.total}
-            ><div class="max-w-xs space-y-2 font-bold">
+          {#if accessories.selectedPower}
+            <AdditionStat text="Selected Power" data={helper.titleCase(accessories.selectedPower)} />
+          {/if}
+          <AdditionStat text="Magical Power" data={accessories.magicalPower.total} asterisk={true} maxed={accessories.unique === accessories.total}>
+            <div class="max-w-xs space-y-2 font-bold">
               <div>
                 <h3 class="text-text/85">Accessories Breakdown</h3>
                 <p class="font-medium italic text-text/80">From your accessory bag.</p>

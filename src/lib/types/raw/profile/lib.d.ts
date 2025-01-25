@@ -39,6 +39,7 @@ export type Member = {
   player_data?: PlayerData;
   jacobs_contest?: JacobsContest;
   leveling?: Leveling;
+  accessory_bag_storage?: AccessoryBagStorage;
   profile?: MemberProfile;
   currencies?: Currencies;
   fairy_soul?: FairySouls;
@@ -95,6 +96,7 @@ export type MemberProfile = {
   first_join?: number;
   cookie_buff_active?: boolean;
   personal_bank_upgrade?: number;
+  bank_account?: number;
   deletion_notice?: {
     timestamp: number;
   };
@@ -454,4 +456,8 @@ export type MuseumItems = {
     donated_as_child: boolean;
     id: string;
   };
+};
+
+export type AccessoryBagStorage = {
+  selected_power?: string;
 };

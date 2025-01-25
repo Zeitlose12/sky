@@ -7,14 +7,18 @@ import type { ServerInit } from "@sveltejs/kit";
 import { getPrices } from "skyhelper-networth";
 import { startMongo } from "./lib/server/db/mongo";
 import { startRedis } from "./lib/server/db/redis";
-import fs from "node:fs";
 
 export const init: ServerInit = async () => {
   console.log("[SkyCrypt] Starting...");
+
+  await intializeNEURepository().then(async () => {
+    parseNEURepository();
+  });
+
   await resourcesInit();
 
   await startMongo()?.then(() => {
-    console.log("[MONGO] MongoDB succeesfully connected");
+    console.log("[MONGO] MongoDB successfully connected");
 
     updateItems();
     updateCollections();
@@ -23,19 +27,11 @@ export const init: ServerInit = async () => {
   });
 
   await startRedis().then(() => {
-    console.log("[REDIS] Redis succeesfully connected");
+    console.log("[REDIS] Redis successfully connected");
   });
 
-  if (!fs.existsSync("NotEnoughUpdates-REPO")) {
-    await intializeNEURepository().then(async () => {
-      parseNEURepository();
-    });
-  } else {
-    await parseNEURepository();
-  }
-
   await getPrices().then(() => {
-    console.log("[NETWORTH] Prices sucessfully fetched!");
+    console.log("[NETWORTH] Prices successfully fetched!");
   });
 
   console.log("[SkyCrypt] Started!");
