@@ -4,9 +4,6 @@ on:
   push:
     paths: ["src/**", ".github/workflows/website.yml"]
 
-  pull_request:
-    paths: ["src/**", ".github/workflows/website.yml"]
-
 env:
   NODE_VERSION: "21"
   CONTAINER_REGISTRY: ghcr.io
