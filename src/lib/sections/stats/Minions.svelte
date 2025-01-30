@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { calculatePercentage } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
@@ -55,13 +56,13 @@
         {/if}
       </div>
 
-      <div class="flex flex-wrap gap-4">
+      <ScrollItems>
         {#each data.minions as minion}
           {@const hasTier = minion.tiers[minion.tiers.length - 1]}
           {@const hasMaxed = hasTier === minion.maxTier}
           <Chip image={{ src: minion.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasTier })} variant="tooltip">
             <div class={cn("flex flex-col", { "text-maxed": hasMaxed })}>
-              <div class="font-bold">
+              <div class="whitespace-nowrap font-bold">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{minion.name}</span>
                 <span class={cn({ "text-gold": hasMaxed })}>{hasTier ? minion.tiers[minion.tiers.length - 1] : 0}</span>
               </div>
@@ -76,7 +77,7 @@
             </div>
           </Chip>
         {/each}
-      </div>
+      </ScrollItems>
     {/each}
   </Items>
 </CollapsibleSection>

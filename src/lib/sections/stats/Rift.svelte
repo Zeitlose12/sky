@@ -5,6 +5,7 @@
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Item from "$lib/components/Item.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { cn } from "$lib/shared/utils";
@@ -87,55 +88,56 @@
     <div class="space-y-4">
       <SectionSubtitle class="my-0">Porthals</SectionSubtitle>
       <AdditionStat text="Porthals Unlocked" data={rift.porhtal.porhtalsFound} maxed={rift.porhtal.porhtalsFound === 7} />
-      <div class="flex flex-wrap gap-4">
-        {#each rift.porhtal.porhtals as porhtal}
-          {@const hasUnlocked = porhtal.unlocked}
-          <Chip image={{ src: porhtal.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
-            <div class={cn("flex flex-col")}>
-              <div class="font-bold">
-                <span class="opacity-60">{porhtal.name}</span>
-              </div>
-            </div>
-          </Chip>
-        {/each}
-      </div>
     </div>
+
+    <ScrollItems>
+      {#each rift.porhtal.porhtals as porhtal}
+        {@const hasUnlocked = porhtal.unlocked}
+        <Chip image={{ src: porhtal.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
+          <div class={cn("flex flex-col")}>
+            <div class="whitespace-nowrap font-bold">
+              <span class="opacity-60">{porhtal.name}</span>
+            </div>
+          </div>
+        </Chip>
+      {/each}
+    </ScrollItems>
     <div class="space-y-4">
       <SectionSubtitle class="my-0">Timecharms</SectionSubtitle>
       <AdditionStat text="Timecharms Obtained" data={rift.timecharms.timecharmsFound} maxed={rift.timecharms.timecharmsFound === 8} />
-      <div class="flex flex-wrap gap-4">
-        {#each rift.timecharms.timecharms as timecharm}
-          {@const hasUnlocked = timecharm.unlocked}
-          <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
-            <div class={cn("flex flex-col")}>
-              <div class="font-bold">
-                <span class="opacity-60">{timecharm.name}</span>
-                <div class="text-sm">
-                  {#if hasUnlocked}
-                    <span class="opacity-60">
-                      Obtained {formatDistanceToNowStrict(timecharm.unlockedAt, {
-                        addSuffix: true
-                      })}
-                    </span>
-                  {:else}
-                    <span class="opacity-60">Not Obtained</span>
-                  {/if}
-                </div>
+    </div>
+    <ScrollItems>
+      {#each rift.timecharms.timecharms as timecharm}
+        {@const hasUnlocked = timecharm.unlocked}
+        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
+          <div class={cn("flex flex-col")}>
+            <div class="whitespace-nowrap font-bold">
+              <span class="opacity-60">{timecharm.name}</span>
+              <div class="text-sm">
+                {#if hasUnlocked}
+                  <span class="opacity-60">
+                    Obtained {formatDistanceToNowStrict(timecharm.unlockedAt, {
+                      addSuffix: true
+                    })}
+                  </span>
+                {:else}
+                  <span class="opacity-60">Not Obtained</span>
+                {/if}
               </div>
             </div>
-            <div slot="tooltip" class="text-sm font-bold">
-              {#if timecharm.unlockedAt}
-                <div>
-                  <span class="opacity-85">Obtained:</span>
-                  <span class="text-text">
-                    {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
-                  </span>
-                </div>
-              {/if}
-            </div>
-          </Chip>
-        {/each}
-      </div>
-    </div>
+          </div>
+          <div slot="tooltip" class="text-sm font-bold">
+            {#if timecharm.unlockedAt}
+              <div>
+                <span class="opacity-85">Obtained:</span>
+                <span class="text-text">
+                  {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
+                </span>
+              </div>
+            {/if}
+          </div>
+        </Chip>
+      {/each}
+    </ScrollItems>
   </Items>
 </CollapsibleSection>
