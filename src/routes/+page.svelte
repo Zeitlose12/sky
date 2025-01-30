@@ -19,10 +19,11 @@
 
   const form = superForm(data.searchForm, {
     validators: zodClient(schema),
-    validationMethod: "oninput"
+    validationMethod: "oninput",
+    id: "searchForm"
   });
 
-  const { form: formData, enhance, errors, tainted, submitting, isTainted } = form;
+  const { form: formData, enhance, errors, tainted, submitting, isTainted, message } = form;
 
   const iconMapper: Record<Role, typeof CodeXml | typeof Server | typeof GitPullRequestArrow | typeof Star> = {
     [Role.MAINTAINER]: CodeXml,
@@ -47,6 +48,9 @@
         </Control>
         {#if $formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined}
           <FieldErrors class="text-center text-sm font-semibold text-text/80" />
+        {/if}
+        {#if $message && $message.type === "error"}
+          <div class="text-center text-sm font-semibold text-text/80">{$message.text}</div>
         {/if}
       </Field>
     </div>
