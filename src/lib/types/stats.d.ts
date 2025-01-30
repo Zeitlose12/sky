@@ -86,4 +86,5 @@ export type ValidStats = {
   rift: Rift;
   misc: Misc;
   apiSettings: APISettings;
+  errors: Record<string, string>;
 };

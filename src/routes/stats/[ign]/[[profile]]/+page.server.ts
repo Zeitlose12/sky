@@ -1,17 +1,24 @@
 import type { Stats as StatsType } from "$lib/types/stats";
+import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params, fetch }) => {
   const { ign, profile } = params;
 
-  const data = await fetch(`/api/stats/${ign}${profile ? "/" + profile : ""}`)
-    .then((res) => res.json() as Promise<StatsType>)
-    .catch((err) => {
-      console.error(err);
-      return null;
-    });
+  try {
+    const data = await fetch(`/api/stats/${ign}${profile ? "/" + profile : ""}`);
 
-  return {
-    user: data
-  };
+    if (!data.ok) {
+      error(data.status, "Failed to fetch data");
+    }
+
+    const user = (await data.json()) as StatsType;
+
+    return {
+      user
+    };
+  } catch (e) {
+    console.error(e);
+    error(500, "Failed to fetch data");
+  }
 }) satisfies PageServerLoad;

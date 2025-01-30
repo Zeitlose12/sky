@@ -26,9 +26,9 @@
     if (loadedUuid === uuid) return;
     canvasIsLoading = true;
 
-    const cape = await fetch(`https://crafatar.com/capes/${uuid}`, {
-      method: "HEAD"
-    }).catch(() => ({ ok: false }));
+    // const cape = await fetch(`https://crafatar.com/capes/${uuid}`, {
+    //   method: "HEAD"
+    // }).catch(() => ({ ok: false }));
 
     if (!viewer) {
       viewer = new skinview3d.SkinViewer({
@@ -41,11 +41,11 @@
     }
 
     await viewer.loadSkin(`https://crafatar.com/skins/${uuid}`);
-    if (cape.ok) {
-      await viewer.loadCape(`https://crafatar.com/capes/${uuid}`);
-    } else {
-      viewer.resetCape();
-    }
+    // if (cape.ok) {
+    //   await viewer.loadCape(`https://crafatar.com/capes/${uuid}`);
+    // } else {
+    //   viewer.resetCape();
+    // }
 
     viewer.camera.position.set(-18, -3, 78);
     viewer.controls.enableZoom = false;

@@ -1,5 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { superValidate } from "sveltekit-superforms";
+import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { schema } from "../schema";
 import type { Actions, PageServerLoad } from "./$types";
@@ -17,6 +17,21 @@ export const actions: Actions = {
       return fail(400, {
         searchForm: form
       });
+    }
+
+    try {
+      const response = await fetch(`https://mowojang.matdoes.dev/${form.data.query}`);
+      if (response.status === 204 || response.status === 404) {
+        return message(form, { type: "error", text: `No user with the name '${form.data.query}' was found` }, { status: 404 });
+      }
+
+      const data = await response.json();
+      if (data.errorMessage) {
+        return message(form, { type: "error", text: `No user with the name '${form.data.query}' was found` }, { status: 404 });
+      }
+    } catch (error) {
+      console.error(error);
+      return message(form, { type: "error", text: "An error occurred while fetching the user data" }, { status: 500 });
     }
 
     redirect(303, `/stats/${form.data.query}`);

@@ -7,16 +7,24 @@
   import CircleAlert from "lucide-svelte/icons/circle-alert";
   import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import Search from "lucide-svelte/icons/search";
+  import { toast } from "svelte-sonner";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
   import { schema } from "../../../routes/schema";
 
   const form = superForm(page.data.searchForm, {
     validators: zodClient(schema),
-    validationMethod: "oninput"
+    validationMethod: "oninput",
+    id: "searchFormNav"
   });
 
-  const { form: formData, enhance, errors, tainted, submitting, isTainted } = form;
+  const { form: formData, enhance, errors, tainted, submitting, isTainted, message } = form;
+
+  message.subscribe((value) => {
+    if (value && value.type === "error") {
+      toast.error(value.text);
+    }
+  });
 </script>
 
 <header class="fixed left-0 top-0 z-30 h-12 w-full overflow-clip bg-header px-2.5 pb-[env(safe-area-inset-bottom,0)] pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container">

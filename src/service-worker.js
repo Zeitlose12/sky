@@ -12,14 +12,17 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
   ...build, // the app itself
   ...files, // everything in `static`
-  ...prerendered // all prerendered pages
+  ...prerendered, // all prerendered pages,
+  "/offline/__data.json" // offline page data
 ];
 
 sw.addEventListener("install", (event) => {
+  console.log("installing with prerendered", prerendered);
   // Create a new cache and add all files to it
   async function addFilesToCache() {
     const cache = await caches.open(CACHE);
     await cache.addAll(ASSETS);
+    sw.skipWaiting();
   }
 
   event.waitUntil(addFilesToCache());
@@ -78,10 +81,11 @@ self.addEventListener("fetch", (event) => {
 
       // TODO
       // if there's no cache, then return the offline page
-      // const offline = await cache.match("/offline");
-      // if (offline) {
-      //   return new Response(offline.body);
-      // }
+      const offlineResponse = await cache.match("/offline");
+      if (offlineResponse) {
+        console.log("returning offline page", offlineResponse);
+        return offlineResponse;
+      }
 
       // if even the offline page fails, then just throw the error
       // as there is nothing we can do to respond to this request

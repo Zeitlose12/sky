@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/environment";
+  import { getProfileCtx } from "$ctx/profile.svelte";
   import ItemContent from "$lib/components/item/item-content.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -11,12 +12,15 @@
   import Sections from "$lib/sections/Sections.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
-  import { Dialog } from "bits-ui";
+  import { Button, Dialog } from "bits-ui";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
 
   const isHover = getContext<IsHover>("isHover");
+
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 </script>
 
 <SEO />
@@ -33,7 +37,16 @@
   <!-- ! Enable once 132549134 from https://webkit.org/blog/16186/release-notes-for-safari-technology-preview-206/ is added to stable  -->
   <!-- <div class="fixed right-0 top-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div> -->
 
-  <main data-vaul-drawer-wrapper class="relative mx-auto min-h-dvh backdrop-blur-lg @container group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
+  <main data-vaul-drawer-wrapper class="relative mx-auto mt-12 min-h-dvh backdrop-blur-lg @container group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
+    {#if profile.errors && Object.keys(profile.errors).length > 0}
+      <div class="space-y-5 bg-red-600 p-4 @[75rem]/parent:p-8">
+        <h3 class="text-2xl font-semibold">An unexpected error has occurred</h3>
+        {#each Object.entries(profile.errors) as [error, message]}
+          {error}: {message}
+        {/each}
+        <p>Please report this error on our <Button.Root target="_blank" href="https://discord.gg/cNgADv2kEQ" class="underline">Discord</Button.Root></p>
+      </div>
+    {/if}
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
