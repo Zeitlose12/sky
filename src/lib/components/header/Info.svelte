@@ -10,19 +10,19 @@
 </script>
 
 {#snippet info()}
-  <p class="my-4">SkyCrypt is a free open-source stats viewer for Hypixel SkyBlock.</p>
+  <p class="my-4">SkyCrypt is a free, open-source stats viewer for Hypixel SkyBlock.</p>
   <p class="my-4">
-    You can report bugs, suggest features, or contribute to the code on <Button.Root class="font-semibold text-link" href="https://github.com/SkyCryptWebsite/SkyCrypt" target="_blank" rel="noreferrer">GitHub</Button.Root>. It would be much appreciated!
+    You can report bugs, suggest features on <Button.Root class="font-semibold text-link" href="https://discord.gg/cNgADv2kEQ" target="_blank" rel="noreferrer">Discord</Button.Root>, and/or contribute to the code on <Button.Root class="font-semibold text-link" href="https://github.com/SkyCryptWebsite/SkyCrypt" target="_blank" rel="noreferrer">GitHub</Button.Root>. It would be much appreciated!
   </p>
   <p class="my-4">
-    Join our community on <Button.Root class="font-semibold text-link" href="https://discord.gg/cNgADv2kEQ" target="_blank" rel="noreferrer">Discord!</Button.Root>
+    Join our community on <Button.Root class="font-semibold text-link" href="https://discord.gg/cNgADv2kEQ" target="_blank" rel="noreferrer">Discord</Button.Root>!
   </p>
   <p class="my-4">
-    Help keep SkyCrypt ad free by donating on <Button.Root class="font-semibold text-link" href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer">Patreon!</Button.Root>
+    Help keep SkyCrypt ad free by donating on <Button.Root class="font-semibold text-link" href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer">Patreon</Button.Root>!
   </p>
   <p class="my-4">
-    The original project, <Button.Root class="font-semibold text-link" href="https://sky.lea.moe">sky.lea.moe</Button.Root>, was orginally created by
-    <Button.Root class="font-semibold text-link" href="https://twitter.com/LeaPhant" target="_blank" rel="noreferrer">LeaPhant</Button.Root>. Thanks for all of what you've done Lea!
+    The original project, <Button.Root class="font-semibold text-link" href="https://sky.lea.moe">sky.lea.moe</Button.Root>, was created by
+    <Button.Root class="font-semibold text-link" href="https://github.com/LeaPhant" target="_blank" rel="noreferrer">LeaPhant</Button.Root>. Thanks for all of what you've done Lea!
   </p>
   <h4 class="mb-4 mt-5 font-bold">Used Resources:</h4>
   <ul class="list-inside list-disc [&_ul]:mb-2 [&_ul]:list-inside [&_ul]:list-[revert] [&_ul]:pl-5">
@@ -70,30 +70,26 @@
           Shaders: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://sildurs-shaders.github.io/" target="_blank">Sildur's Vibrant Shaders</Button.Root>
           by <span class="text-text/70">Sildur</span>
         </li>
-        <li>
-          April Fools 2024: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://wall.alphacoders.com/big.php?i=684569" target="_blank">Wallpaper</Button.Root>
-          by <span class="text-text/70">Tinkerbell</span>
-        </li>
       </ul>
     </li>
     <li>
-      3D Skin View: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://github.com/bs-community/skinview3d/" target="_blank">Blessing Skin</Button.Root>
-      by <span class="text-text/70">SkyHelper</span>
+      3D Skin View: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://github.com/bs-community/skinview3d/" target="_blank">Skin View 3D</Button.Root>
+      by <span class="text-text/70">BS-Community</span>
     </li>
     <li>
       Farming Weight: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://elitebot.dev/" target="_blank">Elite</Button.Root>
-      by <span class="text-text/70">SkyHelper</span>
+      by <span class="text-text/70">Kaeso</span>
     </li>
     <li>
-      Networth: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://www.npmjs.com/package/skyhelper-networth" target="_blank">SkyHelper Networth</Button.Root>
-      by <span class="text-text/70">SkyHelper</span>
+      Networth: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://github.com/Altpapier/SkyHelper-Networth" target="_blank">SkyHelper Networth</Button.Root>
+      by <span class="text-text/70">Altpapier</span>
     </li>
     <li>
-      Player Heads: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://hypixel.net/forums/skyblock.157/" target="_blank">SkyBlock</Button.Root>
+      Player Heads: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://hypixel.net" target="_blank">SkyBlock</Button.Root>
       by <span class="text-text/70">Hypixel</span>
     </li>
     <li>
-      Player Data: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://api.hypixel.net/" target="_blank">Hypixel API</Button.Root>
+      Player Data: <Button.Root class="font-semibold text-link" rel="noreferrer" href="https://api.hypixel.net" target="_blank">Hypixel API</Button.Root>
       by <span class="text-text/70">Hypixel</span>
     </li>
     <li>
