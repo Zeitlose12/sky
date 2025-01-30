@@ -12,7 +12,7 @@ import { getMuseumItems } from "./museum";
 
 export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[]): GetItemsItems {
   const INVENTORY = userProfile.inventory;
-  const RIFT_INVENTORY = userProfile.rift.inventory;
+  const RIFT_INVENTORY = userProfile.rift?.inventory;
   const outputPromises = {
     // INVENTORIES
     inventory: INVENTORY?.inv_contents?.data ?? "",

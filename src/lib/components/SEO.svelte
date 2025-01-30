@@ -90,7 +90,7 @@
         output += `🪦 Dungeons: ${profile.dungeons.classes.classAverageWithProgress.toFixed(2)}\n`;
       }
 
-      output += `${skillEmojis["dungeons"]} ${profile.dungeons.level.level} `;
+      output += `${skillEmojis["dungeons"]} ${profile.dungeons.level?.level ?? 0} `;
       const classes = profile.dungeons?.classes?.classes;
       if (classes !== undefined) {
         for (const [dclass, data] of Object.entries(classes)) {
