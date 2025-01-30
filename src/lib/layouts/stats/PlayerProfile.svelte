@@ -33,7 +33,7 @@
   }
 </script>
 
-<div class="mt-12 flex flex-wrap items-center gap-x-2 gap-y-3 text-4xl">
+<div class="flex flex-wrap items-center gap-x-2 gap-y-3 text-4xl">
   Stats for
   <DropdownMenu.Root>
     <DropdownMenu.Trigger class="inline-flex items-center whitespace-nowrap rounded-full bg-[#7f7f7f]/20 py-2 pl-2 pr-4 align-middle text-3xl font-semibold">

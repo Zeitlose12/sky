@@ -1,9 +1,12 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
+  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import type { SectionName } from "$lib/sections/types";
   import { titleCase } from "$lib/shared/helper";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import type { ValidStats } from "$types/global";
+  import CircleX from "lucide-svelte/icons/circle-x";
+  import LoaderCircle from "lucide-svelte/icons/loader-circle";
 
   import type { Component } from "svelte";
   import { onMount } from "svelte";
@@ -17,7 +20,7 @@
 
   const COMPONENTS = {
     Armor: {
-      component: () => import("./stats/Armor.svelte"),
+      component: () => import("$lib/sections/stats/Armor.svelte"),
       valid: (profile: ValidStats) => profile.items?.armor && profile.items?.equipment && profile.items?.wardrobe
     },
     Weapons: {
@@ -153,7 +156,10 @@
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const element = document.querySelector(`[data-section="${sectionId}"]`);
-    if (element) {
+    const childElement = document.getElementById(sectionId);
+    if (childElement) {
+      childElement.scrollIntoView({ behavior: "smooth" });
+    } else if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   }
@@ -184,8 +190,8 @@
 <div class="space-y-4">
   {#if preloadComplete}
     {#each Object.entries(COMPONENTS).sort(([a], [b]) => findIndex(a as SectionName) - findIndex(b as SectionName)) as [section, { valid }]}
-      {#if valid(profile)}
-        <div data-section={section} use:setupObserver>
+      <div data-section={section} use:setupObserver>
+        {#if valid(profile)}
           {#if renderedComponents.has(section)}
             {#key section}
               {#if renderedComponents.has(section)}
@@ -198,7 +204,7 @@
           {:else if loadingStates.has(section)}
             <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
               <div class="flex items-center gap-2">
-                <div class="size-5 animate-spin rounded-full border-2 border-text/60 border-t-transparent"></div>
+                <LoaderCircle class="size-5 animate-spin text-text/60" />
                 <span class="font-semibold text-text/80">Loading {titleCase(section)}...</span>
               </div>
             </div>
@@ -209,8 +215,17 @@
               </div>
             </div>
           {/if}
-        </div>
-      {/if}
+        {:else}
+          <CollapsibleSection id={section} order={findIndex(section as SectionName)}>
+            <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
+              <div class="flex items-center gap-2">
+                <CircleX class="size-5 text-text/60" />
+                <span class="font-semibold text-text/80">{titleCase(section)} is not available for this profile</span>
+              </div>
+            </div>
+          </CollapsibleSection>
+        {/if}
+      </div>
     {/each}
   {/if}
 </div>
