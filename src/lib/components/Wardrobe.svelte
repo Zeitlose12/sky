@@ -13,7 +13,7 @@
       <Item {piece} />
     {:else}
       <div class="rounded-lg bg-background/30 p-2">
-        <div class="size-14 bg-text/80 [-webkit-mask-image:--image] [-webkit-mask-position:center_center] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:3.5rem] [image-rendering:pixelated] [mask-image:--image]" style="--image: url('/img/textures/item/empty_armor_slot_{pieces[index]}.png')"></div>
+        <div class="size-14 bg-text/80 [-webkit-mask-image:var(--image)] [-webkit-mask-position:center_center] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:3.5rem] [image-rendering:pixelated] [mask-image:var(--image)]" style="--image: url('/img/textures/item/empty_armor_slot_{pieces[index]}.png')"></div>
       </div>
     {/if}
   {/each}

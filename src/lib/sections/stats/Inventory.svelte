@@ -109,7 +109,7 @@
       <Tabs.List>
         <ScrollArea.Root>
           <ScrollArea.Viewport class="border-b border-icon">
-            <ScrollArea.Content class="!flex h-full shrink-0 flex-nowrap items-center gap-3 whitespace-nowrap px-4">
+            <ScrollArea.Content class="flex! h-full shrink-0 flex-nowrap items-center gap-3 whitespace-nowrap px-4">
               {#each tabs as tab}
                 <Tabs.Trigger value={tab.id} class="group relative flex items-center justify-center gap-0.5 pb-2 text-xs uppercase">
                   <Avatar.Root class="size-8">
@@ -143,7 +143,7 @@
                   <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
                     <div use:builder.action {...builder} class="group">
                       {#if item.texture_path}
-                        <div class="flex aspect-square items-center justify-center rounded group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04]">
+                        <div class="flex aspect-square items-center justify-center rounded-sm group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04]">
                           <Item piece={item} isInventory={true} showRecombobulated={false} />
                         </div>
                       {:else}
@@ -166,7 +166,7 @@
                         {/if}
                         <Tabs.Content value={index.toString()}>
                           {#if containedItem.texture_path}
-                            <div class="flex aspect-square items-center justify-center rounded bg-text/[0.04]">
+                            <div class="flex aspect-square items-center justify-center rounded-sm bg-text/[0.04]">
                               <Item piece={containedItem} isInventory={true} showRecombobulated={false} showCount={true} />
                             </div>
                           {:else}
@@ -188,7 +188,7 @@
                   {/if}
                 {/if}
                 {#if item.texture_path}
-                  <div class="flex aspect-square items-center justify-center rounded bg-text/[0.04]">
+                  <div class="flex aspect-square items-center justify-center rounded-sm bg-text/[0.04]">
                     {#if tab.id === "inv"}
                       <Item piece={{ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem} isInventory={true} showRecombobulated={false} showCount={true} />
                     {:else}
@@ -210,7 +210,7 @@
 </CollapsibleSection>
 
 {#snippet emptyItem()}
-  <div class="aspect-square rounded bg-text/[0.04]"></div>
+  <div class="aspect-square rounded-sm bg-text/[0.04]"></div>
 {/snippet}
 
 {#snippet gap()}

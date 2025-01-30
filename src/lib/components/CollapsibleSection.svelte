@@ -39,7 +39,7 @@
 </script>
 
 <Collapsible.Root asChild let:builder bind:open={() => $collapsePreferences[transormedID.toLowerCase()] ?? true, (v) => ($collapsePreferences[transormedID.toLowerCase()] = v)}>
-  <section id={transormedID} class={cn("order-[--order] scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement} use:builder.action {...builder}>
+  <section id={transormedID} class={cn("order-(--order) scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement} use:builder.action {...builder}>
     <Collapsible.Trigger class="flex items-center justify-between">
       {#if !subtitle}
         <SectionTitle>{id}</SectionTitle>

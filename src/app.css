@@ -1,8 +1,45 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@layer theme, components, utilities, base;
 
-@tailwind utilities;
-@tailwind components;
-@tailwind base;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
+layer(utilities);
+
+@import 'tailwindcss';
+
+@config '../tailwind.config.ts';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility shine {
+  @apply overflow-hidden;
+
+  &::before {
+    @apply absolute inset-0 z-8 -translate-y-full transform animate-shine bg-linear-to-t from-[rgba(255,255,255,0)] via-[rgba(255,255,255,0.5)] to-[rgba(128,186,232,0)] content-[''];
+  }
+}
+
+@utility enchanted {
+  filter: url(#enchanted-glint);
+}
+
+@utility enchanted-item {
+  filter: url(#enchanted-glint) drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.4));
+}
 
 /* For preview to work you need to have the naumovs.color-highlight extension installed */
 
@@ -213,23 +250,6 @@
 
   [data-tooltip-content] {
     @apply text-pretty text-sm;
-  }
-}
-
-@layer utilities {
-  .shine {
-    @apply overflow-hidden;
-  }
-
-  .shine::before {
-    @apply absolute inset-0 z-[8] -translate-y-full transform animate-shine bg-gradient-to-t from-[rgba(255,255,255,0)] via-[rgba(255,255,255,0.5)] to-[rgba(128,186,232,0)] content-[''];
-  }
-
-  .enchanted {
-    filter: url(#enchanted-glint);
-  }
-  .enchanted-item {
-    filter: url(#enchanted-glint) drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.4));
   }
 }
 

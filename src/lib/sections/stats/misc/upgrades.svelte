@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.profile_upgrades != null}
-  <SectionSubtitle class="!uppercase">Upgrades</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Upgrades</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

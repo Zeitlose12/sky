@@ -10,7 +10,7 @@
 
 {#if misc.races != null}
   <div class="space-y-4">
-    <SectionSubtitle class="!uppercase">Races</SectionSubtitle>
+    <SectionSubtitle class="uppercase!">Races</SectionSubtitle>
     <div class="flex flex-wrap gap-4">
       {#each Object.entries(misc.races) as [_, race]}
         <div class="flex min-w-64 flex-col gap-1 rounded-lg bg-background/30">

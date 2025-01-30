@@ -41,10 +41,10 @@ export default {
           d: "var(--§d)",
           e: "var(--§e)",
           f: "var(--§f)"
-        }
+        },
+        bg: "var(--bg)",
+        logo: "var(--logo)"
       },
-      bg: "var(--bg)",
-      logo: "var(--logo)",
       textShadow: {
         sm: "0 0px 2px var(--tw-shadow-color)",
         DEFAULT: "0 0px 4px var(--tw-shadow-color)",

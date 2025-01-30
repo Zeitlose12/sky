@@ -11,7 +11,7 @@
 
 {#if misc.kills != null}
   <div class="space-y-4">
-    <SectionSubtitle class="!uppercase">Kills</SectionSubtitle>
+    <SectionSubtitle class="uppercase!">Kills</SectionSubtitle>
     <div>
       <AdditionStat text="Total Kills" data={format(misc.kills.total_kills)} />
       <AdditionStat text="Total Deaths" data={format(misc.kills.total_deaths)} />

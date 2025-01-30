@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.uncategorized != null && Object.values(misc.uncategorized).filter((value) => value).length > 0}
-  <SectionSubtitle class="!uppercase">Uncategorized</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Uncategorized</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

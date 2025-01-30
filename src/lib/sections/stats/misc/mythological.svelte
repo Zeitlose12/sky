@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.mythological_event != null}
-  <SectionSubtitle class="!uppercase">Mythological Event</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Mythological Event</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

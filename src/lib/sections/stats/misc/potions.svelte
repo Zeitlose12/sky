@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.effects != null && Object.values(misc.effects).reduce((acc, val) => acc + val.length, 0) > 0}
-  <SectionSubtitle class="!uppercase">Potions</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Potions</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

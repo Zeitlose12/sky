@@ -49,11 +49,11 @@
         <div class="grid grid-cols-9 gap-1">
           {#each skyblockItem.containsItems.slice(0, Math.min(skyblockItem.containsItems.length, 54)) as containedItem}
             {#if containedItem.texture_path}
-              <div class="flex aspect-square items-center justify-center rounded bg-text/[0.04]">
+              <div class="flex aspect-square items-center justify-center rounded-sm bg-text/[0.04]">
                 <ContainedItem piece={containedItem} isInventory={true} />
               </div>
             {:else}
-              <div class="aspect-square rounded bg-text/[0.04]"></div>
+              <div class="aspect-square rounded-sm bg-text/[0.04]"></div>
             {/if}
           {/each}
         </div>

@@ -12,7 +12,7 @@
 
 {#if misc.essence != null}
   <div class="space-y-4">
-    <SectionSubtitle class="!uppercase">Essence</SectionSubtitle>
+    <SectionSubtitle class="uppercase!">Essence</SectionSubtitle>
     <ScrollItems>
       {#each misc.essence as essence}
         {@const hasUnlocked = essence.amount}

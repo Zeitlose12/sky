@@ -11,7 +11,7 @@
 </script>
 
 {#if misc.pet_milestones != null}
-  <SectionSubtitle class="!uppercase">Pet Milestones</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Pet Milestones</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

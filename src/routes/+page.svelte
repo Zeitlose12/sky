@@ -42,7 +42,7 @@
             <div class="flex flex-col gap-6">
               <Label class="m-1 w-full text-center font-semibold">Show SkyBlock stats for</Label>
               <!-- svelte-ignore a11y_autofocus -->
-              <input {...props} type="search" required autofocus placeholder="Enter username" class="relative h-16 flex-grow bg-text/10 text-center font-normal text-text placeholder:text-text/80 focus-visible:outline-none" bind:value={$formData.query} />
+              <input {...props} type="search" required autofocus placeholder="Enter username" class="relative h-16 grow bg-text/10 text-center font-normal text-text placeholder:text-text/80 focus-visible:outline-hidden" bind:value={$formData.query} />
             </div>
           {/snippet}
         </Control>

@@ -10,7 +10,7 @@
 
 <ScrollArea.Root class="relative max-w-full" type="scroll">
   <ScrollArea.Viewport class="max-md:pb-4">
-    <ScrollArea.Content class="!flex flex-nowrap gap-4 md:flex-wrap">
+    <ScrollArea.Content class="flex! flex-nowrap gap-4 md:flex-wrap">
       {@render children?.()}
     </ScrollArea.Content>
   </ScrollArea.Viewport>

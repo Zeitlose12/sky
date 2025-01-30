@@ -68,7 +68,7 @@
                       XP
                     </div>
                   </div>
-                  <div class="h-full w-full flex-1 transition-all duration-1000 ease-in-out group-data-[maxed=true]:[background:--maxedbar] group-data-[maxed=false]:[background:--skillbar]" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(value.level.xp, value.level.maxed ? value.level.xp : value.level.xpForNext))}%)`}></div>
+                  <div class="h-full w-full flex-1 transition-all duration-1000 ease-in-out group-data-[maxed=true]:[background:var(--maxedbar)] group-data-[maxed=false]:[background:var(--skillbar)]" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(value.level.xp, value.level.maxed ? value.level.xp : value.level.xpForNext))}%)`}></div>
                 </Progress.Root>
               </div>
             </div>
