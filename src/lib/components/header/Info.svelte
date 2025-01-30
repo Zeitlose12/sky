@@ -110,7 +110,7 @@
       <span class="hidden @md:inline">About</span>
     </Popover.Trigger>
     <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-50">
-      <div class="max-w-[32rem] rounded-lg bg-background-grey/95 px-8 py-4">
+      <div class="max-h-96 max-w-[32rem] overflow-y-auto overflow-x-clip rounded-lg bg-background-grey/95 px-8 py-4">
         {@render info()}
       </div>
     </Popover.Content>

@@ -81,7 +81,7 @@
         Order
       </Tabs.Trigger>
     </Tabs.List>
-    <Tabs.Content value="packs" class="flex flex-col gap-4">
+    <Tabs.Content value="packs" class="flex max-h-96 flex-col gap-4 overflow-y-auto overflow-x-clip">
       {#each packConfigs as pack}
         <Label.Root for={pack.id} class="flex items-center justify-between gap-4 rounded-lg bg-text/[0.05] p-2">
           <div class="flex items-center gap-2">
@@ -114,7 +114,7 @@
       {/if}
     </Tabs.Content>
     <Tabs.Content value="themes">
-      <RadioGroup.Root class="flex flex-col gap-4" bind:value={$themeStore} onValueChange={changeTheme}>
+      <RadioGroup.Root class="flex max-h-96 flex-col gap-4 overflow-y-auto overflow-x-clip" bind:value={$themeStore} onValueChange={changeTheme}>
         {#each themes as theme}
           <Label.Root for={theme.id} class="flex items-center justify-between gap-4 rounded-lg bg-text/[0.05] p-2">
             <div class="flex items-center gap-2">
