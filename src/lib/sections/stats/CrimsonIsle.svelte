@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { formatTime } from "$lib/shared/helper";
@@ -54,32 +55,33 @@
       <div class="flex flex-col gap-4">
         <SectionSubtitle class="my-0">Dojo Completions</SectionSubtitle>
         <AdditionStat text="Total Points" data={format(isle.dojo.totalPoints)} maxed={isle.dojo.totalPoints >= 7000} />
-        <div class="flex flex-wrap gap-4">
-          {#each isle.dojo.challenges as challenge}
-            {@const hasMaxed = challenge.points >= 1000}
-            {@const hasUnlocked = challenge.points}
-            <Chip image={{ src: challenge.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
-              <div class={cn("flex flex-col")}>
-                <div class="font-bold">
-                  <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{challenge.name}</span>
-                  <div class="text-sm">
-                    <span class="opacity-60">Points:</span>
-                    <span class="text-text">{format(challenge.points)}</span>
-                  </div>
-                  <div class="text-sm">
-                    <span class="opacity-60">Rank:</span>
-                    <span class="text-text">{challenge.rank}</span>
-                  </div>
-                  <div class="text-sm">
-                    <span class="opacity-60">Time:</span>
-                    <span class="text-text">{formatTime(challenge.time)}</span>
-                  </div>
+      </div>
+
+      <ScrollItems>
+        {#each isle.dojo.challenges as challenge}
+          {@const hasMaxed = challenge.points >= 1000}
+          {@const hasUnlocked = challenge.points}
+          <Chip image={{ src: challenge.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
+            <div class={cn("flex flex-col")}>
+              <div class="font-bold whitespace-nowrap">
+                <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{challenge.name}</span>
+                <div class="text-sm">
+                  <span class="opacity-60">Points:</span>
+                  <span class="text-text">{format(challenge.points)}</span>
+                </div>
+                <div class="text-sm">
+                  <span class="opacity-60">Rank:</span>
+                  <span class="text-text">{challenge.rank}</span>
+                </div>
+                <div class="text-sm">
+                  <span class="opacity-60">Time:</span>
+                  <span class="text-text">{formatTime(challenge.time)}</span>
                 </div>
               </div>
-            </Chip>
-          {/each}
-        </div>
-      </div>
+            </div>
+          </Chip>
+        {/each}
+      </ScrollItems>
     {/if}
   </Items>
 </CollapsibleSection>

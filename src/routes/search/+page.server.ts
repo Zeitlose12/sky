@@ -9,7 +9,7 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  default: async ({ request }) => {
+  default: async ({ request, fetch }) => {
     const form = await superValidate(request, zod(schema));
 
     if (!form.valid) {
@@ -20,7 +20,7 @@ export const actions: Actions = {
     }
 
     try {
-      const response = await fetch(`https://mowojang.matdoes.dev/${form.data.query}`);
+      const response = await fetch(`/api/uuid/${form.data.query}`);
       if (response.status === 204 || response.status === 404) {
         return message(form, { type: "error", text: `No user with the name '${form.data.query}' was found` }, { status: 404 });
       }

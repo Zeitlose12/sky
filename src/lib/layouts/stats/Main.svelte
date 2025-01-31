@@ -25,8 +25,8 @@
 
 <SEO />
 
-<div class="relative @container/parent">
-  <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container @[75rem]/parent:block">
+<div class="@container/parent relative">
+  <div class="@container fixed top-1/2 left-0 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @[75rem]/parent:block">
     {#if browser && window.innerWidth >= 1200}
       {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
         <Skin3D class="h-full" />
@@ -37,7 +37,7 @@
   <!-- ! Enable once 132549134 from https://webkit.org/blog/16186/release-notes-for-safari-technology-preview-206/ is added to stable  -->
   <!-- <div class="fixed right-0 top-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div> -->
 
-  <main data-vaul-drawer-wrapper class="relative mx-auto mt-12 min-h-dvh backdrop-blur-lg @container group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
+  <main data-vaul-drawer-wrapper class="@container relative mx-auto mt-12 min-h-dvh backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
     {#if profile.errors && Object.keys(profile.errors).length > 0}
       <div class="space-y-5 bg-red-600 p-4 @[75rem]/parent:p-8">
         <h3 class="text-2xl font-semibold">An unexpected error has occurred</h3>
@@ -74,7 +74,7 @@
     }}>
     <Dialog.Portal>
       <Dialog.Overlay transition={fade} transitionConfig={{ duration: 150 }} class="fixed inset-0 z-40 bg-black/80" />
-      <Dialog.Content class="fixed left-[50%] top-[50%] z-50 flex max-h-[calc(96%-3rem)] max-w-[calc(100vw-2.5rem)] -translate-x-1/2 -translate-y-1/2 select-text flex-col overflow-hidden rounded-lg bg-background-lore font-icomoon" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }}>
+      <Dialog.Content class="bg-background-lore font-icomoon fixed top-[50%] left-[50%] z-50 flex max-h-[calc(96%-3rem)] max-w-[calc(100vw-2.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-lg select-text" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }}>
         {#if $itemContent}
           <ItemContent piece={$itemContent} />
         {/if}
@@ -91,7 +91,7 @@
     }}>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
-      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
+      <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
         {#if $itemContent}
           <ItemContent piece={$itemContent} isDrawer={true} />
         {/if}

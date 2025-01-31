@@ -7,12 +7,12 @@
     "bg": "/img/themes/burning-cinnabar/bg.webp"
   },
   "backgrounds": {
-    "skillbar": { "type": "color", "color": "3.64 73.33% 55.88%" }
+    "skillbar": { "type": "color", "color": "oklch(61.45% 0.1933 27.92)" }
   },
   "colors": {
-    "logo": "350.63 80% 39.22%",
-    "icon": "3.52 68% 49.02%",
-    "link": "3.52 68% 49.02%",
-    "hover": "3.64 73.33% 55.88%"
+    "logo": "oklch(49.37% 0.1887 21.44)",
+    "icon": "oklch(56.79% 0.1979 28.72)",
+    "link": "oklch(56.79% 0.1979 28.72)",
+    "hover": "oklch(61.45% 0.1933 27.92)"
   }
 }

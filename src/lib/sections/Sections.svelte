@@ -202,25 +202,25 @@
               {/if}
             {/key}
           {:else if loadingStates.has(section)}
-            <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
+            <div class="bg-text/[0.05] rounded-lg p-6 backdrop-blur-sm">
               <div class="flex items-center gap-2">
-                <LoaderCircle class="size-5 animate-spin text-text/60" />
-                <span class="font-semibold text-text/80">Loading {titleCase(section)}...</span>
+                <LoaderCircle class="text-text/60 size-5 animate-spin" />
+                <span class="text-text/80 font-semibold">Loading {titleCase(section)}...</span>
               </div>
             </div>
           {:else}
-            <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
-              <div class="font-medium text-text/60">
+            <div class="bg-text/[0.05] rounded-lg p-6 backdrop-blur-sm">
+              <div class="text-text/60 font-medium">
                 {titleCase(section)} will load when visible
               </div>
             </div>
           {/if}
         {:else}
           <CollapsibleSection id={section} order={findIndex(section as SectionName)}>
-            <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
+            <div class="bg-text/[0.05] rounded-lg p-6 backdrop-blur-sm">
               <div class="flex items-center gap-2">
-                <CircleX class="size-5 text-text/60" />
-                <span class="font-semibold text-text/80">{titleCase(section)} is not available for this profile</span>
+                <CircleX class="text-text/60 size-5" />
+                <span class="text-text/80 font-semibold">{titleCase(section)} is not available for this profile</span>
               </div>
             </div>
           </CollapsibleSection>

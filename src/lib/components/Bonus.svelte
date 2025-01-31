@@ -13,7 +13,7 @@
 </script>
 
 {#if statsData.length > 0}
-  <p class={cn("my-4 space-x-0.5 font-bold capitalize leading-6 text-text/60", classNames)}>
+  <p class={cn("text-text/60 my-4 space-x-0.5 leading-6 font-bold capitalize", classNames)}>
     <span>{title}</span>
     {#each statsData as [key, value], index}
       {#if STAT_ALIASES[key] !== undefined}

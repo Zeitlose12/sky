@@ -31,10 +31,10 @@ const generateStripeBackground = (bg: Background | undefined) => {
 
   return `repeating-linear-gradient(
     ${bg.angle},
-    hsl(${bg.colors[0]}) 0px,
-    hsl(${bg.colors[0]}) ${bg.width}px,
-    hsl(${bg.colors[1]}) ${bg.width}px,
-    hsl(${bg.colors[1]}) ${bg.width * 2}px
+    ${bg.colors[0]} 0px,
+    ${bg.colors[0]} ${bg.width}px,
+    ${bg.colors[1]} ${bg.width}px,
+    ${bg.colors[1]} ${bg.width * 2}px
   )`;
 };
 
@@ -63,17 +63,17 @@ const scThemePlugin = plugin(function ({ addBase }) {
     if (theme.backgrounds?.skillbar && theme.backgrounds.skillbar.type === "stripes") {
       styles["--skillbar"] = generateStripeBackground(theme.backgrounds.skillbar);
     } else if (theme.backgrounds?.skillbar && theme.backgrounds.skillbar.type === "color") {
-      styles["--skillbar"] = `hsl(${theme.backgrounds.skillbar.color} / 1)`;
+      styles["--skillbar"] = `${theme.backgrounds.skillbar.color}`;
     } else {
-      styles["--skillbar"] = `hsl(${defaultTheme.backgrounds.skillbar.color} / 1)`;
+      styles["--skillbar"] = `${defaultTheme.backgrounds.skillbar.color}`;
     }
 
     if (theme.backgrounds?.maxedbar && theme.backgrounds.maxedbar.type === "stripes") {
       styles["--maxedbar"] = generateStripeBackground(theme.backgrounds.maxedbar);
     } else if (theme.backgrounds?.maxedbar && theme.backgrounds.maxedbar.type === "color") {
-      styles["--maxedbar"] = `hsl(${theme.backgrounds.maxedbar.color} / 1)`;
+      styles["--maxedbar"] = `${theme.backgrounds.maxedbar.color}`;
     } else {
-      styles["--maxedbar"] = `hsl(${defaultTheme.backgrounds.maxedbar.color} / 1)`;
+      styles["--maxedbar"] = `${defaultTheme.backgrounds.maxedbar.color}`;
     }
 
     addBase({

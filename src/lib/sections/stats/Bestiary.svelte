@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { cn } from "$lib/shared/utils";
   import { format } from "numerable";
@@ -35,13 +36,13 @@
         {/if}
       </div>
 
-      <div class="flex flex-wrap gap-4">
+      <ScrollItems>
         {#each data.mobs as mob}
           {@const hasKilled = mob.kills}
           {@const hasMaxed = mob.tier === mob.maxTier}
           <Chip image={{ src: mob.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasKilled })} variant="tooltip">
             <div class={cn("flex flex-col")}>
-              <div class="font-bold">
+              <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{mob.name}</span>
                 <span class={cn({ "text-gold": hasMaxed })}>{mob.tier}</span>
                 <div class="text-sm">
@@ -71,7 +72,7 @@
             </div>
           </Chip>
         {/each}
-      </div>
+      </ScrollItems>
     {/each}
   </Items>
 </CollapsibleSection>

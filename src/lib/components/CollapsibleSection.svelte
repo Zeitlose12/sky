@@ -39,14 +39,14 @@
 </script>
 
 <Collapsible.Root asChild let:builder bind:open={() => $collapsePreferences[transormedID.toLowerCase()] ?? true, (v) => ($collapsePreferences[transormedID.toLowerCase()] = v)}>
-  <section id={transormedID} class={cn("order-[--order] scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement} use:builder.action {...builder}>
+  <section id={transormedID} class={cn("order-(--order) scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement} use:builder.action {...builder}>
     <Collapsible.Trigger class="flex items-center justify-between">
       {#if !subtitle}
         <SectionTitle>{id}</SectionTitle>
       {:else}
         {@render subtitle()}
       {/if}
-      <ChevronDown class={cn("h-6 w-6 text-text/60 transition-all duration-300", { "rotate-180": $collapsePreferences[transormedID.toLowerCase()] ?? true })} />
+      <ChevronDown class={cn("text-text/60 h-6 w-6 transition-all duration-300", { "rotate-180": $collapsePreferences[transormedID.toLowerCase()] ?? true })} />
     </Collapsible.Trigger>
     <Collapsible.Content transition={slide}>
       {@render children?.()}

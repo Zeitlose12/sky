@@ -23,7 +23,7 @@
       <div class="space-y-5">
         <div>
           <h4 class="font-semibold text-white">Farming Weight</h4>
-          <p class="text-sm italic text-text/50">Weight calculations by <a href="https://elitebot.dev/" target="_blank" class="text-icon underline">Elite</a></p>
+          <p class="text-text/50 text-sm italic">Weight calculations by <a href="https://elitebot.dev/" target="_blank" class="text-icon underline">Elite</a></p>
         </div>
         <div>
           {#each Object.entries(profile.farming.weight.bonusSources) as [key, value]}
@@ -59,7 +59,7 @@
     {#snippet text()}
       <div class="space-y-2">
         {#if highestPriorityFarmingTool && highestPriorityFarmingTool.display_name}
-          <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+          <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
             <span>Active Tool:</span>
             {@html renderLore(highestPriorityFarmingTool.display_name)}
           </p>

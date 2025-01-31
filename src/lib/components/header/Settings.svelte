@@ -67,44 +67,44 @@
 
 {#snippet settings()}
   <Tabs.Root value="packs">
-    <Tabs.List class="mb-4 flex gap-4 rounded-lg bg-text/30 p-2 font-semibold text-text">
-      <Tabs.Trigger value="packs" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
+    <Tabs.List class="bg-text/30 text-text mb-4 flex gap-4 rounded-lg p-2 font-semibold">
+      <Tabs.Trigger value="packs" class="data-[state=active]:bg-icon flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold">
         <PackageOpen class="size-5" />
         Packs
       </Tabs.Trigger>
-      <Tabs.Trigger value="themes" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
+      <Tabs.Trigger value="themes" class="data-[state=active]:bg-icon flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold">
         <PaintBucket class="size-5" />
         Themes
       </Tabs.Trigger>
-      <Tabs.Trigger value="order" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
+      <Tabs.Trigger value="order" class="data-[state=active]:bg-icon flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold">
         <ListOrdered class="size-5" />
         Order
       </Tabs.Trigger>
     </Tabs.List>
-    <Tabs.Content value="packs" class="flex flex-col gap-4">
+    <Tabs.Content value="packs" class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto">
       {#each packConfigs as pack}
-        <Label.Root for={pack.id} class="flex items-center justify-between gap-4 rounded-lg bg-text/[0.05] p-2">
+        <Label.Root for={pack.id} class="bg-text/[0.05] flex items-center justify-between gap-4 rounded-lg p-2">
           <div class="flex items-center gap-2">
             <Avatar.Root class="shrink-0 select-none">
-              <Avatar.Image loading="lazy" src="/resourcepacks/{pack.folder}/pack.png" alt={pack.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
+              <Avatar.Image loading="lazy" src="/resourcepacks/{pack.folder}/pack.png" alt={pack.name} class="pointer-events-none aspect-square size-10 h-full rounded-lg select-none" />
               <Avatar.Fallback class="flex items-center rounded-lg text-center font-semibold uppercase">{pack.name.slice(0, 2)}</Avatar.Fallback>
             </Avatar.Root>
             <div class="flex flex-col">
-              <h4 class="font-semibold text-text/90">{pack.name} <small>{pack.version}</small></h4>
-              <p class="overflow-hidden text-ellipsis whitespace-nowrap font-normal text-text/60">
+              <h4 class="text-text/90 font-semibold">{pack.name} <small>{pack.version}</small></h4>
+              <p class="text-text/60 overflow-hidden font-normal text-ellipsis whitespace-nowrap">
                 by
                 <span class="text-text/80">{pack.author}</span>
               </p>
             </div>
           </div>
-          <Switch.Root id={pack.id} checked={!$disabledPacks.includes(pack.id)} class="peer inline-flex h-6 min-h-6 w-10 shrink-0 cursor-pointer items-center rounded-full px-0 transition-colors data-[state=checked]:bg-icon data-[state=unchecked]:bg-text/30" onCheckedChange={() => disabledPacks.update((value) => (!value.includes(pack.id) ? [...new Set([...value, pack.id])] : value.filter((id) => id !== pack.id)))}>
-            <Switch.Thumb class="pointer-events-none block size-4 shrink-0 rounded-full bg-text transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-1" />
+          <Switch.Root id={pack.id} checked={!$disabledPacks.includes(pack.id)} class="peer data-[state=checked]:bg-icon data-[state=unchecked]:bg-text/30 inline-flex h-6 min-h-6 w-10 shrink-0 cursor-pointer items-center rounded-full px-0 transition-colors" onCheckedChange={() => disabledPacks.update((value) => (!value.includes(pack.id) ? [...new Set([...value, pack.id])] : value.filter((id) => id !== pack.id)))}>
+            <Switch.Thumb class="bg-text pointer-events-none block size-4 shrink-0 rounded-full transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-1" />
           </Switch.Root>
         </Label.Root>
       {/each}
       {#if $hasPackConfigChanged}
         <Button.Root
-          class="mt-4 w-full rounded-lg bg-text/65 p-1.5 text-sm font-semibold uppercase text-background/80 transition-colors hover:bg-text/80"
+          class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
           on:click={() => {
             document.cookie = `disabledPacks=${JSON.stringify($disabledPacks)}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
             window.location.reload();
@@ -114,24 +114,24 @@
       {/if}
     </Tabs.Content>
     <Tabs.Content value="themes">
-      <RadioGroup.Root class="flex flex-col gap-4" bind:value={$themeStore} onValueChange={changeTheme}>
+      <RadioGroup.Root class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto" bind:value={$themeStore} onValueChange={changeTheme}>
         {#each themes as theme}
-          <Label.Root for={theme.id} class="flex items-center justify-between gap-4 rounded-lg bg-text/[0.05] p-2">
+          <Label.Root for={theme.id} class="bg-text/[0.05] flex items-center justify-between gap-4 rounded-lg p-2">
             <div class="flex items-center gap-2">
               <Avatar.Root class="shrink-0 select-none">
-                <Avatar.Image loading="lazy" src={`/api/themes/${btoa(theme["colors"]!.logo)}${theme.light ? "/true" : ""}/logo.svg`} alt={theme.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg"></Avatar.Image>
+                <Avatar.Image loading="lazy" src={`/api/themes/${btoa(theme["colors"]!.logo)}${theme.light ? "/true" : ""}/logo.svg`} alt={theme.name} class="pointer-events-none aspect-square size-10 h-full rounded-lg select-none"></Avatar.Image>
                 <Avatar.Fallback class="flex items-center rounded-lg text-center font-semibold uppercase">{theme.name.slice(0, 2)}</Avatar.Fallback>
               </Avatar.Root>
               <div class="flex flex-col">
-                <h4 class="font-semibold text-text/90">{theme.name}</h4>
-                <p class="overflow-hidden text-ellipsis whitespace-nowrap font-normal text-text/60">
+                <h4 class="text-text/90 font-semibold">{theme.name}</h4>
+                <p class="text-text/60 overflow-hidden font-normal text-ellipsis whitespace-nowrap">
                   by
                   <span class="text-text/80">{theme.author}</span>
                 </p>
               </div>
             </div>
             <RadioGroup.Item id={theme.id} value={theme.id} class="group inline-flex h-6 min-h-6 w-10 shrink-0 cursor-pointer items-center rounded-full px-0 transition-colors">
-              <Check class="size-6 text-icon group-data-[state=unchecked]:invisible" />
+              <Check class="text-icon size-6 group-data-[state=unchecked]:invisible" />
             </RadioGroup.Item>
           </Label.Root>
         {/each}
@@ -139,7 +139,7 @@
     </Tabs.Content>
     <Tabs.Content value="order">
       <div
-        class="flex max-h-96 flex-col gap-4 overflow-y-auto overflow-x-clip"
+        class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto"
         use:dndzone={{ items: sectionOrder, flipDurationMs: 300, dropTargetStyle: {} }}
         onconsider={(e) => (sectionOrder = e.detail.items)}
         onfinalize={(e) => {
@@ -148,12 +148,12 @@
         }}>
         {#each sectionOrder as section (section.id)}
           {@const normalizedName = section.name.replaceAll("_", " ")}
-          <div animate:flip={{ duration: 300 }} class="relative flex items-center gap-2 rounded-lg bg-text/[0.05] p-2 font-semibold">
-            <GripVertical class="size-5 text-text/60" />
+          <div animate:flip={{ duration: 300 }} class="bg-text/[0.05] relative flex items-center gap-2 rounded-lg p-2 font-semibold">
+            <GripVertical class="text-text/60 size-5" />
             {normalizedName}
             {#if SHADOW_ITEM_MARKER_PROPERTY_NAME in section && section[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
-              <div in:fade={{ duration: 300, easing: cubicIn }} class="visible absolute inset-0 flex animate-pulse items-center gap-2 rounded-lg bg-text/[0.05] p-2 font-semibold opacity-30">
-                <GripVertical class="size-5 text-text/60" />
+              <div in:fade={{ duration: 300, easing: cubicIn }} class="bg-text/[0.05] visible absolute inset-0 flex animate-pulse items-center gap-2 rounded-lg p-2 font-semibold opacity-30">
+                <GripVertical class="text-text/60 size-5" />
                 {normalizedName}
               </div>
             {/if}
@@ -162,7 +162,7 @@
       </div>
       {#if $differsFromDefault}
         <Button.Root
-          class="mt-4 w-full rounded-lg bg-text/65 p-1.5 text-sm font-semibold uppercase text-background/80 transition-colors hover:bg-text/80"
+          class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
           on:click={() => {
             sectionOrderPreferences.set(defaultSectionOrder);
           }}>
@@ -175,23 +175,23 @@
 
 {#if isHover.current}
   <Popover.Root bind:open={settingsOpen}>
-    <Popover.Trigger class="group absolute right-4 top-1/2 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full bg-background/20 px-2.5 py-1.5 text-sm font-semibold text-text transition-all duration-100 @md:relative @md:right-0 @md:top-0 @md:my-1.5 @md:translate-y-0">
+    <Popover.Trigger class="group bg-background/20 text-text absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
       <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
       <p class="hidden @md:block">Settings</p>
     </Popover.Trigger>
-    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-10 min-w-[32rem] rounded-lg bg-background-grey/95 px-8 py-4">
+    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="bg-background-grey/95 z-10 min-w-[32rem] rounded-lg px-8 py-4">
       {@render settings()}
     </Popover.Content>
   </Popover.Root>
 {:else}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false} bind:open={settingsOpen}>
-    <Drawer.Trigger class="group absolute right-4 top-1/2 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full bg-background/20 px-2.5 py-1.5 text-sm font-semibold text-text transition-all duration-100 @md:relative @md:right-0 @md:top-0 @md:my-1.5 @md:translate-y-0">
+    <Drawer.Trigger class="group bg-background/20 text-text absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
       <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
       <p class="hidden @md:block">Settings</p>
     </Drawer.Trigger>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
-      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
+      <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
         <div class="mx-auto w-full max-w-md overflow-auto p-6">
           {@render settings()}
         </div>

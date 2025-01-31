@@ -1,27 +1,9 @@
-import { untrack } from "svelte";
+import { MediaQuery } from "svelte/reactivity";
 
 const MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 
-export class IsHover {
-  #current = $state<boolean>(false);
-
+export class IsHover extends MediaQuery {
   constructor() {
-    $effect(() => {
-      return untrack(() => {
-        const mql = window.matchMedia(MEDIA_QUERY);
-        const onChange = () => {
-          this.#current = mql.matches;
-        };
-        mql.addEventListener("change", onChange);
-        onChange();
-        return () => {
-          mql.removeEventListener("change", onChange);
-        };
-      });
-    });
-  }
-
-  get current() {
-    return this.#current;
+    super(MEDIA_QUERY);
   }
 }
