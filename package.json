@@ -14,8 +14,7 @@
     "runbuild": "node ./build/index.js",
     "test": "vitest",
     "lint": "prettier --check . && eslint . && pnpm check",
-    "format": "prettier --write .",
-    "prepare": "svelte-kit sync"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.5",
