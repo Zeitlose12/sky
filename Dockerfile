@@ -1,5 +1,5 @@
 FROM node:22-alpine3.21 AS builder
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10
 WORKDIR /app
 
 COPY package*.json .
