@@ -73,7 +73,7 @@
       </ul>
     </li>
     <li>
-      3D Skin View: <Button.Root class="text-link font-semibold" rel="noreferrer" href="https://github.com/bs-community/skinview3d/" target="_blank">Skin View 3D</Button.Root>
+      3D Skin View: <Button.Root class="text-link font-semibold" rel="noreferrer" href="https://github.com/bs-community/skinview3d/" target="_blank">skinview3d</Button.Root>
       by <span class="text-text/70">BS-Community</span>
     </li>
     <li>

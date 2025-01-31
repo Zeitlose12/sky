@@ -15,7 +15,7 @@ RUN pnpm prune --production
 FROM node:22-alpine3.21
 # git is used for managing submodules
 RUN apk add git
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10
 WORKDIR /app
 
 COPY --from=builder /app/node_modules node_modules/
