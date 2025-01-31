@@ -46,7 +46,7 @@
       {:else}
         {@render subtitle()}
       {/if}
-      <ChevronDown class={cn("h-6 w-6 text-text/60 transition-all duration-300", { "rotate-180": $collapsePreferences[transormedID.toLowerCase()] ?? true })} />
+      <ChevronDown class={cn("text-text/60 h-6 w-6 transition-all duration-300", { "rotate-180": $collapsePreferences[transormedID.toLowerCase()] ?? true })} />
     </Collapsible.Trigger>
     <Collapsible.Content transition={slide}>
       {@render children?.()}

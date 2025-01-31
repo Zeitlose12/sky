@@ -42,7 +42,7 @@
           {@const hasMaxed = mob.tier === mob.maxTier}
           <Chip image={{ src: mob.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasKilled })} variant="tooltip">
             <div class={cn("flex flex-col")}>
-              <div class="whitespace-nowrap font-bold">
+              <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{mob.name}</span>
                 <span class={cn({ "text-gold": hasMaxed })}>{mob.tier}</span>
                 <div class="text-sm">

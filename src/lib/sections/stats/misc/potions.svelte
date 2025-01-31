@@ -15,9 +15,9 @@
     {#snippet text()}
       <div>
         <AdditionStat text="Disabled Potion Effects" data={format(misc.effects.disabled.length)} asterisk={true}>
-          <p class="font-bold text-text/85">Disabled Potion Effects:</p>
+          <p class="text-text/85 font-bold">Disabled Potion Effects:</p>
           {#each misc.effects.disabled as effect}
-            <p class="font-semibold capitalize text-text">{effect.replaceAll("_", " ")}</p>
+            <p class="text-text font-semibold capitalize">{effect.replaceAll("_", " ")}</p>
           {/each}
         </AdditionStat>
       </div>

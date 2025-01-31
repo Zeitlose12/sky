@@ -105,11 +105,11 @@
 
 <CollapsibleSection id="Inventory" {order}>
   {#if tabs.length > 0}
-    <Tabs.Root bind:value={openTab} class="relative mb-0 rounded-lg bg-background/30 p-5 pt-4 @container">
+    <Tabs.Root bind:value={openTab} class="bg-background/30 @container relative mb-0 rounded-lg p-5 pt-4">
       <Tabs.List>
         <ScrollArea.Root>
-          <ScrollArea.Viewport class="border-b border-icon">
-            <ScrollArea.Content class="flex! h-full shrink-0 flex-nowrap items-center gap-3 whitespace-nowrap px-4">
+          <ScrollArea.Viewport class="border-icon border-b">
+            <ScrollArea.Content class="flex! h-full shrink-0 flex-nowrap items-center gap-3 px-4 whitespace-nowrap">
               {#each tabs as tab}
                 <Tabs.Trigger value={tab.id} class="group relative flex items-center justify-center gap-0.5 pb-2 text-xs uppercase">
                   <Avatar.Root class="size-8">
@@ -120,9 +120,9 @@
                   </Avatar.Root>
                   {tab.id}
                   {#if openTab === tab.id}
-                    <div class="absolute -bottom-1 h-2 w-full rounded-full bg-icon" in:send={{ key: "active-tab" }} out:receive={{ key: "active-tab" }}></div>
+                    <div class="bg-icon absolute -bottom-1 h-2 w-full rounded-full" in:send={{ key: "active-tab" }} out:receive={{ key: "active-tab" }}></div>
                   {:else}
-                    <div class="absolute -bottom-1 h-2 w-full rounded-full bg-icon opacity-0 transition-opacity duration-300 group-hover:opacity-100" out:fade={{ duration: 300 }}></div>
+                    <div class="bg-icon absolute -bottom-1 h-2 w-full rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100" out:fade={{ duration: 300 }}></div>
                   {/if}
                 </Tabs.Trigger>
               {/each}
@@ -143,7 +143,7 @@
                   <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
                     <div use:builder.action {...builder} class="group">
                       {#if item.texture_path}
-                        <div class="flex aspect-square items-center justify-center rounded-sm group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04]">
+                        <div class="group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
                           <Item piece={item} isInventory={true} showRecombobulated={false} />
                         </div>
                       {:else}
@@ -166,7 +166,7 @@
                         {/if}
                         <Tabs.Content value={index.toString()}>
                           {#if containedItem.texture_path}
-                            <div class="flex aspect-square items-center justify-center rounded-sm bg-text/[0.04]">
+                            <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
                               <Item piece={containedItem} isInventory={true} showRecombobulated={false} showCount={true} />
                             </div>
                           {:else}
@@ -188,7 +188,7 @@
                   {/if}
                 {/if}
                 {#if item.texture_path}
-                  <div class="flex aspect-square items-center justify-center rounded-sm bg-text/[0.04]">
+                  <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
                     {#if tab.id === "inv"}
                       <Item piece={{ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem} isInventory={true} showRecombobulated={false} showCount={true} />
                     {:else}
@@ -210,7 +210,7 @@
 </CollapsibleSection>
 
 {#snippet emptyItem()}
-  <div class="aspect-square rounded-sm bg-text/[0.04]"></div>
+  <div class="bg-text/[0.04] aspect-square rounded-sm"></div>
 {/snippet}
 
 {#snippet gap()}

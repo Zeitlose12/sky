@@ -23,7 +23,7 @@
     {#snippet text()}
       <div class="space-y-2">
         {#if highestPriorityMiningTool && highestPriorityMiningTool.display_name}
-          <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+          <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
             <span>Active Tool:</span>
             {@html renderLore(highestPriorityMiningTool.display_name)}
           </p>
@@ -44,7 +44,7 @@
   <AdditionStat text="Commissions" data={profile.mining.commissions.completions.toString()} asterisk={true}>Commissions from achievements across profiles</AdditionStat>
   <AdditionStat text="Crystal Hollows Pass" data={profile.mining.crystalHollows.crystalHollowsLastAccess > Date.now() - 5 * 60 * 60 * 1000 ? "Purchased" : "Expired"} asterisk={true}>
     {@const passActive = profile.mining.crystalHollows.crystalHollowsLastAccess > Date.now() - 5 * 60 * 60 * 1000}
-    <h3 class="font-bold text-text/85">
+    <h3 class="text-text/85 font-bold">
       Last purchased:
       <span class="text-text">
         {#if passActive}
@@ -62,11 +62,11 @@
   </AdditionStat>
   <AdditionStat text="Crystal Nucleus" data={`Completed ${profile.mining.crystalHollows.nucleusRuns} ${profile.mining.crystalHollows.nucleusRuns > 1 ? "times" : "time"}`} asterisk={true}>
     {@const placableCrystals = ["jade", "amber", "amethyst", "sapphire", "topaz"]}
-    <h3 class="text-sm font-bold text-text/85">Crystals:</h3>
+    <h3 class="text-text/85 text-sm font-bold">Crystals:</h3>
     <ul class="mt-0.5 space-y-0.5 text-sm font-bold">
       {#each Object.entries(profile.mining.crystalHollows.progress.crystals).filter(([crystalName, _crystalStatus]) => placableCrystals.includes(crystalName)) as [crystalName, crystalStatus]}
         <li class="flex">
-          <span class="flex-1 capitalize text-text/85">
+          <span class="text-text/85 flex-1 capitalize">
             - {crystalName}:
             <span class={cn("capitalize", crystalStatus === "PLACED" ? "text-minecraft-e" : crystalStatus === "FOUND" ? "text-minecraft-a" : "text-minecraft-c")}>
               {crystalStatus.replace("_", " ").toLowerCase()}
@@ -76,11 +76,11 @@
       {/each}
     </ul>
 
-    <h3 class="mt-5 text-sm font-bold text-text/85">Other Crystals:</h3>
+    <h3 class="text-text/85 mt-5 text-sm font-bold">Other Crystals:</h3>
     <ul class="mt-0.5 space-y-0.5 text-sm font-bold">
       {#each Object.entries(profile.mining.crystalHollows.progress.crystals).filter(([crystalName, _crystalStatus]) => !placableCrystals.includes(crystalName)) as [crystalName, crystalStatus]}
         <li class="flex">
-          <span class="flex-1 capitalize text-text/85">
+          <span class="text-text/85 flex-1 capitalize">
             - {crystalName}:
             <span class={cn("capitalize", crystalStatus === "FOUND" ? "text-minecraft-a" : "text-minecraft-c")}>
               {crystalStatus.replace("_", " ").toLowerCase()}
@@ -90,7 +90,7 @@
       {/each}
     </ul>
 
-    <h3 class="mt-5 text-sm font-bold text-text/85">Precursor parts delivered:</h3>
+    <h3 class="text-text/85 mt-5 text-sm font-bold">Precursor parts delivered:</h3>
     <ul class="mt-0.5 space-y-0.5 text-sm font-bold">
       {#each Object.entries(profile.mining.crystalHollows.progress.parts) as [partName, partStatus]}
         {@const delivered = partStatus === "DELIVERED"}
@@ -128,15 +128,15 @@
 
 {#if profile.mining.hotm.length > 0}
   <div class="pt-5">
-    <div class="relative mb-0 rounded-lg bg-background/30 p-5 @container">
+    <div class="bg-background/30 @container relative mb-0 rounded-lg p-5">
       <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
         {#each profile.mining.hotm as item, index}
           {#if item.display_name}
-            <div class="flex aspect-square items-center justify-center rounded-sm bg-text/[0.04]" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}>
+            <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}>
               <Item piece={item} isInventory={true} />
             </div>
           {:else}
-            <div class="aspect-square rounded-sm bg-text/[0.04]" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}></div>
+            <div class="bg-text/[0.04] aspect-square rounded-sm" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}></div>
           {/if}
         {/each}
       </div>
@@ -144,7 +144,7 @@
   </div>
 {/if}
 
-<h3 class="my-5 text-xl font-semibold capitalize text-text/90">Forge</h3>
+<h3 class="text-text/90 my-5 text-xl font-semibold capitalize">Forge</h3>
 <div class="space-y-1">
   {#if profile.mining.forge.length === 0}
     No items currently forging!

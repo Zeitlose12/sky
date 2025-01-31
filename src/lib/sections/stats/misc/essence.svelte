@@ -18,7 +18,7 @@
         {@const hasUnlocked = essence.amount}
         <Chip image={{ src: essence.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
           <div class={cn("flex flex-col")}>
-            <div class="whitespace-nowrap font-bold">
+            <div class="font-bold whitespace-nowrap">
               <span class="opacity-60">{essence.name}</span>
               <div class="text-sm">
                 <span class="opacity-60">Amount:</span>

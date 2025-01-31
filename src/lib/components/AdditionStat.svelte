@@ -18,8 +18,8 @@
 </script>
 
 <Tooltip.Root group="additional-stats" openDelay={0} closeDelay={0}>
-  <Tooltip.Trigger asChild={!asterisk} class={cn(`my-0 flex items-center gap-1 font-bold text-text/60 data-[is-tooltip=false]:cursor-default`, { "text-maxed": maxed }, className)} data-is-tooltip={asterisk}>
-    <div class={!asterisk ? cn("my-0 flex items-center gap-1 font-bold text-text/60 data-[is-tooltip=false]:cursor-default", { "text-maxed": maxed }, className) : "contents"}>
+  <Tooltip.Trigger asChild={!asterisk} class={cn(`text-text/60 my-0 flex items-center gap-1 font-bold data-[is-tooltip=false]:cursor-default`, { "text-maxed": maxed }, className)} data-is-tooltip={asterisk}>
+    <div class={!asterisk ? cn("text-text/60 my-0 flex items-center gap-1 font-bold data-[is-tooltip=false]:cursor-default", { "text-maxed": maxed }, className) : "contents"}>
       <div style={textRarityColor ? `color: var(--§${RARITY_COLORS[textRarityColor]})` : ""} class="capitalize">
         {text}:
       </div>
@@ -40,7 +40,7 @@
     </div>
   </Tooltip.Trigger>
   {#if asterisk}
-    <Tooltip.Content class="z-50 rounded-lg bg-background-grey p-4" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
+    <Tooltip.Content class="bg-background-grey z-50 rounded-lg p-4" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
       <slot />
       <Tooltip.Arrow />
     </Tooltip.Content>

@@ -25,7 +25,7 @@
     {#snippet text()}
       {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
         {#if armor.set_name}
-          <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+          <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
             <span>Set:</span>
             <span class={cn(getRarityClass(armor.set_rarity ?? "", "text"))}>{armor.set_name}</span>
           </p>
@@ -76,8 +76,8 @@
               </div>
             </ScrollArea.Content>
           </ScrollArea.Viewport>
-          <ScrollArea.Scrollbar orientation="horizontal" class="mt-2 flex h-2.5 w-full touch-none select-none rounded-full transition-all">
-            <ScrollArea.Thumb class="flex rounded-full bg-icon" />
+          <ScrollArea.Scrollbar orientation="horizontal" class="mt-2 flex h-2.5 w-full touch-none rounded-full transition-all select-none">
+            <ScrollArea.Thumb class="bg-icon flex rounded-full" />
           </ScrollArea.Scrollbar>
           <ScrollArea.Corner />
         </ScrollArea.Root>

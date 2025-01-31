@@ -18,23 +18,23 @@
     </div>
     {#if misc.kills.kills.length > 0}
       <div class="flex flex-wrap gap-4">
-        <div class="flex min-w-[22rem] flex-col gap-1 rounded-lg bg-background/30 @md:min-w-96">
-          <div class="flex w-full items-center justify-center gap-1.5 border-b-2 border-icon py-2 text-center font-semibold uppercase">Kills</div>
+        <div class="bg-background/30 flex min-w-[22rem] flex-col gap-1 rounded-lg @md:min-w-96">
+          <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">Kills</div>
           <VirtualList height={320} width="100%" itemCount={misc.kills.kills.length} itemSize={misc.kills.kills.length > 0 ? 20 : 0} scrollDirection="vertical">
-            <div slot="item" let:index let:style {style} class="whitespace-nowrap px-4 font-semibold">
-              <div class="inline-block capitalize text-text/60">#{index + 1}</div>
-              <div class="inline-block text-text">{misc.kills.kills[index].name}</div>
-              <div class="inline-block text-text/60">: {format(misc.kills.kills[index].amount)}</div>
+            <div slot="item" let:index let:style {style} class="px-4 font-semibold whitespace-nowrap">
+              <div class="text-text/60 inline-block capitalize">#{index + 1}</div>
+              <div class="text-text inline-block">{misc.kills.kills[index].name}</div>
+              <div class="text-text/60 inline-block">: {format(misc.kills.kills[index].amount)}</div>
             </div>
           </VirtualList>
         </div>
-        <div class="flex min-w-[22rem] flex-col gap-1 rounded-lg bg-background/30 @md:min-w-96">
-          <div class="flex w-full items-center justify-center gap-1.5 border-b-2 border-icon py-2 text-center font-semibold uppercase">Deaths</div>
+        <div class="bg-background/30 flex min-w-[22rem] flex-col gap-1 rounded-lg @md:min-w-96">
+          <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">Deaths</div>
           <VirtualList height={320} width="100%" itemCount={misc.kills.deaths.length} itemSize={misc.kills.deaths.length > 0 ? 20 : 0} scrollDirection="vertical">
-            <div slot="item" let:index let:style {style} class="whitespace-nowrap px-4 font-semibold">
-              <div class="inline-block capitalize text-text/60">#{index + 1}</div>
-              <div class="inline-block text-text">{misc.kills.deaths[index].name}</div>
-              <div class="inline-block text-text/60">: {format(misc.kills.deaths[index].amount)}</div>
+            <div slot="item" let:index let:style {style} class="px-4 font-semibold whitespace-nowrap">
+              <div class="text-text/60 inline-block capitalize">#{index + 1}</div>
+              <div class="text-text inline-block">{misc.kills.deaths[index].name}</div>
+              <div class="text-text/60 inline-block">: {format(misc.kills.deaths[index].amount)}</div>
             </div>
           </VirtualList>
         </div>

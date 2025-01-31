@@ -19,14 +19,14 @@
   <AdditionStat text="Purse" data={`${formatNumber(profile.stats.purse)} Coins`} />
   <AdditionStat text="Bank Account" data={`${formatNumber(profile.stats.bank + profile.stats.personalBank)} Coins`} asterisk={profile.stats.bank && profile.stats.personalBank ? true : false}>
     <div>
-      <h3 class="font-bold text-text/85">
+      <h3 class="text-text/85 font-bold">
         Bank:
         <span class="text-text">
           {formatNumber(profile.stats.bank)}
         </span>
       </h3>
       {#if profile.stats.personalBank}
-        <h3 class="font-bold text-text/85">
+        <h3 class="text-text/85 font-bold">
           Personal Bank:
           <span class="text-text">
             {formatNumber(profile.stats.personalBank)}
@@ -38,31 +38,31 @@
   <AdditionStat text="Average Skill Level" data={profile.skills.averageSkillLevel.toFixed(2)} asterisk={true}>
     <div class="max-w-xs space-y-2">
       <div>
-        <h3 class="font-bold text-text/85">
+        <h3 class="text-text/85 font-bold">
           Total Skill XP:
           <span class="text-text">
             {numberFormat(profile.skills.totalSkillXp, defaultPattern)}
           </span>
         </h3>
-        <p class="font-medium text-text/80">Total XP gained in all skills except Social and Runecrafting.</p>
+        <p class="text-text/80 font-medium">Total XP gained in all skills except Social and Runecrafting.</p>
       </div>
       <div>
-        <h3 class="font-bold text-text/85">
+        <h3 class="text-text/85 font-bold">
           Average Level:
           <span class="text-text">
             {profile.skills.averageSkillLevel.toFixed(2)}
           </span>
         </h3>
-        <p class="font-medium text-text/80">Average skill level over all skills except Social and Runecrafting, includes progress to next level.</p>
+        <p class="text-text/80 font-medium">Average skill level over all skills except Social and Runecrafting, includes progress to next level.</p>
       </div>
       <div>
-        <h3 class="font-bold text-text/85">
+        <h3 class="text-text/85 font-bold">
           Average Level without progress:
           <span class="text-text">
             {numberFormat(profile.skills.averageSkillLevelWithProgress, defaultPatternDecimal)}
           </span>
         </h3>
-        <p class="font-medium text-text/80">Average skill level without including partial level progress.</p>
+        <p class="text-text/80 font-medium">Average skill level without including partial level progress.</p>
       </div>
     </div>
   </AdditionStat>
@@ -73,10 +73,10 @@
     <div class="max-w-xs space-y-2 font-bold">
       <div>
         <h3 class="text-text/85">Networth</h3>
-        <p class="font-medium italic text-text/80">Networth calculations by SkyHelper.</p>
+        <p class="text-text/80 font-medium italic">Networth calculations by SkyHelper.</p>
       </div>
       <div>
-        <ul class="font-bold [&_li]:capitalize [&_li]:text-text/85 [&_li_span]:normal-case [&_li_span]:text-text">
+        <ul class="[&_li]:text-text/85 [&_li_span]:text-text font-bold [&_li]:capitalize [&_li_span]:normal-case">
           {#each Object.entries(profile.stats.networth.types) as [key, value]}
             <li>
               {key.replace(/_/g, " ")}:

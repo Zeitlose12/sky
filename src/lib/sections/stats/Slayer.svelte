@@ -20,14 +20,14 @@
     {#if slayer.unlocked === false}
       <p class="space-x-0.5 leading-6">{profile.username} hasn't unlocked Slayers yet.</p>
     {:else}
-      <div class="pb-1.5 pt-4">
+      <div class="pt-4 pb-1.5">
         <AdditionStat text="Total Slayer XP" data={format(slayer.totalSlayerExp)} />
       </div>
       <div class="flex flex-wrap gap-5">
         {#each Object.entries(slayer.data) as [key, value]}
           {#if value.level.xp > 0}
-            <div class="relative flex min-w-[min(20.625rem,100vw)] flex-col items-center gap-1 space-y-5 overflow-hidden rounded-lg bg-background/30">
-              <div class="flex w-full items-center justify-center gap-1.5 border-b-2 border-icon py-2 text-center font-semibold uppercase">
+            <div class="bg-background/30 relative flex min-w-[min(20.625rem,100vw)] flex-col items-center gap-1 space-y-5 overflow-hidden rounded-lg">
+              <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
                 <Avatar.Root>
                   <Avatar.Image loading="lazy" src={value.texture} class="size-8 object-contain" />
                   <Avatar.Fallback>
@@ -38,7 +38,7 @@
               </div>
               <div class="flex h-full w-full flex-wrap gap-5 px-5 uppercase">
                 {#each Object.entries(value.kills) as [key, killValue]}
-                  <div class="flex flex-col items-center gap-1 text-sm font-bold text-text/60">
+                  <div class="text-text/60 flex flex-col items-center gap-1 text-sm font-bold">
                     <span>
                       {#if !isNaN(Number(key))}
                         Tier {["I", "II", "III", "IV", "V"][Number(key) - 1]}
@@ -53,13 +53,13 @@
                 {/each}
               </div>
               <div class="w-full">
-                <p class="mb-2 w-full space-y-5 px-5 text-center font-semibold capitalize text-text/60">
+                <p class="text-text/60 mb-2 w-full space-y-5 px-5 text-center font-semibold capitalize">
                   {key} Level {value.level.level}
                 </p>
 
-                <Progress.Root value={value.level.xp} max={value.level.xpForNext} class="group h-4 w-full overflow-hidden bg-text/30" data-maxed={value.level.maxed}>
+                <Progress.Root value={value.level.xp} max={value.level.xpForNext} class="group bg-text/30 h-4 w-full overflow-hidden" data-maxed={value.level.maxed}>
                   <div class="absolute z-10 flex h-full w-full justify-center">
-                    <div class="text-xs font-semibold shadow-background/50 text-shadow">
+                    <div class="shadow-background/50 text-shadow text-xs font-semibold">
                       {#if value.level.maxed}
                         {format(value.level.xp)}
                       {:else}
@@ -68,7 +68,7 @@
                       XP
                     </div>
                   </div>
-                  <div class="h-full w-full flex-1 transition-all duration-1000 ease-in-out group-data-[maxed=true]:[background:var(--maxedbar)] group-data-[maxed=false]:[background:var(--skillbar)]" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(value.level.xp, value.level.maxed ? value.level.xp : value.level.xpForNext))}%)`}></div>
+                  <div class="h-full w-full flex-1 transition-all duration-1000 ease-in-out group-data-[maxed=false]:[background:var(--skillbar)] group-data-[maxed=true]:[background:var(--maxedbar)]" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(value.level.xp, value.level.maxed ? value.level.xp : value.level.xpForNext))}%)`}></div>
                 </Progress.Root>
               </div>
             </div>

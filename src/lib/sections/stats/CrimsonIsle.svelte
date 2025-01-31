@@ -63,7 +63,7 @@
           {@const hasUnlocked = challenge.points}
           <Chip image={{ src: challenge.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
             <div class={cn("flex flex-col")}>
-              <div class="whitespace-nowrap font-bold">
+              <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{challenge.name}</span>
                 <div class="text-sm">
                   <span class="opacity-60">Points:</span>
