@@ -23,7 +23,7 @@
         const lowestBottom = lowestElement.getBoundingClientRect().bottom;
         const currentBottom = currentElement.getBoundingClientRect().bottom;
         return currentBottom >= lowestBottom ? section : lowest;
-      }, "") || location.hash.slice(1)
+      }, "")
   );
 
   function handleSectionClick(sectionName: string) {
