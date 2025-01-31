@@ -4,15 +4,15 @@
   "author": "DarthGigi",
   "schema": 2,
   "backgrounds": {
-    "skillbar": { "type": "color", "color": "0 0% 50%" },
-    "maxedbar": { "type": "color", "color": "40 84% 44%" }
+    "skillbar": { "type": "color", "color": "oklch(59.82% 0 0)" },
+    "maxedbar": { "type": "color", "color": "oklch(69.69% 0.1423 76.74)" }
   },
   "colors": {
-    "logo": "0 0% 15%",
-    "link": "0 0% 90%",
-    "icon": "0 0% 25%",
-    "hover": "0 0% 98%",
-    "maxed": "40 88% 46%",
-    "gold": "40 88% 46%"
+    "logo": "oklch(26.97% 0 0)",
+    "link": "oklch(92.34% 0 0)",
+    "icon": "oklch(37.05% 0 0)",
+    "hover": "oklch(98.48% 0 0)",
+    "maxed": "oklch(72.84% 0.1506 75.86)",
+    "gold": "oklch(72.84% 0.1506 75.86)"
   }
 }
