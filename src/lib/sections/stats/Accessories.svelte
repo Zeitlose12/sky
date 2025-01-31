@@ -34,10 +34,10 @@
             <div class="max-w-xs space-y-2 font-bold">
               <div>
                 <h3 class="text-text/85">Accessories Breakdown</h3>
-                <p class="font-medium italic text-text/80">From your accessory bag.</p>
+                <p class="text-text/80 font-medium italic">From your accessory bag.</p>
               </div>
               <div>
-                <ul class="font-bold [&_li]:text-text/85 [&_li_span]:text-text">
+                <ul class="[&_li]:text-text/85 [&_li_span]:text-text font-bold">
                   <li>
                     <span style="color: var(--§6)">22 MP </span>
                     ×
@@ -98,7 +98,7 @@
               </div>
 
               <div>
-                <ul class="font-bold [&_li]:text-text/85 [&_li_span]:text-text">
+                <ul class="[&_li]:text-text/85 [&_li_span]:text-text font-bold">
                   {#if accessories.magicalPower.abiphone > 0}
                     <li>
                       <span style="color: var(--§{RARITY_COLORS['rare']})">Abicase: </span>
@@ -145,7 +145,7 @@
               {/each}
             </Items>
             {#if accessories.enrichments != null}
-              <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+              <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
                 <span>Enrichments: </span>
                 {#each Object.entries(accessories.enrichments) as [key, value], index}
                   {#if key !== "missing"}
@@ -176,7 +176,7 @@
             {/if}
           </div>
         {:else}
-          <p class="space-x-0.5 font-bold leading-6 text-text/60">{profile.username} doesn't have any accessories.</p>
+          <p class="text-text/60 space-x-0.5 leading-6 font-bold">{profile.username} doesn't have any accessories.</p>
         {/if}
         {#if accessories.missing.length > 0 || accessories.upgrades.length > 0}
           <Collapsible.Root>

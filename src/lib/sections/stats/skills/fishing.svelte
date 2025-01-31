@@ -36,7 +36,7 @@
     {#snippet text()}
       <div class="space-y-2">
         {#if highestPriorityFishingTool && highestPriorityFishingTool.display_name}
-          <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+          <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
             <span>Active Rod:</span>
             {@html renderLore(highestPriorityFishingTool.display_name)}
           </p>
@@ -60,8 +60,8 @@
     <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
       {@const seaCreatures = Object.entries(profile.fishing.kills)}
       {#each seaCreatures as [_, seaCreature], index}
-        <div class="flex size-full max-h-56 max-w-36 flex-col rounded-lg bg-background/30 p-2" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
-          <div class="flex h-12 items-center justify-center border-b-2 border-icon pb-2 text-center font-bold">
+        <div class="bg-background/30 flex size-full max-h-56 max-w-36 flex-col rounded-lg p-2" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
+          <div class="border-icon flex h-12 items-center justify-center border-b-2 pb-2 text-center font-bold">
             {seaCreature.name}
           </div>
           <div class="mt-2 flex h-full flex-col items-center justify-center gap-4">
@@ -108,7 +108,7 @@
             <Chip class="px-4" animationOptions={{ animate: true, amountOfItems: trophyFishes.length, index: index }} image={{ src: trophyFish.texture }} variant="tooltip">
               <div class="flex flex-col">
                 <div class="flex flex-col gap-0.5">
-                  <h4 class="font-bold text-text/60">{trophyFish.name} <span class="font-medium text-text/70">x{format(trophyFish.bronze + trophyFish.silver + trophyFish.gold + trophyFish.diamond)}</span></h4>
+                  <h4 class="text-text/60 font-bold">{trophyFish.name} <span class="text-text/70 font-medium">x{format(trophyFish.bronze + trophyFish.silver + trophyFish.gold + trophyFish.diamond)}</span></h4>
                 </div>
                 <div class="grid grid-cols-2 grid-rows-2">
                   <div class="flex items-center gap-1">

@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.gifts != null}
-  <SectionSubtitle class="!uppercase">Gifts</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Gifts</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

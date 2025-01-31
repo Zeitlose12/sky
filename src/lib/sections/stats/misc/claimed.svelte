@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.claimed_items != null}
-  <SectionSubtitle class="!uppercase">Claimed Items</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Claimed Items</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

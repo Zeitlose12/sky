@@ -21,6 +21,6 @@
         {/if}
       {/each}
     </Collapsible.Content>
-    <Collapsible.Trigger class="mx-auto mt-3.5 w-full rounded-full bg-text/10 p-2.5 text-xs font-semibold uppercase">Show Stats</Collapsible.Trigger>
+    <Collapsible.Trigger class="bg-text/10 mx-auto mt-3.5 w-full rounded-full p-2.5 text-xs font-semibold uppercase">Show Stats</Collapsible.Trigger>
   </Collapsible.Root>
 </div>

@@ -12,7 +12,7 @@
 </script>
 
 {#if dragons}
-  <SectionSubtitle class="!uppercase">Dragons</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Dragons</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

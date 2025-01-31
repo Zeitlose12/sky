@@ -95,7 +95,7 @@
         {@const hasUnlocked = porhtal.unlocked}
         <Chip image={{ src: porhtal.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
           <div class={cn("flex flex-col")}>
-            <div class="whitespace-nowrap font-bold">
+            <div class="font-bold whitespace-nowrap">
               <span class="opacity-60">{porhtal.name}</span>
             </div>
           </div>
@@ -111,7 +111,7 @@
         {@const hasUnlocked = timecharm.unlocked}
         <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
           <div class={cn("flex flex-col")}>
-            <div class="whitespace-nowrap font-bold">
+            <div class="font-bold whitespace-nowrap">
               <span class="opacity-60">{timecharm.name}</span>
               <div class="text-sm">
                 {#if hasUnlocked}

@@ -10,14 +10,14 @@
 
 {#if misc.races != null}
   <div class="space-y-4">
-    <SectionSubtitle class="!uppercase">Races</SectionSubtitle>
+    <SectionSubtitle class="uppercase!">Races</SectionSubtitle>
     <div class="flex flex-wrap gap-4">
       {#each Object.entries(misc.races) as [_, race]}
-        <div class="flex min-w-64 flex-col gap-1 rounded-lg bg-background/30">
-          <div class="flex w-full items-center justify-center gap-1.5 border-b-2 border-icon py-2 text-center font-semibold uppercase">{race.name}</div>
+        <div class="bg-background/30 flex min-w-64 flex-col gap-1 rounded-lg">
+          <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">{race.name}</div>
           <div class="my-2.5 space-y-2.5 px-5">
             {#if race.races.with_return}
-              <p class="font-bold text-text/80">With Return:</p>
+              <p class="text-text/80 font-bold">With Return:</p>
               <div>
                 <div class="flex h-full w-full flex-col flex-wrap gap-1">
                   {#each Object.entries(race.races.with_return) as [_, value]}
@@ -28,7 +28,7 @@
             {/if}
 
             {#if race.races.no_return}
-              <p class="font-bold text-text/80">No Return:</p>
+              <p class="text-text/80 font-bold">No Return:</p>
               <div>
                 <div class="flex h-full w-full flex-col flex-wrap gap-1">
                   {#each Object.entries(race.races.no_return) as [_, value]}

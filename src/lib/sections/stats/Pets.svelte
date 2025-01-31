@@ -59,7 +59,7 @@
                 <Item piece={activePet} />
                 <div class="ml-4 flex flex-col justify-center">
                   <h4 class={cn(getRarityClass(activePet.rarity ?? "common", "text"), "text-xl font-bold capitalize")}>{(activePet.rarity ?? "common").toLowerCase()} {@html renderLore(activePet.display_name.toLowerCase())}</h4>
-                  <h4 class="text-xl font-medium capitalize text-text">Level {activePet.level}</h4>
+                  <h4 class="text-text text-xl font-medium capitalize">Level {activePet.level}</h4>
                 </div>
               </div>
               <Bonus stats={activePet.stats} class="my-2" />
