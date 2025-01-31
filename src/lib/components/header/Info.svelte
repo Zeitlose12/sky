@@ -82,7 +82,7 @@
     </li>
     <li>
       Networth: <Button.Root class="text-link font-semibold" rel="noreferrer" href="https://github.com/Altpapier/SkyHelper-Networth" target="_blank">SkyHelper Networth</Button.Root>
-      by <span class="text-text/70">Altpapier</span>
+      by <span class="text-text/70">SkyHelper</span>
     </li>
     <li>
       Player Heads: <Button.Root class="text-link font-semibold" rel="noreferrer" href="https://hypixel.net" target="_blank">SkyBlock</Button.Root>
