@@ -21,16 +21,10 @@ export const actions: Actions = {
 
     try {
       const response = await fetch(`/api/uuid/${form.data.query}`);
-      if (response.status === 204 || response.status === 404) {
+      if (response.status === 204 || response.status === 404 || response.status === 500) {
         return message(form, { type: "error", text: `No user with the name '${form.data.query}' was found` }, { status: 404 });
       }
-
-      const data = await response.json();
-      if (data.errorMessage) {
-        return message(form, { type: "error", text: `No user with the name '${form.data.query}' was found` }, { status: 404 });
-      }
-    } catch (error) {
-      console.error(error);
+    } catch {
       return message(form, { type: "error", text: "An error occurred while fetching the user data" }, { status: 500 });
     }
 

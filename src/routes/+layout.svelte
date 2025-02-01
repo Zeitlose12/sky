@@ -15,6 +15,7 @@
   import { Toaster, toast } from "svelte-sonner";
   import { writable } from "svelte/store";
   import "../app.css";
+  import "../fonts.css";
 
   const position = writable<ToasterProps["position"]>("bottom-right");
   const theme = writable<ToasterProps["theme"]>("dark");

@@ -17,18 +17,18 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.5",
+    "@eslint/compat": "^1.2.6",
     "@eslint/js": "^9.19.0",
     "@sveltejs/adapter-node": "^5.2.12",
     "@sveltejs/kit": "^2.16.1",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "@tailwindcss/vite": "^4.0.1",
+    "@tailwindcss/vite": "^4.0.2",
     "@types/eslint": "^9.6.1",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.15",
     "@types/micromatch": "^4.0.9",
     "@types/mongo-sanitize": "^1.0.3",
-    "@types/node": "^22.12.0",
+    "@types/node": "^22.13.0",
     "@types/relaxed-json": "^1.0.4",
     "@types/upng-js": "^2.1.5",
     "bits-ui": "^0.22.0",
@@ -66,7 +66,7 @@
     "svelte-tiny-virtual-list": "^2.1.2",
     "sveltekit-superforms": "^2.23.1",
     "tailwind-merge": "^3.0.1",
-    "tailwindcss": "^4.0.1",
+    "tailwindcss": "^4.0.2",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.22.0",
@@ -77,13 +77,13 @@
     "zod": "^3.24.1"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.65",
     "farming-weight": "^0.8.1",
-    "sharp": "^0.33.5",
+    "minecraft-data": "^3.83.1",
+    "mongodb": "^6.13.0",
     "prismarine-nbt": "^2.7.0",
     "redis": "^4.7.0",
-    "mongodb": "^6.13.0",
-    "@napi-rs/canvas": "^0.1.65",
-    "minecraft-data": "^3.83.1"
+    "sharp": "^0.33.5"
   },
   "engines": {
     "node": "^22",
