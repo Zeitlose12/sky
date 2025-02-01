@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
-@layer theme, components, utilities, base;
 @plugin "./plugins/text-shadow.ts";
 @plugin "./plugins/themes.ts";
 @source "./safelist.ts";
@@ -43,7 +41,7 @@
   }
 
   /* Fonts */
-  --font-icomoon: "icomoon", "Montserrat";
+  --font-icomoon: "icomoon", var(--font-sans);
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
