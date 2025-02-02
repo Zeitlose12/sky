@@ -77,7 +77,7 @@
     "zod": "^3.24.1"
   },
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.66",
+    "@napi-rs/canvas": "^0.1.65",
     "farming-weight": "^0.8.1",
     "minecraft-data": "^3.83.1",
     "mongodb": "^6.13.0",

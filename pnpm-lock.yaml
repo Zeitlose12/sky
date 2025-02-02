@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@napi-rs/canvas':
-        specifier: ^0.1.66
+        specifier: ^0.1.65
         version: 0.1.66
       farming-weight:
         specifier: ^0.8.1
