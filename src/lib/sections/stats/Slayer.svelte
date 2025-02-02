@@ -57,7 +57,7 @@
                   {key} Level {value.level.level}
                 </p>
 
-                <Progress.Root value={value.level.xp} max={value.level.xpForNext} class="group bg-text/30 h-4 w-full overflow-hidden" data-maxed={value.level.maxed}>
+                <Progress.Root value={value.level.xp} max={value.level.xpForNext} class="bg-text/30 group h-4 w-full overflow-hidden" data-maxed={value.level.maxed}>
                   <div class="absolute z-10 flex h-full w-full justify-center">
                     <div class="shadow-background/50 text-shadow text-xs font-semibold">
                       {#if value.level.maxed}

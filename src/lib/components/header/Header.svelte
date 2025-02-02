@@ -46,7 +46,7 @@
           <Field {form} name="query">
             <Control>
               {#snippet children({ props })}
-                <input {...props} type="search" required placeholder="Enter username" class="peer text-text placeholder:text-text/80 hover:bg-background/20 focus-visible:bg-background/20 h-full w-full shrink rounded-r-3xl bg-transparent pr-0 pl-2 text-xs font-semibold outline-hidden transition-[colors_border-radius_opacity] duration-300 hover:rounded-r-none focus-visible:rounded-r-none focus-visible:ring-transparent focus-visible:outline-hidden @[38rem]:grow @[38rem]:pl-4 @[38rem]:text-base" bind:value={$formData.query} />
+                <input {...props} type="search" required placeholder="Enter username" class="text-text placeholder:text-text/80 hover:bg-background/20 focus-visible:bg-background/20 peer h-full w-full shrink rounded-r-3xl bg-transparent pr-0 pl-2 text-xs font-semibold outline-hidden transition-[colors_border-radius_opacity] duration-300 hover:rounded-r-none focus-visible:rounded-r-none focus-visible:ring-transparent focus-visible:outline-hidden @[38rem]:grow @[38rem]:pl-4 @[38rem]:text-base" bind:value={$formData.query} />
               {/snippet}
             </Control>
           </Field>
