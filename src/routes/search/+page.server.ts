@@ -1,5 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { superValidate } from "sveltekit-superforms";
+import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { schema } from "../schema";
 import type { Actions, PageServerLoad } from "./$types";
@@ -9,7 +9,7 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  default: async ({ request }) => {
+  default: async ({ request, fetch }) => {
     const form = await superValidate(request, zod(schema));
 
     if (!form.valid) {
@@ -17,6 +17,15 @@ export const actions: Actions = {
       return fail(400, {
         searchForm: form
       });
+    }
+
+    try {
+      const response = await fetch(`/api/uuid/${form.data.query}`);
+      if (response.status === 204 || response.status === 404 || response.status === 500) {
+        return message(form, { type: "error", text: `No user with the name '${form.data.query}' was found` }, { status: 404 });
+      }
+    } catch {
+      return message(form, { type: "error", text: "An error occurred while fetching the user data" }, { status: 500 });
     }
 
     redirect(303, `/stats/${form.data.query}`);

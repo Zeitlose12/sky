@@ -1,6 +1,5 @@
 import * as constants from "$lib/server/constants/constants";
 import * as helper from "$lib/server/helper";
-import { formatNumber } from "$lib/shared/helper";
 import type { AccessoriesOutput, Member } from "$types/global";
 import type { Accessories, Accessory, ProcessedItem, SpecialAccessory } from "$types/stats";
 import { getStatsFromItems } from "./items/stats";
@@ -36,6 +35,30 @@ function hasAccessory(accessories: Accessory[], accessory: Accessory | string, o
  */
 function getAccessory(accessories: Accessory[], accessory: string) {
   return accessories.find((a) => a.id === accessory);
+}
+
+/**
+ * Returns the magical power of an item based on its rarity and optional ID.
+ * @param {string} rarity - The rarity of the item. See {@link MAGICAL_POWER}.
+ * @param {string|null} [id=null] - (Optional) The ID of the item.
+ * @returns {number} Returns 0 if `rarity` is undefined or if `rarity` is not a valid rarity value.
+ */
+function getMagicalPower(rarity: string, id: string) {
+  if (rarity === undefined) return 0;
+
+  if (id !== null && typeof id === "string") {
+    // Hegemony artifact provides double MP
+    if (id === "HEGEMONY_ARTIFACT") {
+      return 2 * (constants.MAGICAL_POWER[rarity] ?? 0);
+    }
+
+    // Rift Prism grants 11 MP
+    if (id === "RIFT_PRISM") {
+      return 11;
+    }
+  }
+
+  return constants.MAGICAL_POWER[rarity] ?? 0;
 }
 
 function getEnrichments(accessories: ProcessedItem[]) {
@@ -143,7 +166,7 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
       item.extra ??= {};
       item.extra.price = price;
       if (price > 0) {
-        helper.addToItemLore(item, `§7Price: §6${Math.round(price).toLocaleString()} Coins §7(§6${formatNumber(Math.floor(price / helper.getMagicalPower(item.rarity, item.id)))} §7per MP)`);
+        helper.addToItemLore(item, `§7Price: §6${Math.round(price).toLocaleString()} Coins §7(§6${helper.formatNumber(Math.floor(price / getMagicalPower(item.rarity, item.id)))} §7per MP)`);
       }
 
       item.tag ??= {};
@@ -181,6 +204,7 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
 
   output.recombobulated = activeAccessories.filter((a) => a.recombobulated === true).length;
   output.totalRecombobulated = constants.RECOMBABLE_ACCESSORIES_COUNT;
+  output.selectedPower = userProfile.accessory_bag_storage?.selected_power ?? null;
 
   const abiphoneContacts = (userProfile.nether_island_player_data?.abiphone?.active_contacts ?? []).length;
   const riftPrism = accessoryIds.find((a) => a.id === "RIFT_PRISM");
@@ -190,12 +214,12 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
 
   output.magicalPower = {
     total: 0,
-    accessories: activeAccessories.reduce((a, b) => a + helper.getMagicalPower(b.rarity ?? "common", helper.getId(b)), 0),
+    accessories: activeAccessories.reduce((a, b) => a + getMagicalPower(b.rarity ?? "common", helper.getId(b)), 0),
     abiphone: abiphoneContacts ? Math.floor(abiphoneContacts / 2) : 0,
     riftPrism: riftPrism ? 11 : 0,
     hegemony: {
       rarity: activeAccessories.find((a) => helper.getId(a) === "HEGEMONY")?.rarity ?? null,
-      amount: helper.getMagicalPower(activeAccessories.find((a) => helper.getId(a) === "HEGEMONY")?.rarity ?? "", "HEGEMONY_ARTIFACT")
+      amount: getMagicalPower(activeAccessories.find((a) => helper.getId(a) === "HEGEMONY")?.rarity ?? "", "HEGEMONY_ARTIFACT")
     },
     rarities: {}
   };
@@ -214,7 +238,7 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
     output.magicalPower.rarities[rarity] = {
       // accessories: accessories.map((a) => helper.getId(a)),
       amount: accessories.length,
-      magicalPower: accessories.reduce((a, b) => a + helper.getMagicalPower(rarity, helper.getId(b)), 0)
+      magicalPower: accessories.reduce((a, b) => a + getMagicalPower(rarity, helper.getId(b)), 0)
     };
   }
 

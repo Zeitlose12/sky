@@ -177,6 +177,32 @@ export async function fetchMuseum(profileId: string) {
   return members;
 }
 
+export async function getGarden(profileId: string) {
+  const cache = await REDIS.get(`GARDEN:${profileId}`);
+  if (cache) {
+    return JSON.parse(cache);
+  }
+
+  const response = await fetch(`https://api.hypixel.net/v2/skyblock/garden?key=${HYPIXEL_API_KEY}&profile=${profileId}`, {
+    headers
+  });
+
+  const data = await response.json();
+  if (data.success === false) {
+    throw new SkyCryptError(data?.cause ?? "Request to Hypixel API failed. Please try again!");
+  }
+
+  const { garden } = data;
+  if (!garden) {
+    return null;
+  }
+
+  // 30 minutes
+  REDIS.SETEX(`GARDEN:${profileId}`, 60 * 30, JSON.stringify(garden));
+
+  return garden;
+}
+
 export function getDisplayName(username: string, paramPlayer: string): string {
   const emoji = CACHED_EMOJIS.get(paramPlayer);
   if (emoji) {

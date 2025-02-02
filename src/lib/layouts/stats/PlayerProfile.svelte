@@ -33,10 +33,10 @@
   }
 </script>
 
-<div class="mt-12 flex flex-wrap items-center gap-x-2 gap-y-3 text-4xl">
+<div class="flex flex-wrap items-center gap-x-2 gap-y-3 text-4xl">
   Stats for
   <DropdownMenu.Root>
-    <DropdownMenu.Trigger class="inline-flex items-center whitespace-nowrap rounded-full bg-[#7f7f7f]/20 py-2 pl-2 pr-4 align-middle text-3xl font-semibold">
+    <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[#7f7f7f]/20 py-2 pr-4 pl-2 align-middle text-3xl font-semibold whitespace-nowrap">
       <div class="relative flex items-center justify-center overflow-hidden rounded-full bg-[var(--color)] px-2 py-1 text-xl" style={`--color:${profile.rank?.rankColor}`}>
         <div class="relative z-20 inline-flex justify-between gap-3 text-lg font-bold">
           <span>{profile.rank?.rankText}</span>
@@ -44,14 +44,14 @@
             <span>{profile.rank.plusText}</span>
           {/if}
         </div>
-        <div class="absolute -right-3 bottom-0 top-0 z-10 h-14 w-1/2 skew-x-[-20deg] bg-[var(--plusColor)]" style={`--plusColor:${profile.rank?.plusColor ?? profile.rank?.rankColor}`}></div>
+        <div class="absolute top-0 -right-3 bottom-0 z-10 h-14 w-1/2 skew-x-[-20deg] bg-[var(--plusColor)]" style={`--plusColor:${profile.rank?.plusColor ?? profile.rank?.rankColor}`}></div>
       </div>
       <span class="pl-4">{profile.displayName}</span>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content class="z-50 min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
+    <DropdownMenu.Content class="bg-background-grey/95 z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
       {#each profile.members as member}
         {#if member.username !== profile.username}
-          <DropdownMenu.Item href={`/stats/${member.username}/${profile.profile_cute_name}`} class="flex items-center p-4 hover:bg-text/20" data-sveltekit-preload-code="viewport">
+          <DropdownMenu.Item href={`/stats/${member.username}/${profile.profile_cute_name}`} class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
             <span class="pl-4 {member.removed ? 'line-through' : ''}">
               {member.username}
             </span>
@@ -66,10 +66,10 @@
       {profile.profile_cute_name}
     </DropdownMenu.Trigger>
 
-    <DropdownMenu.Content class="z-50  min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
+    <DropdownMenu.Content class="bg-background-grey/95  z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
       {#each profile.profiles ?? [] as otherProfile}
         {#if otherProfile.profile_id !== profile.profile_id}
-          <DropdownMenu.Item href={`/stats/${profile.username}/${otherProfile.cute_name}`} class="flex items-center p-4 hover:bg-text/20" data-sveltekit-preload-code="viewport">
+          <DropdownMenu.Item href={`/stats/${profile.username}/${otherProfile.cute_name}`} class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
             {otherProfile.cute_name}
             {#if otherProfile.game_mode === "bingo"}
               🎲
@@ -93,7 +93,7 @@
       <button
         use:builder.action
         {...builder}
-        class="aspect-square rounded-full bg-icon/90 p-2 transition-opacity duration-150 hover:bg-icon"
+        class="bg-icon/90 hover:bg-icon aspect-square rounded-full p-2 transition-opacity duration-150"
         onclick={() => {
           if (!$favorites.includes(profile.uuid)) {
             favorites.set([...$favorites, profile.uuid]);
@@ -112,7 +112,7 @@
         {/if}
       </button>
     </Tooltip.Trigger>
-    <Tooltip.Content class="z-50 rounded-lg bg-background-grey p-4 font-semibold text-text/80" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
+    <Tooltip.Content class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
       <Tooltip.Arrow />
       {#if $favorites.includes(profile.uuid)}
         <p>Remove from favorites</p>
@@ -123,23 +123,23 @@
   </Tooltip.Root>
 
   <Button.Root
-    class="aspect-square rounded-full bg-icon/90 p-2 transition-opacity duration-150 hover:bg-icon"
+    class="bg-icon/90 hover:bg-icon aspect-square rounded-full p-2 transition-opacity duration-150"
     onclick={() => {
       copyToClipboard(window.location.href);
     }}>
     <Link class="size-4" />
   </Button.Root>
 
-  <Button.Root href={`https://plancke.io/hypixel/player/stats/${profile.username}`} target="_blank" class="flex items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon">
+  <Button.Root href={`https://plancke.io/hypixel/player/stats/${profile.username}`} target="_blank" class="bg-icon/90 hover:bg-icon flex items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150">
     Plancke <ExternalLink class="size-4" />
   </Button.Root>
 
-  <Button.Root href={`https://elitebot.dev/@${profile.username}/${profile.profile_cute_name}`} target="_blank" class="flex items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon">
+  <Button.Root href={`https://elitebot.dev/@${profile.username}/${profile.profile_cute_name}`} target="_blank" class="bg-icon/90 hover:bg-icon flex items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150">
     Elite <ExternalLink class="size-4" />
   </Button.Root>
 
   <Button.Root
-    class="hidden items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex"
+    class="bg-icon/90 hover:bg-icon hidden items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150 data-[visible=true]:flex"
     data-visible={showMore}
     onclick={() => {
       copyToClipboard(profile.uuid);
@@ -149,7 +149,7 @@
 
   {#each Object.entries(profile.social) as [key, value]}
     {#if key === "DISCORD"}
-      <Button.Root class="hidden items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex" data-visible={showMore} on:click={() => copyToClipboard(value)}>
+      <Button.Root class="bg-icon/90 hover:bg-icon hidden items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150 data-[visible=true]:flex" data-visible={showMore} on:click={() => copyToClipboard(value)}>
         <Avatar.Root>
           <Avatar.Image loading="lazy" src="/img/icons/{iconMapper[key]}" alt="{profile.username}'s {key.toLocaleLowerCase()}" class="size-4 text-white" />
           <Avatar.Fallback>
@@ -159,7 +159,7 @@
         {value}
       </Button.Root>
     {:else}
-      <Button.Root href={value} target="_blank" class="hidden aspect-square items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex" data-visible={showMore}>
+      <Button.Root href={value} target="_blank" class="bg-icon/90 hover:bg-icon hidden aspect-square items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150 data-[visible=true]:flex" data-visible={showMore}>
         <Avatar.Root>
           <Avatar.Image loading="lazy" src="/img/icons/{iconMapper[key]}" alt="{profile.username}'s {key.toLocaleLowerCase()}" class="size-4 text-white" />
           <Avatar.Fallback>
@@ -170,7 +170,7 @@
     {/if}
   {/each}
 
-  <Button.Root class="rounded-full bg-icon/90 p-2 transition-opacity duration-150 hover:bg-icon" on:click={() => (showMore = !showMore)}>
+  <Button.Root class="bg-icon/90 hover:bg-icon rounded-full p-2 transition-opacity duration-150" on:click={() => (showMore = !showMore)}>
     {#if showMore}
       <ChevronLeft class="size-4" />
     {:else}

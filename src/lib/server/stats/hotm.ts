@@ -12,7 +12,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
 
   const output = [] as ProcessedItem[];
   for (let index = 0; index < 10 * 9; index++) {
-    output.push(helper.generateItem({}));
+    output.push({} as ProcessedItem);
   }
 
   const hotmLevelData = getLevelByXp(data.experience, { type: "hotm" });
@@ -30,7 +30,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
       selectedPickaxeAbility: data.selected_pickaxe_ability
     } as unknown as NodeData);
 
-    output[node.position10x9 - 1] = helper.generateItem({
+    output[node.position10x9 - 1] = {
       display_name: node.name,
       id: node.itemData.id,
       rarity: node.rarity,
@@ -46,13 +46,13 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
         }
       },
       position: node.position10x9
-    } as ProcessedItem);
+    } as ProcessedItem;
   }
 
   for (let tier = 1; tier <= constants.HOTM.tiers; tier++) {
     const hotm = new constants.HOTM.hotm(tier, hotmLevelData);
 
-    output[hotm.position10x9 - 1] = helper.generateItem({
+    output[hotm.position10x9 - 1] = {
       display_name: `Tier ${tier}`,
       rarity: hotm.rarity,
       id: hotm.itemData.id,
@@ -68,7 +68,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
         }
       },
       position: hotm.position10x9
-    } as ProcessedItem);
+    } as ProcessedItem;
   }
 
   for (const itemClass of constants.HOTM.items) {
@@ -83,7 +83,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
       last_reset: userProfile.mining_core.last_reset
     });
 
-    output[item.position10x9 - 1] = helper.generateItem({
+    output[item.position10x9 - 1] = {
       display_name: helper.getRawLore(item.displayName),
       rarity: item.rarity,
       id: item.itemData.id,
@@ -100,7 +100,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
         }
       },
       position: item.position10x9
-    } as ProcessedItem);
+    } as ProcessedItem;
   }
 
   output.forEach((item: ProcessedItem) => {

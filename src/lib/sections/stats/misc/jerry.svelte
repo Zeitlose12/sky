@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.season_of_jerry != null}
-  <SectionSubtitle class="!uppercase">Season of Jerry</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Season of Jerry</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

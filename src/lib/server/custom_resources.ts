@@ -7,13 +7,9 @@ import minecraftData from "minecraft-data";
 import path from "path";
 import RJSON from "relaxed-json";
 import UPNG from "upng-js";
-import util from "util";
-import { getCacheFilePath, getCacheFolderPath, getFolderPath, getId, getPath, getTextureValue, hasPath } from "./helper";
+import { getCacheFilePath, getCacheFolderPath, getFolderPath, getId, getTextureValue } from "./helper";
 const mcData = minecraftData("1.8.9");
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import apng2gif from "apng2gif-bin";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import sharp from "sharp";
@@ -21,9 +17,7 @@ import sharp from "sharp";
 import { getFileHash } from "$lib/server/helper/hashes";
 import type { ItemTexture, OutputResourcePack, OutputTexture, ResourcePack, TextureAnimation, TextureModel } from "$types/custom-resources";
 import type { Item, ProcessedItem, getTextureParams } from "$types/processed/profile/items";
-import child_process from "child_process";
 import { format } from "numerable";
-const execFile = util.promisify(child_process.execFile);
 
 const NORMALIZED_SIZE = 128;
 const RESOURCE_CACHING = dev;
@@ -43,6 +37,60 @@ const readyPromise = new Promise((resolve) => {
     }
   }, 1000);
 });
+
+function getKey(key: string): string | number {
+  const intKey = Number(key);
+
+  if (!isNaN(intKey)) {
+    return intKey;
+  }
+
+  return key;
+}
+
+function hasPath<T extends object>(obj: T, ...keys: (string | number)[]): boolean {
+  if (obj == null) {
+    return false;
+  }
+
+  let loc: unknown = obj;
+
+  for (let i = 0; i < keys.length; i++) {
+    if (typeof loc === "object" && loc !== null) {
+      loc = (loc as Record<string, unknown>)[getKey(keys[i] as string)];
+    } else {
+      return false;
+    }
+
+    if (loc === undefined) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function getPath<T extends object, K = unknown>(obj: T, ...keys: (string | number)[]): K | undefined {
+  if (obj == null) {
+    return undefined;
+  }
+
+  let loc: unknown = obj;
+
+  for (let i = 0; i < keys.length; i++) {
+    if (typeof loc === "object" && loc !== null) {
+      loc = (loc as Record<string, unknown>)[getKey(keys[i] as string)];
+    } else {
+      return undefined;
+    }
+
+    if (loc === undefined) {
+      return undefined;
+    }
+  }
+
+  return loc as K;
+}
 
 async function getFiles(dir: string, fileList: string[]) {
   const files = await fs.readdir(dir);
@@ -381,6 +429,11 @@ async function loadResourcePacks() {
         if (regexString.startsWith("ipattern:")) {
           regex = mm.makeRe(regexString.substring(9), { nocase: true });
         } else if (regexString.startsWith("pattern:")) {
+          if (regexString === "pattern:*" || regexString.trim() === "pattern:") {
+            texture.match = [];
+            break;
+          }
+
           regex = mm.makeRe(regexString.substring(9));
         } else if (regexString.startsWith("iregex:")) {
           regex = new RegExp(regexString.substring(7), "i");
@@ -421,7 +474,20 @@ async function loadResourcePacks() {
       if ("animation" in metaProperties && textureMetadata.width != textureMetadata.height) {
         const animation = metaProperties.animation as TextureAnimation;
         if (animation.frames === undefined) {
-          continue;
+          if (animation.frametime && textureMetadata.height) {
+            const frameCount = textureMetadata.height / NORMALIZED_SIZE;
+
+            animation.frames = [];
+            for (let i = 0; i < frameCount; i++) {
+              animation.frames.push({
+                index: i,
+                time: animation.frametime
+              });
+            }
+          } else {
+            console.log("Error reading file", textureFile);
+            animation.frames = [];
+          }
         }
 
         texture.animated = true;
@@ -521,7 +587,7 @@ async function loadResourcePacks() {
 
           await fs.writeFile(textureFile, Buffer.from(apng));
 
-          try {
+          /*try {
             if (fs.existsSync(textureFile.replace(".png", ".gif"))) {
               await execFile(apng2gif, [textureFile, "-o", textureFile.replace(".png", ".gif")]);
             } else {
@@ -529,7 +595,7 @@ async function loadResourcePacks() {
             }
           } catch (error) {
             console.log(error);
-          }
+          }*/
         }
       }
 

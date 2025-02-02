@@ -5,6 +5,7 @@ export type MainStats = {
   cookieBuffActive: boolean;
   purse: number;
   bank: number;
+  personalBank: number;
   fairySouls: {
     found: number;
     total: number;

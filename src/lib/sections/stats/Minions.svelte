@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { calculatePercentage } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
@@ -31,16 +32,16 @@
       </div>
     {/snippet}
 
-    <Button.Root href="https://minionah.com" target="_blank" class="flex h-fit w-fit max-w-fit items-center gap-2 rounded-lg bg-background/30 p-2 transition-all duration-300 hover:scale-105">
+    <Button.Root href="https://minionah.com" target="_blank" class="bg-background/30 flex h-fit w-fit max-w-fit items-center gap-2 rounded-lg p-2 transition-all duration-300 hover:scale-105">
       <Avatar.Root class="size-12 shrink-0">
         <Avatar.Image loading="lazy" src="/img/icons/minionah.png" alt="MinionAH" class="aspect-square size-12" />
-        <Avatar.Fallback class="flex size-12 items-center justify-center rounded-lg bg-background/10 font-semibold">MA</Avatar.Fallback>
+        <Avatar.Fallback class="bg-background/10 flex size-12 items-center justify-center rounded-lg font-semibold">MA</Avatar.Fallback>
       </Avatar.Root>
       <div>
-        <h6 class="text-pretty font-bold text-text">Looking for a place to trade minions?</h6>
-        <span class="relative block w-fit text-left font-semibold text-text/60">
-          Check out <h5 class="inline text-link underline">MinionAH</h5>
-          <ExternalLink class="absolute -right-3 top-0 size-3 text-link" />
+        <h6 class="text-text font-bold text-pretty">Looking for a place to trade minions?</h6>
+        <span class="text-text/60 relative block w-fit text-left font-semibold">
+          Check out <h5 class="text-link inline underline">MinionAH</h5>
+          <ExternalLink class="text-link absolute top-0 -right-3 size-3" />
         </span>
       </div>
     </Button.Root>
@@ -55,13 +56,13 @@
         {/if}
       </div>
 
-      <div class="flex flex-wrap gap-4">
+      <ScrollItems>
         {#each data.minions as minion}
           {@const hasTier = minion.tiers[minion.tiers.length - 1]}
           {@const hasMaxed = hasTier === minion.maxTier}
           <Chip image={{ src: minion.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasTier })} variant="tooltip">
             <div class={cn("flex flex-col", { "text-maxed": hasMaxed })}>
-              <div class="font-bold">
+              <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{minion.name}</span>
                 <span class={cn({ "text-gold": hasMaxed })}>{hasTier ? minion.tiers[minion.tiers.length - 1] : 0}</span>
               </div>
@@ -76,7 +77,7 @@
             </div>
           </Chip>
         {/each}
-      </div>
+      </ScrollItems>
     {/each}
   </Items>
 </CollapsibleSection>

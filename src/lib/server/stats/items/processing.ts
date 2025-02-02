@@ -72,8 +72,8 @@ function getCategories(type: string, item: Item) {
 // Process items returned by API
 export async function processItems(items: ProcessedItem[], source: string, packs: string[]): Promise<ProcessedItem[]> {
   for (const item of items) {
-    if (!item.tag?.ExtraAttributes?.id) {
-      // continue;
+    if (!item.tag?.ExtraAttributes?.id && item.exp === undefined) {
+      continue;
     }
 
     // POTIONS
@@ -116,7 +116,6 @@ export async function processItems(items: ProcessedItem[], source: string, packs
       }
     }
 
-    // Set HTML lore to be displayed on the website
     if (itemLore.length > 0 && item.tag.ExtraAttributes) {
       if (item.tag.ExtraAttributes.rarity_upgrades) {
         itemLore.push("§8(Recombobulated)");
@@ -147,7 +146,7 @@ export async function processItems(items: ProcessedItem[], source: string, packs
       }
     }
 
-    if (item?.tag || item?.exp) {
+    if (item.tag || item.exp !== undefined) {
       if (source.startsWith("storage_icons") === false) {
         try {
           const ITEM_PRICE = await getItemNetworth(item, { cache: true });

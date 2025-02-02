@@ -1,7 +1,7 @@
 {
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "./frozen_scythe",
-        "layer1": "./frozen_scythe_blade"
-    }
+	"parent": "item/hplus_handheld_scythe",
+	"textures": {
+		"hand": "./frozen_scythe_hand",
+		"icon": "./frozen_scythe"
+	}
 }

@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.auctions != null}
-  <SectionSubtitle class="!uppercase">Auctions Sold</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Auctions Sold</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>
@@ -29,7 +29,7 @@
     {/snippet}
   </Items>
 
-  <SectionSubtitle class="!uppercase">Auctions Bought</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Auctions Bought</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import themes from "$lib/shared/constants/themes";
-  import { formatNumber, removeFormatting, titleCase } from "$lib/shared/helper";
+  import { formatNumber } from "$lib/shared/helper";
   import { theme as themeStore } from "$lib/stores/themes";
   import type { Skill } from "$types/stats";
   import { formatDistanceToNowStrict } from "date-fns";
@@ -42,53 +42,55 @@
   function getLongDescription() {
     let output = "";
 
-    // Skyblock Level
     if (profile.skyblock_level.xp !== 0 && profile.skyblock_level?.level !== 0) {
       output += `🌟 Skyblock Level: ${formatNumber(profile.skyblock_level.levelWithProgress)}\n`;
     }
 
-    // Sword
-    if (profile.items.weapons?.highest_priority_weapon?.display_name !== undefined) {
-      output += `🗡️ ${removeFormatting(profile.items.weapons.highest_priority_weapon.display_name)}\n`;
+    if (profile.stats.networth.noInventory === false) {
+      output += `💸 Networth: ${formatNumber(profile.stats.networth.networth)}\n`;
     }
 
-    // Armor
-    if (profile.items.armor?.set_name !== undefined) {
-      output += `🛡️ ${removeFormatting(profile.items.armor.set_name)}\n`;
+    if (profile.stats.purse !== undefined) {
+      output += `💰 Purse: ${formatNumber(profile.stats.purse)}\n`;
     }
 
-    // Pet
-    if (profile.pets?.pets !== undefined) {
-      const activePet = profile.pets.pets.find((a) => a.active);
-      if (activePet !== undefined) {
-        output += `🐾 [LvL ${activePet.level}] ${titleCase(activePet.rarity ?? "common")} ${activePet.display_name} \n`;
-      }
+    if (profile.stats.bank !== undefined) {
+      output += `🏦 Bank: ${formatNumber(profile.stats.bank)}\n`;
     }
 
-    // Line break
     output += "\n";
 
-    // Skills
+    const sortedSkills = [
+      ["farming", "mining", "combat", "foraging", "taming", "carpentry"],
+      ["runecrafting", "social", "fishing", "enchanting", "alchemy"]
+    ];
     const skills = (profile.skills?.skills ?? {}) as Record<string, Skill>;
     if (skills !== undefined) {
-      output += "📚 Skills: ";
+      output += `📚 Skills: ${profile.skills.averageSkillLevelWithProgress.toFixed(2)}\n`;
 
-      for (const skill in skills) {
-        if (skills[skill].level !== undefined) {
-          output += `${skillEmojis[skill]} ${skills[skill].level} `;
+      for (const skillGroup of sortedSkills) {
+        for (const skill of skillGroup) {
+          const data = skills[skill];
+          if (data === undefined) {
+            continue;
+          }
+
+          output += `${skillEmojis[skill]} ${data.level} `;
         }
+
+        output += "\n";
       }
 
       output += "\n";
     }
 
-    // Dungeons
     if (profile.dungeons !== undefined) {
-      const dungeonsLevel = profile.dungeons?.level?.level;
+      const dungeonsLevel = profile.dungeons?.level?.levelWithProgress;
       if (dungeonsLevel > 0) {
-        output += `${skillEmojis["dungeons"]} Dungeons: ${dungeonsLevel} `;
+        output += `🪦 Dungeons: ${profile.dungeons.classes.classAverageWithProgress.toFixed(2)}\n`;
       }
 
+      output += `${skillEmojis["dungeons"]} ${profile.dungeons.level?.level ?? 0} `;
       const classes = profile.dungeons?.classes?.classes;
       if (classes !== undefined) {
         for (const [dclass, data] of Object.entries(classes)) {
@@ -99,9 +101,10 @@
       output += "\n";
     }
 
-    // Slayers
+    output += "\n";
+
     if (profile.slayer?.totalSlayerExp > 0) {
-      output += "🤺 Slayer: ";
+      output += `🤺 Slayer: ${formatNumber(profile.slayer.totalSlayerExp)}\n`;
 
       const slayerOrder = ["zombie", "spider", "wolf", "enderman", "vampire", "blaze"];
       for (const slayer of slayerOrder) {
@@ -118,21 +121,6 @@
       }
 
       output += "\n";
-    }
-
-    output += "\n";
-
-    // Networth, Bank & purse
-    if (profile.stats.networth.noInventory === false) {
-      output += `💸 Networth: ${formatNumber(profile.stats.networth.networth)}\n`;
-    }
-
-    if (profile.stats.bank !== undefined) {
-      output += `🏦 Bank: ${formatNumber(profile.stats.bank)}\n`;
-    }
-
-    if (profile.stats.purse !== undefined) {
-      output += `💰 Purse: ${formatNumber(profile.stats.purse)}\n`;
     }
 
     return output;

@@ -1,5 +1,5 @@
 {
-    "parent": "item/generated",
+    "parent": "item/hplus_generated",
     "textures": {
         "layer0": "./mixed_mite_gel",
         "layer1": "./mixed_mite_gel2"

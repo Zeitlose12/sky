@@ -1,5 +1,5 @@
 {
-    "parent": "item/handheld",
+    "parent": "item/hplus_handheld",
     "textures": {
         "layer0": "./necromancer_sword",
         "layer1": "./necromancer_sword_flames"

@@ -7,9 +7,10 @@
   let { piece, isInventory }: { piece: ProcessedSkyBlockItem; isInventory?: boolean } = $props();
 </script>
 
-<div class="data-[enchanted=true]:shine relative flex aspect-square items-center justify-center overflow-clip rounded-lg p-0" data-enchanted={piece.shiny}>
+<div class="relative flex aspect-square items-center justify-center overflow-clip p-0">
+  <div class="data-[enchanted=true]:shine absolute inset-0 rounded-lg" data-enchanted={piece.shiny}></div>
   <Avatar.Root>
-    <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class={cn("group-data-[enchanted=true]:enchanted h-auto w-14 select-none", isInventory ? "w-8" : "w-14")} />
+    <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class={cn("data-[enchanted=true]:enchanted h-auto w-14 [image-rendering:pixelated] select-none", isInventory ? "w-8" : "w-14")} data-enchanted={piece.shiny} />
     <Avatar.Fallback>
       <Image class={cn(isInventory ? "size-8" : "size-14")} />
     </Avatar.Fallback>

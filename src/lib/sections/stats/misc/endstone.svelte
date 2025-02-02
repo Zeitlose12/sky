@@ -10,7 +10,7 @@
 </script>
 
 {#if misc.endstone_protector != null}
-  <SectionSubtitle class="!uppercase">Endstone Protector</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Endstone Protector</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>

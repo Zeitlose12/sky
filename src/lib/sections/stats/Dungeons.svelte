@@ -43,21 +43,21 @@
           <Skillbar class="sm:last:grow sm:last:basis-1/3" skill={className} skillData={classData} />
         {/each}
       </div>
-      <div class="pb-1 pt-2">
+      <div class="pt-2 pb-1">
         <AdditionStat text="Selected Class" data={dungeons.classes.selectedClass} />
         <AdditionStat text="Class Average" data={format(dungeons.classes.classAverage)} asterisk={true} maxed={dungeons.classes.classAverage >= 50}>
           <div class="max-w-xs space-y-2 font-bold">
             <div>
               <h3 class="text-text/85">Total Class XP: {format(dungeons.classes.totalClassExp.toFixed(2))}</h3>
-              <p class="font-medium italic text-text/80">Total Class XP gained in Catacombs.</p>
+              <p class="text-text/80 font-medium italic">Total Class XP gained in Catacombs.</p>
             </div>
             <div>
               <h3 class="text-text/85">Average Level: {format(dungeons.classes.classAverageWithProgress.toFixed(2))}</h3>
-              <p class="font-medium italic text-text/80">Average class level, includes progress to next level.</p>
+              <p class="text-text/80 font-medium italic">Average class level, includes progress to next level.</p>
             </div>
             <div>
               <h3 class="text-text/85">Average Level without progress: {format(dungeons.classes.classAverage.toFixed(2))}</h3>
-              <p class="font-medium italic text-text/80">Average class level without including partial level progress.</p>
+              <p class="text-text/80 font-medium italic">Average class level without including partial level progress.</p>
             </div>
           </div>
         </AdditionStat>
@@ -67,14 +67,14 @@
       </div>
       <CollapsibleSection id="Catacombs">
         {#snippet subtitle()}
-          <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Catacombs</h4>
+          <h4 class="text-text/90 my-5 text-xl font-semibold capitalize">Catacombs</h4>
         {/snippet}
         {@render cataCard(dungeons.catacombs)}
       </CollapsibleSection>
 
       <CollapsibleSection id="Master Catacombs">
         {#snippet subtitle()}
-          <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Master Catacombs</h4>
+          <h4 class="text-text/90 my-5 text-xl font-semibold capitalize">Master Catacombs</h4>
         {/snippet}
         {@render cataCard(dungeons.master_catacombs, true)}
       </CollapsibleSection>
@@ -86,8 +86,8 @@
   <div class="flex flex-wrap gap-5">
     {#if catacombs}
       {#each catacombs as catacomb}
-        <div class="flex min-w-80 basis-[calc((100%/3)-1.25rem)] flex-col gap-1 rounded-lg bg-background/30">
-          <div class="flex w-full items-center justify-center gap-1.5 border-b-2 border-icon py-2 text-center font-semibold uppercase">
+        <div class="bg-background/30 flex min-w-80 basis-[calc((100%/3)-1.25rem)] flex-col gap-1 rounded-lg">
+          <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
             <Avatar.Root>
               <Avatar.Image loading="lazy" src={catacomb.texture} class="size-8 object-contain" />
               <Avatar.Fallback>

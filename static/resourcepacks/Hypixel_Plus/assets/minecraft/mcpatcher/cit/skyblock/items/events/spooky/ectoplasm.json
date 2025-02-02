@@ -1,6 +1,7 @@
 {
-    "parent": "item/generated",
+    "parent": "item/hplus_generated",
     "textures": {
-        "layer0": "./ectoplasm"
+        "layer0": "./ectoplasm",
+        "layer1": "items/potion_bottle_empty"
     }
 }

@@ -16,22 +16,22 @@
 
 <div>
   <Tooltip.Root group="stats" openDelay={0} closeDelay={0}>
-    <Tooltip.Trigger class={cn(`my-0 flex items-center gap-1 text-sm font-bold ${STATS_DATA[stat].color}`, className)}>
-      <div class="inline-block font-icomoon text-base">{STATS_DATA[stat].symbol}</div>
+    <Tooltip.Trigger class={cn(`my-0 flex items-center gap-1 text-sm font-bold whitespace-nowrap ${STATS_DATA[stat].color}`, className)}>
+      <div class="font-icomoon inline-block text-base">{STATS_DATA[stat].symbol}</div>
       <span class="capitalize">{stat.replace(/_/g, " ")}</span>
       <span class="text-text">
         {format(statData.total)}{#if STATS_DATA[stat]?.percent}%{/if}
       </span>
     </Tooltip.Trigger>
-    <Tooltip.Content class="z-50 space-y-4 rounded-lg bg-background-grey p-4 text-sm" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
+    <Tooltip.Content class="bg-background-grey z-50 space-y-4 rounded-lg p-4 text-sm" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
       <div>
-        <h3 class="font-bold capitalize text-text/60">Base {stat.replaceAll("_", " ")}: <span class="text-text">{format(statData.base)}</span></h3>
+        <h3 class="text-text/60 font-bold capitalize">Base {stat.replaceAll("_", " ")}: <span class="text-text">{format(statData.base)}</span></h3>
         <p>Base value every player has at the beginning of their SkyBlock adventure!</p>
       </div>
 
       {#if statData.total}
         <div>
-          <h3 class="font-bold capitalize text-text/60">Bonus {stat.replaceAll("_", " ")}: <span class="text-text">{format(statData.total)}</span></h3>
+          <h3 class="text-text/60 font-bold capitalize">Bonus {stat.replaceAll("_", " ")}: <span class="text-text">{format(statData.total)}</span></h3>
           <p>Bonus value obtained from:</p>
 
           <div class="flex flex-col">

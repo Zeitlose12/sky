@@ -1,173 +1,71 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap") layer(base);
+@import "tailwindcss";
+@plugin "./plugins/text-shadow.ts";
+@plugin "./plugins/themes.ts";
+@source "./safelist.ts";
+@custom-variant dark (&:where(.dark, .dark *));
 
-@tailwind utilities;
-@tailwind components;
-@tailwind base;
+@theme {
+  /* Colors */
+  --color-icon: var(--icon);
+  --color-link: var(--link);
+  --color-hover: var(--hover);
+  --color-skillbar: var(--skillbar);
+  --color-maxedbar: var(--maxedbar);
+  --color-maxed: var(--maxed);
+  --color-gold: var(--gold);
+  --color-text: var(--text);
+  --color-background: var(--background);
+  --color-background-grey: var(--grey_background);
+  --color-background-lore: var(--lore_background);
+  --color-header: var(--header);
+  --color-bg: var(--bg);
+  --color-logo: var(--logo);
 
-/* For preview to work you need to have the naumovs.color-highlight extension installed */
+  /* Text Shadow */
+  --text-shadow-sm: 0 0px 2px var(--tw-shadow-color);
+  --text-shadow: 0 0px 4px var(--tw-shadow-color);
+  --text-shadow-lg: 0 0px 8px var(--tw-shadow-color);
+  --tw-shadow-color: --alpha(var(--color-background) / 50%);
+
+  /* Animations */
+  --animate-shine: shine 4s infinite;
+
+  @keyframes shine {
+    0% {
+      transform: translateY(120%);
+    }
+    33%,
+    100% {
+      transform: translateY(-120%);
+    }
+  }
+
+  /* Fonts */
+  --font-icomoon: "icomoon", var(--font-sans);
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@theme inline {
+  --color-minecraft-0: var(--§0);
+  --color-minecraft-1: var(--§1);
+  --color-minecraft-2: var(--§2);
+  --color-minecraft-3: var(--§3);
+  --color-minecraft-4: var(--§4);
+  --color-minecraft-5: var(--§5);
+  --color-minecraft-6: var(--§6);
+  --color-minecraft-7: var(--§7);
+  --color-minecraft-8: var(--§8);
+  --color-minecraft-9: var(--§9);
+  --color-minecraft-a: var(--§a);
+  --color-minecraft-b: var(--§b);
+  --color-minecraft-c: var(--§c);
+  --color-minecraft-d: var(--§d);
+  --color-minecraft-e: var(--§e);
+  --color-minecraft-f: var(--§f);
+}
 
 @layer base {
-  :root {
-    /* Icon Green (used for Skill Icons, Underlines etc.) */
-    /* --icon: 142 90% 42%; */
-    /* Preview: hsl(142, 90%, 42%) */
-
-    /* Link Green (used for Links, Unclaimed Slayers, Crafted Minions etc.) */
-    /* --link: 139 91% 48%; */
-    /* Preview: hsl(139, 91%, 48%) */
-
-    /* Hover Green (used only for link hovers) */
-    /* --hover: 147 93% 49%; */
-    /* Preview:  hsl(147, 93%, 49%) */
-
-    /* Skill Bar Green (used for Skill Progress Bars) */
-    /* --skillbar: 146 88% 35%; */
-    /* Preview: hsl(146, 88%, 35%) */
-
-    /* Maxed Bar Gold (used for Maxed Progress Bars) */
-    /* --maxedbar: 40 84% 44%; */
-    /* Preview: hsl(40, 84%, 44%) */
-
-    /* Maxed Gold (used for Maxed things etc.) */
-    /* --maxed: 40 88% 46%; */
-    /* Preview: hsl(40, 88%, 46%) */
-
-    /* Golden Text (used for Golden Text) */
-    /* --gold: 39 98% 61%; */
-    /* Preview: hsl(39, 98%, 61%) */
-
-    /* Most of the text */
-    --text: 0 0% 100%;
-    /* Preview: hsl(0, 0%, 100%) */
-
-    /* background to make text more visible */
-    --background: 0 0% 0%;
-    /* Preview: hsl(0, 0%, 0%) */
-
-    /* background of the header */
-    --header: 0 0% 16%;
-    /* Preview: hsl(0, 0%, 16%) */
-
-    /* used for info box and theme/pack selector */
-    --grey_background: 0 0% 12%;
-    /* Preview: hsl(0, 0%, 12%) */
-
-    /* used for item lore */
-    --lore_background: #0f0f0fe6;
-
-    /* used when --bg can't be used */
-    --bg: #121212;
-
-    /* Header Logo */
-    --logo: url(/img/app-icons/svg.svg);
-
-    /* Normal Background */
-    --bg: url(/img/bg.webp);
-
-    color-scheme: dark;
-  }
-
-  .light {
-    --text: 0 0% 0%;
-    /* Preview: hsl(0, 0%, 0%) */
-
-    --background: 0 0% 100%;
-    /* Preview: hsl(0, 0%, 100%) */
-
-    --header: 0 0% 86%;
-    /* Preview: hsl(0, 0%, 86%) */
-
-    --grey_background: 0 0% 89%;
-    /* Preview: hsl(0, 0%, 89%) */
-
-    --lore_background: #ffffffee;
-
-    --bg: 0 0% 100%;
-    /* Preview: hsl(0, 0%, 100%) */
-
-    color-scheme: light;
-  }
-
-  .true-colors {
-    /* Minecraft color codes */
-    --§0: #000000;
-    --§1: #0000aa;
-    --§2: #00aa00;
-    --§3: #00aaaa;
-    --§4: #aa0000;
-    --§5: #aa00aa;
-    --§6: #ffaa00;
-    --§7: #aaaaaa;
-    --§8: #555555;
-    --§9: #5555ff;
-    --§a: #55ff55;
-    --§b: #55ffff;
-    --§c: #ff5555;
-    --§d: #ff55ff;
-    --§e: #ffff55;
-    --§f: #ffffff;
-  }
-
-  .nice-colors-dark {
-    /* these colors look nice and have significant contrast with white */
-    --§0: #000000;
-    --§1: #0b277a;
-    --§2: #00aa00;
-    --§3: #038d8d;
-    --§4: #920909;
-    --§5: #a305a3;
-    --§6: #d88f07;
-    --§7: #636363;
-    --§8: #2f2f2f;
-    --§9: #4444f3;
-    --§a: #40bb40;
-    --§b: #33aec3;
-    --§c: #c43c3c;
-    --§d: #e668c6;
-    --§e: #efc721;
-    --§f: #929292;
-  }
-
-  .april-fools-2024 {
-    --§0: #ff1493;
-    --§1: #ff4500;
-    --§2: #ff00b3;
-    --§3: #ff2f7f;
-    --§4: #4c0b1d;
-    --§5: #e87da7;
-    --§6: #d95c8f;
-    --§7: #fd3995;
-    --§8: #c556b3;
-    --§9: #f5b0c7;
-    --§a: #f9d5e1;
-    --§b: #8f1f47;
-    --§c: #4c0b1d;
-    --§d: #b93e6d;
-    --§e: #ff69b4;
-    --§f: #fcf0f5;
-  }
-
-  .nice-colors-auto,
-  .nice-colors-light {
-    /* these colors look nice and have significant contrast with black */
-    --§0: #6e6e6e;
-    --§1: #3333ff;
-    --§2: #00b300;
-    --§3: #0cb9ac;
-    --§4: #b61e1e;
-    --§5: #eb17eb;
-    --§6: #ffaa00;
-    --§7: #b8b8b8;
-    --§8: #999999;
-    --§9: #7486f0;
-    --§a: #5bda5b;
-    --§b: #58d6ed;
-    --§c: #fb5858;
-    --§d: #fd64de;
-    --§e: #f2f267;
-    --§f: #ffffff;
-  }
-
   @font-face {
     font-family: "icomoon";
     src: url("/fonts/icomoon/icomoon.eot");
@@ -211,48 +109,181 @@
       /* ⚚ dungeon-upgrade, */ U+269A;
   }
 
+  /* For color preview to work you need to have the 'naumovs.color-highlight' extension installed */
+  :root {
+    /* Icon Green (used for Skill Icons, Underlines etc.) */
+    /* --icon: oklch(0.74 0.21 147.69) */
+
+    /* Link Green (used for Links, Unclaimed Slayers, Crafted Minions etc.) */
+    /* --link: oklch(0.82 0.25 146.24) */
+
+    /* Hover Green (used only for link hovers) */
+    /* --hover: oklch(0.84 0.23 149.89) */
+
+    /* Skill Bar Green (used for Skill Progress Bars) */
+    /* --skillbar: oklch(0.64 0.17 150.18) */
+
+    /* Maxed Bar Gold (used for Maxed Progress Bars) */
+    /* --maxedbar: oklch(0.70 0.14 76.74) */
+
+    /* Maxed Gold (used for Maxed things etc.) */
+    /* --maxed: oklch(0.73 0.15 75.86) */
+
+    /* Golden Text (used for Golden Text) */
+    /* --gold: oklch(0.83 0.15 78.27) */
+
+    /* Most of the text */
+    --text: oklch(1 0 0);
+    /* background to make text more visible */
+    --background: oklch(0 0 0);
+    /* background of the header */
+    --header: oklch(0.28 0 0);
+    /* used for info box and theme/pack selector */
+    --grey_background: oklch(0.24 0 0);
+    /* used for item lore */
+    --lore_background: oklch(0.17 0 0 / 0.9);
+
+    /* used when --bg can't be used */
+    --bg: oklch(0.18 0 0);
+
+    /* Header Logo */
+    --logo: url(/img/app-icons/svg.svg);
+
+    /* Normal Background */
+    --bg: url(/img/bg.webp);
+
+    color-scheme: dark;
+  }
+
   [data-tooltip-content] {
-    @apply text-pretty text-sm;
+    @apply text-sm text-pretty;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--icon);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 }
 
-@layer utilities {
-  .shine {
-    @apply overflow-hidden;
+@layer components {
+  .virtual-list-wrapper {
+    @apply overflow-x-hidden overflow-y-auto;
   }
 
-  .shine::before {
-    @apply absolute inset-0 z-[8] -translate-y-full transform animate-shine bg-gradient-to-t from-[rgba(255,255,255,0)] via-[rgba(255,255,255,0.5)] to-[rgba(128,186,232,0)] content-[''];
-  }
-
-  .enchanted {
-    filter: url(#enchanted-glint);
-  }
-  .enchanted-item {
-    filter: url(#enchanted-glint) drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.4));
+  .virtual-list-inner {
+    @apply overflow-x-auto overflow-y-clip;
   }
 }
 
-.virtual-list-wrapper {
-  @apply overflow-y-auto overflow-x-hidden;
+@utility nice-colors-dark {
+  /* these colors look nice and have significant contrast with white */
+  --§0: oklch(0 0 0);
+  --§1: oklch(0.32 0.14 264.6);
+  --§2: oklch(0.64 0.22 142.5);
+  --§3: oklch(0.58 0.1 194.78);
+  --§4: oklch(0.42 0.17 28.49);
+  --§5: oklch(0.5 0.23 328.34);
+  --§6: oklch(0.71 0.15 72.75);
+  --§7: oklch(0.5 0 0);
+  --§8: oklch(0.31 0 0);
+  --§9: oklch(0.51 0.25 273.16);
+  --§a: oklch(0.7 0.2 143.13);
+  --§b: oklch(0.69 0.11 211.66);
+  --§c: oklch(0.56 0.17 24.75);
+  --§d: oklch(0.7 0.19 338.3);
+  --§e: oklch(0.84 0.17 93.53);
+  --§f: oklch(0.66 0 0);
 }
 
-.virtual-list-inner {
-  @apply overflow-x-auto overflow-y-clip;
+@utility light {
+  --text: oklch(0 0 0);
+  --background: oklch(1 0 0);
+  --header: oklch(0.89 0 0);
+  --grey_background: oklch(0.92 0 0);
+  --lore_background: oklch(1 0 0 / 0.93);
+
+  --bg: oklch(1 0 0) color-scheme: light;
 }
 
-/* firefox support */
-/* scrollbar-color: hsl(var(--icon)) transparent; */
+@utility shine {
+  @apply overflow-hidden;
 
-::-webkit-scrollbar {
-  width: 10px;
+  &::before {
+    @apply animate-shine absolute inset-0 z-8 -translate-y-full transform bg-linear-to-t from-[oklch(1_0_0_/_0)] via-[oklch(1_0_0_/_0.50)] to-[oklch(0.77_0.09_243.21_/_0)] content-[''];
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: hsl(var(--icon));
-  border-radius: 5px;
+@utility enchanted {
+  filter: url(#enchanted-glint);
 }
 
-::-webkit-scrollbar-track {
-  background-color: transparent;
+@utility enchanted-item {
+  filter: url(#enchanted-glint) drop-shadow(2px 2px 2px oklch(0 0 0 / 0.4));
+}
+
+@utility true-colors {
+  /* Minecraft color codes */
+  --§0: oklch(0 0 0);
+  --§1: oklch(0.33 0.23 264.05);
+  --§2: oklch(0.64 0.22 142.5);
+  --§3: oklch(0.67 0.11 194.77);
+  --§4: oklch(0.46 0.19 29.23);
+  --§5: oklch(0.52 0.24 328.36);
+  --§6: oklch(0.8 0.17 73.27);
+  --§7: oklch(0.74 0 0);
+  --§8: oklch(0.45 0 0);
+  --§9: oklch(0.56 0.24 275.12);
+  --§a: oklch(0.88 0.25 143.06);
+  --§b: oklch(0.91 0.14 195.03);
+  --§c: oklch(0.68 0.21 24.43);
+  --§d: oklch(0.74 0.27 327.9);
+  --§e: oklch(0.97 0.18 109.38);
+  --§f: oklch(1 0 0);
+}
+
+@utility april-fools-2024 {
+  --§0: oklch(0.65 0.26 356.94);
+  --§1: oklch(0.66 0.23 35.4);
+  --§2: oklch(0.66 0.28 347.13);
+  --§3: oklch(0.66 0.24 4.74);
+  --§4: oklch(0.28 0.1 10.33);
+  --§5: oklch(0.72 0.14 356.27);
+  --§6: oklch(0.65 0.16 357.22);
+  --§7: oklch(0.67 0.24 357.79);
+  --§8: oklch(0.62 0.18 334.19);
+  --§9: oklch(0.83 0.09 357.41);
+  --§a: oklch(0.91 0.04 355.91);
+  --§b: oklch(0.44 0.15 4.7);
+  --§c: oklch(0.28 0.1 10.33);
+  --§d: oklch(0.55 0.16 0.51);
+  --§e: oklch(0.73 0.2 351.99);
+  --§f: oklch(0.97 0.01 350.09);
+}
+
+@utility nice-colors-light {
+  /* these colors look nice and have significant contrast with black */
+  --§0: oklch(0.54 0 0);
+  --§1: oklch(0.5 0.28 269.85);
+  --§2: oklch(0.66 0.23 142.5);
+  --§3: oklch(0.71 0.12 185.91);
+  --§4: oklch(0.5 0.19 27.28);
+  --§5: oklch(0.66 0.3 328.31);
+  --§6: oklch(0.8 0.17 73.27);
+  --§7: oklch(0.78 0 0);
+  --§8: oklch(0.68 0 0);
+  --§9: oklch(0.66 0.16 273.97);
+  --§a: oklch(0.79 0.2 143.36);
+  --§b: oklch(0.81 0.11 211.69);
+  --§c: oklch(0.68 0.2 24.09);
+  --§d: oklch(0.74 0.23 336.42);
+  --§e: oklch(0.94 0.16 109.12);
+  --§f: oklch(1 0 0);
 }

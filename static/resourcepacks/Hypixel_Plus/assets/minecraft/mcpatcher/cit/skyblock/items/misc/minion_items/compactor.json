@@ -1,5 +1,5 @@
 {
-	"parent": "item/block",
+	"parent": "item/hplus_block",
 	"textures": {
 		"0": "./compactor"
 	}

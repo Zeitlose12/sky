@@ -4,11 +4,8 @@ on:
   push:
     paths: ["src/**", ".github/workflows/website.yml"]
 
-  pull_request:
-    paths: ["src/**", ".github/workflows/website.yml"]
-
 env:
-  NODE_VERSION: "21"
+  NODE_VERSION: "22"
   CONTAINER_REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 

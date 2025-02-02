@@ -89,8 +89,8 @@ export async function getAccessories(userProfile: Member, items: GetItemsItems, 
     if (ACCESSORY_UPGRADES !== undefined) {
       for (const upgrade of ACCESSORY_UPGRADES) {
         if (ACCESSORY_UPGRADES.indexOf(upgrade) < ACCESSORY_UPGRADES.indexOf(id)) {
-          const upgradeAccessory = accessories.find((a) => helper.getId(a) === upgrade);
-          if (upgradeAccessory !== undefined) {
+          const upgradeAccessories = accessories.filter((a) => helper.getId(a) === upgrade);
+          for (const upgradeAccessory of upgradeAccessories) {
             upgradeAccessory.isInactive = true;
           }
         }

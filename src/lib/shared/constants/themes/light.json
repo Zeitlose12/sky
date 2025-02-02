@@ -8,15 +8,15 @@
     "bg": "/img/themes/light/bg.webp"
   },
   "backgrounds": {
-    "skillbar": { "type": "color", "color": "115.97 60.36% 56.47%" },
-    "maxedbar": { "type": "color", "color": "39.48 97.97% 61.37%" }
+    "skillbar": { "type": "color", "color": "oklch(76.9% 0.2065 142.21)" },
+    "maxedbar": { "type": "color", "color": "oklch(83.26% 0.1543 79.33)" }
   },
   "colors": {
-    "logo": "140.25 90.75% 33.92%",
-    "icon": "135.58 100% 35.49%",
-    "link": "138.73 95.35% 42.16%",
-    "hover": "138.83 91.02% 48.04%",
-    "maxed": "40 88.09% 46.08%",
-    "gold": "38.98 100% 38.63%"
+    "logo": "oklch(62.96% 0.1848 147.07)",
+    "icon": "oklch(67.18% 0.2125 144.8)",
+    "link": "oklch(75.19% 0.2293 145.93)",
+    "hover": "oklch(81.61% 0.2465 146.18)",
+    "maxed": "oklch(72.95% 0.1509 75.84)",
+    "gold": "oklch(65.57% 0.1406 71.71)"
   }
 }

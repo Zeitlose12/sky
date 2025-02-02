@@ -1,8 +1,11 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
+  import Bonus from "$lib/components/Bonus.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import Item from "$lib/components/Item.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { cn } from "$lib/shared/utils";
@@ -15,6 +18,9 @@
   const profile = $derived(ctx.profile);
 
   const rift = $derived(profile.rift);
+
+  const equipment = $derived(profile.items.rift_equipment);
+  const armor = $derived(profile.items.rift_armor);
 </script>
 
 <CollapsibleSection id="Rift" {order}>
@@ -50,60 +56,88 @@
           </div>
         </AdditionStat>
         <AdditionStat text="McGrubber's Burgers" data="{rift.castle.grubberStacks} / {rift.castle.maxBurgers}" maxed={rift.castle.grubberStacks === rift.castle.maxBurgers} />
+
+        <Items subtitle="Armor">
+          {#if armor.armor.length > 0}
+            {#each armor.armor as piece}
+              <Item {piece} />
+            {/each}
+          {:else}
+            <p class="space-x-0.5 leading-6">{profile.username} has no armor equipped</p>
+          {/if}
+          {#snippet info()}
+            <Bonus stats={armor.stats} />
+          {/snippet}
+        </Items>
+
+        <Items subtitle="Equipment">
+          {#if equipment.equipment.length > 0}
+            {#each equipment.equipment as piece}
+              <Item {piece} />
+            {/each}
+          {:else}
+            <p class="space-x-0.5 leading-6">{profile.username} has no equipment equipped</p>
+          {/if}
+          {#snippet info()}
+            <Bonus stats={equipment.stats} />
+          {/snippet}
+        </Items>
       </div>
     {/snippet}
+
     <div class="space-y-4">
       <SectionSubtitle class="my-0">Porthals</SectionSubtitle>
       <AdditionStat text="Porthals Unlocked" data={rift.porhtal.porhtalsFound} maxed={rift.porhtal.porhtalsFound === 7} />
-      <div class="flex flex-wrap gap-4">
-        {#each rift.porhtal.porhtals as porhtal}
-          {@const hasUnlocked = porhtal.unlocked}
-          <Chip image={{ src: porhtal.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
-            <div class={cn("flex flex-col")}>
-              <div class="font-bold">
-                <span class="opacity-60">{porhtal.name}</span>
-              </div>
-            </div>
-          </Chip>
-        {/each}
-      </div>
     </div>
+
+    <ScrollItems>
+      {#each rift.porhtal.porhtals as porhtal}
+        {@const hasUnlocked = porhtal.unlocked}
+        <Chip image={{ src: porhtal.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
+          <div class={cn("flex flex-col")}>
+            <div class="font-bold whitespace-nowrap">
+              <span class="opacity-60">{porhtal.name}</span>
+            </div>
+          </div>
+        </Chip>
+      {/each}
+    </ScrollItems>
     <div class="space-y-4">
       <SectionSubtitle class="my-0">Timecharms</SectionSubtitle>
       <AdditionStat text="Timecharms Obtained" data={rift.timecharms.timecharmsFound} maxed={rift.timecharms.timecharmsFound === 8} />
-      <div class="flex flex-wrap gap-4">
-        {#each rift.timecharms.timecharms as timecharm}
-          {@const hasUnlocked = timecharm.unlocked}
-          <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
-            <div class={cn("flex flex-col")}>
-              <div class="font-bold">
-                <span class="opacity-60">{timecharm.name}</span>
-                <div class="text-sm">
-                  {#if hasUnlocked}
-                    <span class="opacity-60">
-                      Obtained {formatDistanceToNowStrict(timecharm.unlockedAt, {
-                        addSuffix: true
-                      })}
-                    </span>
-                  {:else}
-                    <span class="opacity-60">Not Obtained</span>
-                  {/if}
-                </div>
+    </div>
+    <ScrollItems>
+      {#each rift.timecharms.timecharms as timecharm}
+        {@const hasUnlocked = timecharm.unlocked}
+        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
+          <div class={cn("flex flex-col")}>
+            <div class="font-bold whitespace-nowrap">
+              <span class="opacity-60">{timecharm.name}</span>
+              <div class="text-sm">
+                {#if hasUnlocked}
+                  <span class="opacity-60">
+                    Obtained {formatDistanceToNowStrict(timecharm.unlockedAt, {
+                      addSuffix: true
+                    })}
+                  </span>
+                {:else}
+                  <span class="opacity-60">Not Obtained</span>
+                {/if}
               </div>
             </div>
-            <div slot="tooltip" class="text-sm font-bold">
-              {#if timecharm.unlockedAt}
-                <div>
-                  <span class="opacity-85">Obtained:</span>
-                  <span class="text-text">
-                    {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
-                  </span>
-                </div>
-              {/if}
-            </div>
-          </Chip>
-        {/each}
-      </div>
-    </div>
+          </div>
+          <div slot="tooltip" class="text-sm font-bold">
+            {#if timecharm.unlockedAt}
+              <div>
+                <span class="opacity-85">Obtained:</span>
+                <span class="text-text">
+                  {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
+                </span>
+              </div>
+            {/if}
+          </div>
+        </Chip>
+      {/each}
+    </ScrollItems>
   </Items>
 </CollapsibleSection>

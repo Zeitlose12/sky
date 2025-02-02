@@ -12,7 +12,7 @@ export const packConfigs: PackConfig = [
     id: "FURFSKY_REBORN",
     link: "https://furfsky.net/",
     name: "FurfSky Reborn",
-    version: "v1.7.3",
+    version: "v1.8.0",
     author: "The Reborn Team",
     folder: "FurfSky_Reborn"
   },

@@ -1,4 +1,5 @@
 export type CrimsonIsle = {
+  unlocked: boolean;
   factions: {
     selectedFaction: string;
     barbariansReputation: number;

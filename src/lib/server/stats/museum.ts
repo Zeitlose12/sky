@@ -17,6 +17,15 @@ function markChildrenAsDonated(children: string, output: MuseumItems, decodedMus
   }
 }
 
+function formatProgressBar(amount: number, total: number, completedColor = "a", missingColor = "f") {
+  const barLength = 25;
+  const progress = Math.min(1, amount / total);
+  const progressBars = Math.floor(progress * barLength);
+  const emptyBars = barLength - progressBars;
+
+  return `${`§${completedColor}§l§m-`.repeat(progressBars)}${`§${missingColor}§l§m-`.repeat(emptyBars)}§r`;
+}
+
 function processMuseumItems(decodedMuseum: DecodedMuseumItems) {
   const output = {} as MuseumItems;
   for (const item of MUSEUM.getAllItems()) {
@@ -106,7 +115,7 @@ function formatMuseumItemProgress(
   }
 
   const { amount, total } = museum[presetItem.progressType];
-  helper.addToItemLore(presetItem, [`§7Items Donated: §e${Math.floor((amount / total) * 100)}§6%`, `§9§l${helper.formatProgressBar(amount, total, "9")} §b${amount} §9/ §b${total}`, "", "§eClick to view!"]);
+  helper.addToItemLore(presetItem, [`§7Items Donated: §e${Math.floor((amount / total) * 100)}§6%`, `§9§l${formatProgressBar(amount, total, "9")} §b${amount} §9/ §b${total}`, "", "§eClick to view!"]);
 
   return presetItem;
 }
@@ -116,7 +125,7 @@ export function getMuseumItems(decodedMuseumItems: DecodedMuseumItems) {
 
   const output = [];
   for (let i = 0; i < 6 * 9; i++) {
-    output.push(helper.generateItem({ id: undefined }));
+    output.push({} as ProcessedItem);
   }
 
   for (const item of MUSEUM_INVENTORY.inventory) {
@@ -147,12 +156,12 @@ export function getMuseumItems(decodedMuseumItems: DecodedMuseumItems) {
           itemSlot.containsItems[i + page * 54] = formattedItem;
         }
 
-        itemSlot.containsItems[i + page * 54] ??= helper.generateItem({ id: undefined });
+        itemSlot.containsItems[i + page * 54] ??= {} as ProcessedItem;
       }
 
       // CLEAR FIRST 4 ITEMS
       for (let i = 0; i < 4; i++) {
-        itemSlot.containsItems[i + page * 54] = helper.generateItem({ id: undefined });
+        itemSlot.containsItems[i + page * 54] = {} as ProcessedItem;
       }
 
       // CATEGORIES
@@ -168,7 +177,7 @@ export function getMuseumItems(decodedMuseumItems: DecodedMuseumItems) {
 
           const itemData = museumItem.items[0];
 
-          itemSlot.containsItems[slot + page * 54] = helper.generateItem(itemData);
+          itemSlot.containsItems[slot + page * 54] = itemData;
           continue;
         }
 
@@ -184,7 +193,7 @@ export function getMuseumItems(decodedMuseumItems: DecodedMuseumItems) {
           const itemData = JSON.parse(JSON.stringify(MUSEUM_INVENTORY.missing_item[inventoryType as "weapons" | "armor" | "rarities"]));
           itemData.display_name = helper.titleCase(MUSEUM.armor_to_id[itemId] ?? itemId);
 
-          itemSlot.containsItems[slot + page * 54] = helper.generateItem(itemData);
+          itemSlot.containsItems[slot + page * 54] = itemData;
           continue;
         }
 
@@ -193,17 +202,17 @@ export function getMuseumItems(decodedMuseumItems: DecodedMuseumItems) {
           const itemData = JSON.parse(JSON.stringify(MUSEUM_INVENTORY.higher_tier_donated));
           itemData.display_name = titleCase(MUSEUM.armor_to_id[itemId] ?? itemId);
 
-          itemSlot.containsItems[slot + page * 54] = helper.generateItem(itemData);
+          itemSlot.containsItems[slot + page * 54] = itemData;
           continue;
         }
 
         // NORMAL ITEM
         const itemData = museumItem.items[0];
         if (museumItem.items.length > 1) {
-          itemData.containsItems = museumItem.items.map((i: ProcessedItem) => helper.generateItem(i));
+          itemData.containsItems = JSON.parse(JSON.stringify(museumItem.items));
         }
 
-        itemSlot.containsItems[slot + page * 54] = helper.generateItem(itemData);
+        itemSlot.containsItems[slot + page * 54] = itemData;
       }
     }
 

@@ -114,7 +114,7 @@
   toastOptions={{
     class: "bg-background-grey gap-2 font-semibold group rounded-lg text-text/80 border-none",
     classes: {
-      closeButton: "bg-background-grey text-text/80 border-none hover:!bg-background-grey hover:opacity-60",
+      closeButton: "bg-background-grey text-text/80 border-none hover:bg-background-grey! hover:opacity-60",
       description: "text-pretty font-medium",
       title: "text-pretty font-semibold"
     }
@@ -122,6 +122,6 @@
 
 <Header />
 
-<div class="pointer-events-none fixed inset-0 z-[-1] h-dvh w-screen bg-cover bg-scroll bg-center bg-no-repeat [background-image:--bg-url]"></div>
+<div class="pointer-events-none fixed inset-0 z-[-1] h-dvh w-screen [background-image:var(--bg-url)] bg-cover bg-scroll bg-center bg-no-repeat"></div>
 
 {@render children()}

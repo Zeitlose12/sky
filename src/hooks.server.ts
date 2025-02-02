@@ -10,10 +10,15 @@ import { startRedis } from "./lib/server/db/redis";
 
 export const init: ServerInit = async () => {
   console.log("[SkyCrypt] Starting...");
+
+  await intializeNEURepository().then(async () => {
+    parseNEURepository();
+  });
+
   await resourcesInit();
 
   await startMongo()?.then(() => {
-    console.log("[MONGO] MongoDB succeesfully connected");
+    console.log("[MONGO] MongoDB successfully connected");
 
     updateItems();
     updateCollections();
@@ -22,15 +27,11 @@ export const init: ServerInit = async () => {
   });
 
   await startRedis().then(() => {
-    console.log("[REDIS] Redis succeesfully connected");
-  });
-
-  await intializeNEURepository().then(async () => {
-    parseNEURepository();
+    console.log("[REDIS] Redis successfully connected");
   });
 
   await getPrices().then(() => {
-    console.log("[NETWORTH] Prices sucessfully fetched!");
+    console.log("[NETWORTH] Prices successfully fetched!");
   });
 
   console.log("[SkyCrypt] Started!");

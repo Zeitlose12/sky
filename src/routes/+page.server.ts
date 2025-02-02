@@ -3,7 +3,7 @@ import { Role } from "./enums";
 
 export const load = (async ({ fetch }) => {
   const getUsername = async (uuid: string): Promise<string> => {
-    const res = await fetch(`/api/uuid/${uuid}`);
+    const res = await fetch(`/api/username/${uuid}`);
     const { username } = await res.json();
     return username;
   };

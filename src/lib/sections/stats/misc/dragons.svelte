@@ -12,24 +12,28 @@
 </script>
 
 {#if dragons}
-  <SectionSubtitle class="!uppercase">Dragons</SectionSubtitle>
+  <SectionSubtitle class="uppercase!">Dragons</SectionSubtitle>
   <Items>
     {#snippet text()}
       <div>
-        <AdditionStat text="Most Damage" data={format(dragons.most_damage.best.toFixed(0))} asterisk={true}>
-          {#each Object.entries(dragons.most_damage) as [text, data]}
-            {#if text !== "best"}
-              <AdditionStat {text} data={format(data.toFixed(0))} />
-            {/if}
-          {/each}
-        </AdditionStat>
-        <AdditionStat text="Fastest Kill" data={formatTime(dragons.fastest_kill.best)} asterisk={true}>
-          {#each Object.entries(dragons.fastest_kill) as [text, data]}
-            {#if text !== "best"}
-              <AdditionStat {text} data={formatTime(data)} />
-            {/if}
-          {/each}
-        </AdditionStat>
+        {#if dragons.most_damage?.best}
+          <AdditionStat text="Most Damage" data={format(dragons.most_damage.best.toFixed(0))} asterisk={true}>
+            {#each Object.entries(dragons.most_damage) as [text, data]}
+              {#if text !== "best"}
+                <AdditionStat {text} data={format(data.toFixed(0))} />
+              {/if}
+            {/each}
+          </AdditionStat>
+        {/if}
+        {#if dragons.fastest_kill?.best}
+          <AdditionStat text="Fastest Kill" data={formatTime(dragons.fastest_kill.best)} asterisk={true}>
+            {#each Object.entries(dragons.fastest_kill) as [text, data]}
+              {#if text !== "best"}
+                <AdditionStat {text} data={formatTime(data)} />
+              {/if}
+            {/each}
+          </AdditionStat>
+        {/if}
         {#if dragons.last_hits != null}
           <AdditionStat text="Last Hits" data={format(dragons.last_hits.total)} asterisk={true}>
             {#each Object.entries(dragons.last_hits) as [text, data]}

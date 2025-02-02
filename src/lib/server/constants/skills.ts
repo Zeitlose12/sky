@@ -232,5 +232,5 @@ export const SKILL_ICONS = {
   mage: "/api/item/BLAZE_ROD",
   archer: "/api/item/BOW",
   berserk: "/api/item/IRON_SWORD",
-  tank: "/api/item/LEATHER_CHESTPLATE"
+  tank: "/api/leather/chestplate/955e3b"
 } as Record<string, string>;

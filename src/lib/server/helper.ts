@@ -4,91 +4,11 @@ import { getPrices } from "skyhelper-networth";
 import * as constants from "./constants/constants";
 import { getTexture } from "./custom_resources";
 
+import { getItemData } from "./helper";
+
 export * from "$lib/server/helper/cache";
 export * from "$lib/server/helper/item";
 export * from "$lib/shared/helper";
-
-/**
- * Converts an RGB color value to its corresponding hexadecimal representation.
- * @param rgb - The RGB color value in the format "r, g, b".
- * @returns The hexadecimal representation of the RGB color value.
- */
-export function rgbToHex(rgb: string) {
-  const [r, g, b] = rgb.split(",").map((c) => parseInt(c.trim()));
-
-  return [r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("");
-}
-
-/**
- * Converts a string to a number if it can be converted.
- * @param {string} key
- * @returns {string | number}
- */
-function getKey(key: string): string | number {
-  const intKey = Number(key);
-
-  if (!isNaN(intKey)) {
-    return intKey;
-  }
-
-  return key;
-}
-
-/**
- * Checks if a path exists on the object.
- * @param {object} obj - An object.
- * @param  {...(string | number)} keys - A path.
- * @returns {boolean} - If the path exists on the object.
- */
-export function hasPath<T extends object>(obj: T, ...keys: (string | number)[]): boolean {
-  if (obj == null) {
-    return false;
-  }
-
-  let loc: unknown = obj;
-
-  for (let i = 0; i < keys.length; i++) {
-    if (typeof loc === "object" && loc !== null) {
-      loc = (loc as Record<string, unknown>)[getKey(keys[i] as string)];
-    } else {
-      return false;
-    }
-
-    if (loc === undefined) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/**
- * Gets the value at the path on the object.
- * @param {object} obj - An object.
- * @param  {...(string | number)} keys - A path.
- * @returns {any} - The value at the path on the object.
- */
-export function getPath<T extends object, K = unknown>(obj: T, ...keys: (string | number)[]): K | undefined {
-  if (obj == null) {
-    return undefined;
-  }
-
-  let loc: unknown = obj;
-
-  for (let i = 0; i < keys.length; i++) {
-    if (typeof loc === "object" && loc !== null) {
-      loc = (loc as Record<string, unknown>)[getKey(keys[i] as string)];
-    } else {
-      return undefined;
-    }
-
-    if (loc === undefined) {
-      return undefined;
-    }
-  }
-
-  return loc as K;
-}
 
 /**
  * Retrieves the ID of a SkyBlock item.
@@ -136,10 +56,11 @@ export function rarityNameToInt(string: string) {
  * @returns {Promise<number>}
  */
 export async function getItemPrice(item: string | ProcessedItem) {
-  if (!item) return 0;
+  if (!item) {
+    return 0;
+  }
 
   const prices = (await getPrices(true)) as Record<string, number>;
-
   if (typeof item === "string") {
     return prices[item.toLowerCase()] ?? 0;
   }
@@ -187,7 +108,7 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
     return item;
   }
 
-  // ? NOTE: we're ignoring enchanted books because they're quite expensive to render and not really useful the performance hit
+  // ? NOTE: we're ignoring enchanted books because they're quite expensive to render and not really worth the performance hit
   if (item.tag?.ExtraAttributes?.id === "ENCHANTED_BOOK") {
     const enchantedBookItem = getItemData({ id: 403 }) as ProcessedItem;
     const texture = getTexture(enchantedBookItem);
@@ -233,30 +154,6 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
 }
 
 /**
- * Returns the magical power of an item based on its rarity and optional ID.
- * @param {string} rarity - The rarity of the item. See {@link MAGICAL_POWER}.
- * @param {string|null} [id=null] - (Optional) The ID of the item.
- * @returns {number} Returns 0 if `rarity` is undefined or if `rarity` is not a valid rarity value.
- */
-export function getMagicalPower(rarity: string, id: string) {
-  if (rarity === undefined) return 0;
-
-  if (id !== null && typeof id === "string") {
-    // Hegemony artifact provides double MP
-    if (id === "HEGEMONY_ARTIFACT") {
-      return 2 * (constants.MAGICAL_POWER[rarity] ?? 0);
-    }
-
-    // Rift Prism grants 11 MP
-    if (id === "RIFT_PRISM") {
-      return 11;
-    }
-  }
-
-  return constants.MAGICAL_POWER[rarity] ?? 0;
-}
-
-/**
  * floors a number to a certain number of decimal places
  * @param {number} num the number to be floored
  * @param {number} decimals the number of decimal places to floor to
@@ -286,95 +183,6 @@ export function ceil(num: number, decimals = 0) {
   return Math.ceil(Math.pow(10, decimals) * num) / Math.pow(10, decimals);
 }
 
-export function romanize(num: number) {
-  const lookup = {
-    M: 1000,
-    CM: 900,
-    D: 500,
-    CD: 400,
-    C: 100,
-    XC: 90,
-    L: 50,
-    XL: 40,
-    X: 10,
-    IX: 9,
-    V: 5,
-    IV: 4,
-    I: 1
-  } as Record<string, number>;
-  let roman = "";
-
-  for (const i in lookup) {
-    while (num >= lookup[i]) {
-      roman += i;
-      num -= lookup[i];
-    }
-  }
-  return roman;
-}
-
-export function generateUUID() {
-  let u = "",
-    i = 0;
-  while (i++ < 36) {
-    const c = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"[i - 1],
-      r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    u += c == "-" || c == "4" ? c : v.toString(16);
-  }
-  return u;
-}
-
-export function generateItem(data: Partial<ProcessedItem>) {
-  if (!data) {
-    return {} as ProcessedItem;
-  }
-
-  const DEFAULT_DATA = {
-    id: 389,
-    Damage: 0,
-    Count: 1,
-    display_name: "",
-    rarity: null,
-    categories: [],
-    type: "misc",
-    tag: {
-      display: {
-        Name: "",
-        Lore: [""]
-      }
-    }
-  };
-
-  // Making sure rarity is lowercase
-  if (data.rarity) {
-    data.rarity = data.rarity.toLowerCase();
-  }
-
-  if (data.name && (data.display_name === undefined || data.display_name?.length === 0)) {
-    data.display_name = data.name;
-  }
-
-  if (!data.rarity && data.tier) {
-    data.rarity = data.tier.toLowerCase();
-  }
-
-  if (data.item_id) {
-    data.id = data.item_id;
-  }
-
-  // Setting tag.display.Name using display_name if not specified
-  if (data.display_name && !data.tag?.display?.Name) {
-    data.tag ??= {} as ProcessedItem["tag"];
-    data.tag.display ??= {} as ProcessedItem["tag"]["display"];
-
-    const rarityColor = data.rarity ? `§${constants.RARITY_COLORS[data.rarity ?? "common"]}` : "";
-    data.tag.display.Name = `${rarityColor}${data.display_name}`;
-  }
-
-  return Object.assign(DEFAULT_DATA, data) as ProcessedItem;
-}
-
 export function getHeadTextureUUID(value: string) {
   const json = JSON.parse(Buffer.from(value, "base64").toString());
   const url = json.textures.SKIN.url;
@@ -383,73 +191,11 @@ export function getHeadTextureUUID(value: string) {
   return uuid;
 }
 
-import { STATS_DATA } from "$lib/shared/constants/stats";
-import { removeFormatting } from "$lib/shared/helper";
-import type { ItemStats } from "$types/processed/profile/stats";
-import { getItemData } from "./helper";
-
-/**
- * Gets the stats from an item
- * @param  {Item} piece
- * @returns {ItemStats}
- */
-export function getStatsFromItem(piece: Item): ItemStats {
-  const regex = /^([A-Za-z ]+): ([+-]([0-9]+(?:,[0-9]{3})*(?:\.[0-9]{0,2})?))/;
-  const stats = {} as ItemStats;
-
-  if (!piece) {
-    return stats;
-  }
-
-  const lore = (piece.tag.display?.Lore || []).map((line) => removeFormatting(line));
-
-  for (const line of lore) {
-    const match = regex.exec(line);
-
-    if (match == null) {
-      continue;
-    }
-
-    const statName = Object.keys(STATS_DATA).find((key) => STATS_DATA[key].nameLore === match[1]);
-    const statValue = parseFloat(match[2].replace(/,/g, ""));
-
-    if (statName) {
-      stats[statName] = (stats[statName] || 0) + statValue;
-    }
-  }
-
-  return stats;
-}
-
-/**
- * Capitalizes the first letter of a string
- * @param {string} string
- * @returns {string}
- * @deprecated Use CSS text-transform: capitalize; (capitalize in Tailwind CSS) instead.
- * @DO_NOT_USE
- */
-export function capitalizeFirstLetter(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-/**
- * Returns a formatted progress bar string based on the given amount and total.
- *
- * @param {number} amount - The current amount.
- * @param {number} total - The total amount.
- * @param {string} [color="a"] - The color of the progress bar.
- * @returns {string} The formatted progress bar string.
- */
-export function formatProgressBar(amount: number, total: number, completedColor = "a", missingColor = "f") {
-  const barLength = 25;
-  const progress = Math.min(1, amount / total);
-  const progressBars = Math.floor(progress * barLength);
-  const emptyBars = barLength - progressBars;
-
-  return `${`§${completedColor}§l§m-`.repeat(progressBars)}${`§${missingColor}§l§m-`.repeat(emptyBars)}§r`;
-}
-
 export function formatTimestamp(timestamp: number, formatType: string = "MMM d, yyyy, h:mm a") {
+  if (new Date(Number(timestamp)).toString() == "Invalid Date") {
+    timestamp = new Date(timestamp).getTime();
+  }
+
   if (new Date(Number(timestamp)).toString() == "Invalid Date") {
     return "Invalid Date";
   }

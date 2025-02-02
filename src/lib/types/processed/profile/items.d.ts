@@ -263,6 +263,18 @@ export type Items = {
   // candy_inventory: ProcessedItem[];
   museumItems: ProcessedSkyBlockItem[];
   museum: ProcessedSkyBlockItem[];
+  rift_inventory: ProcessedSkyBlockItem[];
+  rift_enderchest: ProcessedSkyBlockItem[];
+  rift_armor: {
+    armor: ProcessedSkyBlockItem[];
+    stats: ItemStats;
+    set_name?: string;
+    set_rarity?: string;
+  };
+  rift_equipment: {
+    equipment: ProcessedSkyBlockItem[];
+    stats: ItemStats;
+  };
 };
 
 export type SpecialAccessory = {
@@ -328,6 +340,7 @@ export type AccessoriesOutput = {
   total: number;
   recombobulated: number;
   totalRecombobulated: number;
+  selectedPower: string | null;
   magicalPower: {
     total: number;
     accessories: number;

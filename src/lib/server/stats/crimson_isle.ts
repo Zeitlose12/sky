@@ -76,6 +76,7 @@ function getKuudra(userProfile: Member) {
 
 export function getCrimsonIsle(userProfile: Member) {
   return {
+    unlocked: userProfile.nether_island_player_data !== undefined,
     factions: {
       selectedFaction: userProfile.nether_island_player_data?.selected_faction ?? "none",
       barbariansReputation: userProfile.nether_island_player_data?.barbarians_reputation ?? 0,

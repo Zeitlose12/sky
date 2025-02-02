@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "./pumpkin_launcher"
-    }
+	"parent": "item/hplus_block",
+	"textures": {
+		"0": "./pumpkin_launcher"
+	}
 }
