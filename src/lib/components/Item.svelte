@@ -8,6 +8,7 @@
   import { Avatar, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
   import { getContext } from "svelte";
+  import { type FadeParams } from "svelte/transition";
   import Content from "./item/item-content.svelte";
 
   type Props = {
@@ -15,9 +16,13 @@
     isInventory?: boolean;
     showCount?: boolean;
     showRecombobulated?: boolean;
+    tab?: {
+      name: string;
+      icon: string;
+    };
+    inTransitionConfig?: FadeParams;
   };
-
-  let { piece, isInventory, showCount, showRecombobulated }: Props = $props();
+  let { piece, isInventory, showCount, showRecombobulated, tab, inTransitionConfig }: Props = $props();
 
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
@@ -57,7 +62,7 @@
   </Tooltip.Trigger>
   {#if isHover.current}
     <Tooltip.Content class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96%-3rem)] max-w-lg flex-col overflow-hidden rounded-lg select-text" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
-      <Content {piece} {isInventory} {showCount} {showRecombobulated} />
+      <Content {piece} {tab} />
     </Tooltip.Content>
   {/if}
 </Tooltip.Root>

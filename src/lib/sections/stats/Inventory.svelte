@@ -8,8 +8,16 @@
   import { cubicInOut } from "svelte/easing";
   import { crossfade, fade } from "svelte/transition";
 
+  type Tabs = {
+    id: string;
+    icon: string;
+    items: ProcessedSkyBlockItem[];
+    gap: number;
+  };
+
   let { order }: { order: number } = $props();
   let openTab = $state<string>("inv");
+  let searchValue = $state<string>("");
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
@@ -26,7 +34,7 @@
   const quiver = $derived(profile.items.quiver);
   const museum = $derived(profile.items.museum);
 
-  const tabs = $derived(
+  const tabs = $derived<Tabs[]>(
     [
       {
         id: "inv",
@@ -93,9 +101,35 @@
         icon: "/api/head/a6cc486c2be1cb9dfcb2e53dd9a3e9a883bfadb27cb956f1896d602b4067",
         items: rift_enderchest,
         gap: 45
+      },
+      {
+        id: "search",
+        icon: "/api/item/EYE_OF_ENDER",
+        items: [],
+        gap: 45
       }
-    ].filter((tab) => tab.items.length > 0)
+    ].filter((tab) => tab.id === "search" || tab.items.length > 0)
   );
+
+  const allItems = $derived.by(() => {
+    return tabs.reduce((acc, tab) => {
+      acc.push(...tab.items);
+      return acc;
+    }, [] as ProcessedSkyBlockItem[]);
+  });
+
+  const searchedItems = $derived.by(() => {
+    const search = searchValue.trim();
+    if (!search) return [];
+    const searchedItem = allItems
+      .map((item) => {
+        const tab = tabs.find((t) => t.items.includes(item));
+        return { item, sourceTab: { name: tab?.id || "", icon: tab?.icon || "" } };
+      })
+      .filter((item) => item.item.display_name?.toLowerCase().includes(searchValue.toLowerCase()))
+      .slice(0, 45);
+    return searchedItem;
+  });
 
   const [send, receive] = crossfade({
     duration: 300,
@@ -137,69 +171,11 @@
       {#each tabs as tab}
         <Tabs.Content value={tab.id}>
           {#if tab.id === "storage" || tab.id === "museum"}
-            <Tabs.Root value={tab.id}>
-              <Tabs.List class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-                {#each tab.items as item, index}
-                  <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
-                    <div use:builder.action {...builder} class="group">
-                      {#if item.texture_path}
-                        <div class="group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-                          <Item piece={item} isInventory={true} showRecombobulated={false} />
-                        </div>
-                      {:else}
-                        {@render emptyItem()}
-                      {/if}
-                    </div>
-                  </Tabs.Trigger>
-                {/each}
-              </Tabs.List>
-
-              {#each tab.items as item, index}
-                <Tabs.Content value={index.toString()}>
-                  <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-                    {#if item?.containsItems}
-                      {#each item.containsItems as containedItem, index2}
-                        {#if index2 > 0}
-                          {#if index2 % 54 === 0}
-                            {@render gap()}
-                          {/if}
-                        {/if}
-                        <Tabs.Content value={index.toString()}>
-                          {#if containedItem.texture_path}
-                            <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-                              <Item piece={containedItem} isInventory={true} showRecombobulated={false} showCount={true} />
-                            </div>
-                          {:else}
-                            {@render emptyItem()}
-                          {/if}
-                        </Tabs.Content>
-                      {/each}
-                    {/if}
-                  </div>
-                </Tabs.Content>
-              {/each}
-            </Tabs.Root>
+            {@render multipleInventorySection(tab)}
+          {:else if tab.id == "search"}
+            {@render searchSection()}
           {:else}
-            <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-              {#each tab.items as item, index}
-                {#if index > 0}
-                  {#if index % tab.gap === 0}
-                    {@render gap()}
-                  {/if}
-                {/if}
-                {#if item.texture_path}
-                  <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-                    {#if tab.id === "inv"}
-                      <Item piece={{ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem} isInventory={true} showRecombobulated={false} showCount={true} />
-                    {:else}
-                      <Item piece={item} isInventory={true} showRecombobulated={false} showCount={true} />
-                    {/if}
-                  </div>
-                {:else}
-                  {@render emptyItem()}
-                {/if}
-              {/each}
-            </div>
+            {@render inventorySection(tab)}
           {/if}
         </Tabs.Content>
       {/each}
@@ -209,10 +185,100 @@
   {/if}
 </CollapsibleSection>
 
+{#snippet itemSnippet(item: ProcessedSkyBlockItem, index: number, tab?: { name: string; icon: string })}
+  <Item piece={item} isInventory={true} showRecombobulated={false} showCount={true} inTransitionConfig={{ duration: 300, delay: 5 * (index + 1) }} {tab} />
+{/snippet}
+
 {#snippet emptyItem()}
   <div class="bg-text/[0.04] aspect-square rounded-sm"></div>
 {/snippet}
 
 {#snippet gap()}
   <hr class="col-span-full h-4 border-0" />
+{/snippet}
+
+{#snippet searchSection()}
+  <input type="search" placeholder="Search inventory" class="bg-text/10 text-text placeholder:text-text/80 mx-auto mt-4 block w-1/5 rounded-lg px-2 py-2 font-normal focus-visible:outline-none" bind:value={searchValue} />
+  {#if searchValue !== "" && searchedItems.length === 0}
+    <p class="mx-auto w-fit leading-6">No items found.</p>
+  {:else if searchValue !== ""}
+    <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
+      {#each searchedItems as item, index}
+        {#if item.item}
+          <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
+            {@render itemSnippet(item.item, index, item.sourceTab)}
+          </div>
+        {:else}
+          {@render emptyItem()}
+        {/if}
+      {/each}
+    </div>
+  {/if}
+{/snippet}
+
+{#snippet multipleInventorySection(tab: Tabs)}
+  <Tabs.Root value={tab.id}>
+    <Tabs.List class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
+      {#each tab.items as item, index}
+        <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
+          <div use:builder.action {...builder} class="group">
+            {#if item.texture_path}
+              <div class="group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
+                {@render itemSnippet(item, index)}
+              </div>
+            {:else}
+              {@render emptyItem()}
+            {/if}
+          </div>
+        </Tabs.Trigger>
+      {/each}
+    </Tabs.List>
+    {#each tab.items as item, index}
+      <Tabs.Content value={index.toString()}>
+        <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
+          {#if item?.containsItems}
+            {#each item.containsItems as containedItem, index2}
+              {#if index2 > 0}
+                {#if index2 % 54 === 0}
+                  {@render gap()}
+                {/if}
+              {/if}
+              <Tabs.Content value={index.toString()}>
+                {#if containedItem.texture_path}
+                  <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
+                    {@render itemSnippet(containedItem, index2)}
+                  </div>
+                {:else}
+                  {@render emptyItem()}
+                {/if}
+              </Tabs.Content>
+            {/each}
+          {/if}
+        </div>
+      </Tabs.Content>
+    {/each}
+  </Tabs.Root>
+{/snippet}
+
+{#snippet inventorySection(tab: Tabs)}
+  <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
+    {#each tab.items as item, index}
+      {#if index > 0}
+        {#if index % tab.gap === 0}
+          {@render gap()}
+        {/if}
+      {/if}
+      {#if item.texture_path}
+        <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
+          {#if tab.id === "inv"}
+            {@render itemSnippet({ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem, index)}
+          {:else}
+            {@render itemSnippet(item, index)}
+          {/if}
+        </div>
+      {:else}
+        {@render emptyItem()}
+      {/if}
+    {/each}
+  </div>
 {/snippet}
