@@ -4,6 +4,7 @@ import fs from "node:fs";
 import { GitError, simpleGit } from "simple-git";
 import { NBTParser } from "./NBTParser";
 import { formatBestiaryConstants } from "./parsers/bestiary";
+import { formatGardenConstants } from "./parsers/garden";
 import { updateNotEnoughUpdatesRepository } from "./updateNEURepository";
 
 export const NEU_ITEMS = new Map<string, NEUItem>();
@@ -83,6 +84,12 @@ export async function parseNEURepository() {
       const bestiaryData = formatBestiaryConstants(bestiary);
 
       NEU_CONSTANTS.set("bestiary", bestiaryData);
+    } else if (constant === "garden.json") {
+      const garden = JSON.parse(fs.readFileSync(`NotEnoughUpdates-REPO/constants/${constant}`, "utf8"));
+
+      const gardenData = formatGardenConstants(garden);
+
+      NEU_CONSTANTS.set("garden", gardenData);
     }
   }
 

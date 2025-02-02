@@ -1,8 +1,7 @@
 import { getHeadTextureUUID } from "$lib/server/helper";
-import type { NotEnoughUpdatesBestiaryConstants } from "$types/processed/NotEnoughUpdates/bestiary";
-import type { IslandData, Mob, NotEnoughUpdatesBestiary } from "$types/raw/NotEnoughUpdates/bestiary";
+import type { NEUBestiaryConstant, NEUBestiaryRaw, NEUBestiaryRawIslandData, NEUBestiaryRawMob } from "$types/global";
 
-function formatBestiaryMobs(mobs: Mob[]) {
+function formatBestiaryMobs(mobs: NEUBestiaryRawMob[]) {
   const output = [];
   for (const mob of mobs) {
     output.push({
@@ -17,17 +16,17 @@ function formatBestiaryMobs(mobs: Mob[]) {
   return output;
 }
 
-export function formatBestiaryConstants(bestiary: NotEnoughUpdatesBestiary) {
+export function formatBestiaryConstants(bestiary: NEUBestiaryRaw) {
   const bestiaryConstants = {
     brackets: bestiary.brackets,
     islands: {}
-  } as NotEnoughUpdatesBestiaryConstants;
+  } as NEUBestiaryConstant;
 
   for (const [islandId, islandDataRaw] of Object.entries(bestiary).filter(([key]) => key !== "brackets")) {
-    const islandData = islandDataRaw as unknown as IslandData;
+    const islandData = islandDataRaw as NEUBestiaryRawIslandData;
     if (islandData.hasSubcategories === true) {
       for (const [categoryId, categoryDataRaw] of Object.entries(islandData)) {
-        const categoryData = categoryDataRaw as unknown as IslandData;
+        const categoryData = categoryDataRaw as unknown as NEUBestiaryRawIslandData;
         if (categoryData.mobs === undefined) {
           continue;
         }

@@ -44,7 +44,7 @@ export type Member = {
   currencies?: Currencies;
   fairy_soul?: FairySouls;
   inventory?: Inventory;
-  rift?: Rift;
+  rift?: RiftRaw;
   nether_island_player_data?: NetherIslandPlayerData;
   collection: Collection;
   pets_data: ProfilePets;
@@ -159,7 +159,7 @@ export type Experience = {
   SKILL_COMBAT?: number;
 };
 
-export type Rift = {
+export type RiftRaw = {
   access?: {
     consumed_prism?: boolean;
   };
