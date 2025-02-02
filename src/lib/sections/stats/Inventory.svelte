@@ -185,8 +185,8 @@
   {/if}
 </CollapsibleSection>
 
-{#snippet itemSnippet(item: ProcessedSkyBlockItem, index: number, tab?: { name: string; icon: string })}
-  <Item piece={item} isInventory={true} showRecombobulated={false} showCount={true} inTransitionConfig={{ duration: 300, delay: 5 * (index + 1) }} {tab} />
+{#snippet itemSnippet(item: ProcessedSkyBlockItem, tab?: { name: string; icon: string })}
+  <Item piece={item} isInventory={true} showRecombobulated={false} showCount={true} {tab} />
 {/snippet}
 
 {#snippet emptyItem()}
@@ -203,10 +203,10 @@
     <p class="mx-auto w-fit leading-6">No items found.</p>
   {:else if searchValue !== ""}
     <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-      {#each searchedItems as item, index}
+      {#each searchedItems as item}
         {#if item.item}
           <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-            {@render itemSnippet(item.item, index, item.sourceTab)}
+            {@render itemSnippet(item.item, item.sourceTab)}
           </div>
         {:else}
           {@render emptyItem()}
@@ -224,7 +224,7 @@
           <div use:builder.action {...builder} class="group">
             {#if item.texture_path}
               <div class="group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-                {@render itemSnippet(item, index)}
+                {@render itemSnippet(item)}
               </div>
             {:else}
               {@render emptyItem()}
@@ -246,7 +246,7 @@
               <Tabs.Content value={index.toString()}>
                 {#if containedItem.texture_path}
                   <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-                    {@render itemSnippet(containedItem, index2)}
+                    {@render itemSnippet(containedItem)}
                   </div>
                 {:else}
                   {@render emptyItem()}
@@ -271,9 +271,9 @@
       {#if item.texture_path}
         <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
           {#if tab.id === "inv"}
-            {@render itemSnippet({ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem, index)}
+            {@render itemSnippet({ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem)}
           {:else}
-            {@render itemSnippet(item, index)}
+            {@render itemSnippet(item)}
           {/if}
         </div>
       {:else}

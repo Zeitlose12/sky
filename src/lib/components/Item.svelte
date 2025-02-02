@@ -8,7 +8,6 @@
   import { Avatar, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
   import { getContext } from "svelte";
-  import { type FadeParams } from "svelte/transition";
   import Content from "./item/item-content.svelte";
 
   type Props = {
@@ -20,9 +19,8 @@
       name: string;
       icon: string;
     };
-    inTransitionConfig?: FadeParams;
   };
-  let { piece, isInventory, showCount, showRecombobulated, tab, inTransitionConfig }: Props = $props();
+  let { piece, isInventory, showCount, showRecombobulated, tab }: Props = $props();
 
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
