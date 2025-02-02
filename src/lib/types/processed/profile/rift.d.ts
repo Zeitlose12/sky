@@ -28,7 +28,7 @@ export type Rift = {
       id: string;
       texture: string;
       unlocked: boolean;
-      unlockedAt: number | null;
+      unlockedAt: number;
     }[];
   };
 };

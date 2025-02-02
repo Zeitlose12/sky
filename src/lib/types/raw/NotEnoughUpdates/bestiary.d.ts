@@ -1,11 +1,9 @@
-export type NotEnoughUpdatesBestiary = {
+export type NEUBestiaryRaw = {
   brackets: Record<string, number[]>;
-  [key: Island]: IslandData;
+  [key: string]: NEUBestiaryRawIslandData;
 };
 
-type Island = "dynamic" | "hub" | "farming_1" | "combat_1" | "combat_3" | "crimson_isle" | "mining_2" | "mining_3" | "crystal_hollows" | "foraging_1" | "spooky_festival" | "mythological_creatures" | "jerry" | "kuudra" | "fishing" | "catacombs" | "garden";
-
-type IslandData = {
+export type NEUBestiaryRawIslandData = {
   name: string;
   icon: {
     skullOwner: string;
@@ -14,10 +12,10 @@ type IslandData = {
   };
   mobs: Mob[];
   hasSubcategories: boolean;
-  [key: string]: Mob[];
+  [key: string]: NEUBestiaryRawMob[];
 };
 
-type Mob = {
+type NEUBestiaryRawMob = {
   name: string;
   item?: string;
   skullOwner?: string;

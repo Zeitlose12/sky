@@ -1,18 +1,7 @@
 import { NEU_CONSTANTS } from "$lib/server/helper/NotEnoughUpdates/parseNEURepository";
-import type { Member } from "$types/global";
-import type { NotEnoughUpdatesBestiaryConstants } from "$types/processed/NotEnoughUpdates/bestiary";
-import type { BestiaryStats } from "$types/processed/profile/bestiary";
+import type { BestiaryCategory, Member, Mob, NEUBestiaryConstant } from "$types/global";
 
-function getBestiaryMobs(
-  bestiary: Record<string, number>,
-  mobList: {
-    name: string;
-    cap: number;
-    texture: string;
-    mobs: string[];
-    bracket: number;
-  }[]
-) {
+function getBestiaryMobs(bestiary: Record<string, number>, mobList: Mob[]) {
   const output = [];
   for (const mob of mobList) {
     const mobBracket = NEU_CONSTANTS.get("bestiary").brackets[mob.bracket];
@@ -38,7 +27,8 @@ function getBestiaryMobs(
 
 export function getBestiaryFamily(userProfile: Member, mobName: string) {
   const bestiary = userProfile.bestiary.kills || {};
-  const family = Object.values(NEU_CONSTANTS.get("bestiary").islands as NotEnoughUpdatesBestiaryConstants["islands"])
+  const bestiaryConstants = NEU_CONSTANTS.get("bestiary") as NEUBestiaryConstant;
+  const family = Object.values(bestiaryConstants.islands)
     .flatMap((category) => category.mobs)
     .find((mob) => mob.name === mobName);
 
@@ -57,8 +47,9 @@ export function getBestiaryFamily(userProfile: Member, mobName: string) {
 export function getBestiary(userProfile: Member) {
   const bestiary = userProfile.bestiary?.kills || {};
 
-  const categories = {} as BestiaryStats["categories"];
-  for (const [category, categoryData] of Object.entries(NEU_CONSTANTS.get("bestiary").islands as NotEnoughUpdatesBestiaryConstants["islands"])) {
+  const categories = {} as Record<string, BestiaryCategory>;
+  const bestiaryConstants = NEU_CONSTANTS.get("bestiary") as NEUBestiaryConstant;
+  for (const [category, categoryData] of Object.entries(bestiaryConstants.islands)) {
     categories[category] = {
       name: categoryData.name,
       texture: categoryData.texture,

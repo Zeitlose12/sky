@@ -1,4 +1,4 @@
-export type NotEnoughUpdatesBestiaryConstants = {
+export type NEUBestiaryConstant = {
   brackets: Record<string, number[]>;
   islands: Record<string, Island>;
 };

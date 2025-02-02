@@ -9,13 +9,13 @@
 
   type Props = {
     piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
-    isInventory?: boolean;
-    showCount?: boolean;
-    showRecombobulated?: boolean;
     isDrawer?: boolean;
+    tab?: {
+      name: string;
+      icon: string;
+    };
   };
-
-  let { piece, isDrawer }: Props = $props();
+  let { piece, isDrawer, tab }: Props = $props();
 
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const itemName = $derived(skyblockItem.display_name ?? "???");
@@ -60,8 +60,25 @@
       </div>
     {/if}
 
+    {#if typeof tab === "object" && tab.icon}
+      <div class="mt-4">
+        <div class="bg-text/[0.05] hover:bg-text/[0.08] flex items-center justify-between gap-4 rounded-[0.625rem] p-2 transition-colors">
+          <div class="flex items-center gap-2">
+            <Avatar.Root class="shrink-0 select-none">
+              <Avatar.Image loading="lazy" src={tab.icon} alt={tab.name} class="pointer-events-none aspect-square size-10 h-full rounded-lg select-none" />
+              <Avatar.Fallback class="bg-icon/90 flex size-10 items-center justify-center rounded-lg text-center font-semibold uppercase">
+                {tab.name.slice(0, 2)}
+              </Avatar.Fallback>
+            </Avatar.Root>
+            <div class="text-link font-semibold">
+              You can find this item in the <span class="capitalize">{tab.name}</span> tab
+            </div>
+          </div>
+        </div>
+      </div>
+    {/if}
     {#if packData}
-      <div class="pt-4">
+      <div class="mt-4">
         <Button.Root href={packData.link} target="_blank">
           <div class="bg-text/[0.05] hover:bg-text/[0.08] flex items-center justify-between gap-4 rounded-[0.625rem] p-2 transition-colors">
             <div class="flex items-center gap-2">
