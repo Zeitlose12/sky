@@ -214,11 +214,7 @@
 }
 
 @utility shine {
-  @apply overflow-hidden;
-
-  &::before {
-    @apply animate-shine absolute inset-0 z-8 -translate-y-full transform bg-linear-to-t from-[oklch(1_0_0_/_0)] via-[oklch(1_0_0_/_0.50)] to-[oklch(0.77_0.09_243.21_/_0)] content-[''];
-  }
+  @apply before:animate-shine overflow-hidden before:absolute before:inset-0 before:z-8 before:bg-linear-to-t before:from-[oklch(1_0_0_/_0)] before:via-[oklch(1_0_0_/_0.50)] before:to-[oklch(0.77_0.09_243.21_/_0)];
 }
 
 @utility enchanted {
