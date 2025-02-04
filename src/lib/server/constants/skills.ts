@@ -130,7 +130,7 @@ export const SOCIAL_XP = {
   25: 50000
 };
 
-export const LEVELING_XP = {
+export const DEFAULT_LEVELING_XP = {
   1: 50,
   2: 125,
   3: 200,
@@ -232,5 +232,6 @@ export const SKILL_ICONS = {
   mage: "/api/item/BLAZE_ROD",
   archer: "/api/item/BOW",
   berserk: "/api/item/IRON_SWORD",
-  tank: "/api/leather/chestplate/955e3b"
+  tank: "/api/leather/chestplate/955e3b",
+  garden: "/api/item/DOUBLE_PLANT"
 } as Record<string, string>;

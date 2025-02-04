@@ -1,4 +1,5 @@
 import type { Pet } from "$types/global";
+export * from "./garden";
 
 export type Options = {
   cacheOnly: boolean;
@@ -62,6 +63,7 @@ export type Member = {
   coop_invitation?: {
     confirmed: boolean;
   };
+  garden_player_data?: MemberGardenData;
 };
 
 export type Medal = "gold" | "silver" | "bronze";
@@ -460,4 +462,8 @@ export type MuseumItems = {
 
 export type AccessoryBagStorage = {
   selected_power?: string;
+};
+
+export type MemberGardenData = {
+  copper?: number;
 };

@@ -202,3 +202,24 @@ export function formatTimestamp(timestamp: number, formatType: string = "MMM d, 
 
   return format(new Date(Number(timestamp)), formatType);
 }
+
+export function sortByRarity(object: Record<string, unknown>) {
+  return Object.keys(object)
+    .sort((a, b) => constants.RARITIES.indexOf(a) - constants.RARITIES.indexOf(b))
+    .reduce(
+      (acc, key) => {
+        acc[key] = object[key];
+        return acc;
+      },
+      {} as Record<string, unknown>
+    );
+}
+
+export function formatXPTable(xpTable: number[]) {
+  const output = {} as Record<number, number>;
+  for (const [level, xp] of Object.entries(xpTable)) {
+    output[Number(level) + 1] = xp;
+  }
+
+  return output;
+}

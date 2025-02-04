@@ -50,8 +50,9 @@ function getFarmingWeight(profile: Profile, userProfile: Member, formattedMedals
 
 export function getFarming(profile: Profile, userProfile: Member) {
   const output = {
-    uniqueGolds: (userProfile.jacobs_contest?.unique_brackets?.gold || []).length,
-    pelts: userProfile.quests?.trapper_quest?.pelt_count || 0,
+    uniqueGolds: (userProfile.jacobs_contest?.unique_brackets?.gold ?? []).length,
+    pelts: userProfile.quests?.trapper_quest?.pelt_count ?? 0,
+    copper: userProfile.garden_player_data?.copper ?? 0,
     medals: {},
     contests: {}
   } as Farming;
