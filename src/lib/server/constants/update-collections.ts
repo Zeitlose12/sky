@@ -4,11 +4,12 @@ import MONGO from "$lib/server/db/mongo";
 
 export const COLLECTIONS = new Map<string, Collection>();
 
-export async function updateCollections() {
+export async function updateCollectionConstants() {
   if (building) return;
 
   const collections = await MONGO.collection("collections").findOne({});
   if (collections?.collections == null) {
+    console.log(collections);
     return;
   }
 
@@ -21,7 +22,7 @@ export async function updateCollections() {
     COLLECTIONS.set(category, collections.collections[category] as Collection);
   }
 
-  console.log("[COLLECTIONS] Updated collections");
+  console.log("[COLLECTIONS] Updated collection constants");
 }
 
-setTimeout(updateCollections, 1000 * 60 * 60 * 12); // 12 hours
+setTimeout(updateCollectionConstants, 1000 * 60 * 60 * 12); // 12 hours

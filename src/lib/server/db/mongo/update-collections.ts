@@ -1,4 +1,5 @@
 import { building } from "$app/environment";
+import { updateCollectionConstants } from "$constants/update-collections";
 import type { Collection } from "$lib/server/constants/collections";
 import MONGO from "../mongo";
 
@@ -32,6 +33,7 @@ export async function updateCollections() {
 
     if (cache && cache.lastUpdated > Date.now() - cacheInternal) {
       console.log(`[COLLECTIONS] Fetched collections in ${(Date.now() - timeNow).toLocaleString()}ms (cached)`);
+      await updateCollectionConstants();
       return;
     }
 
@@ -61,6 +63,8 @@ export async function updateCollections() {
     await MONGO.collection("collections").updateOne({}, { $set: output }, { upsert: true });
 
     console.log(`[COLLECTIONS] Fetched collections in ${(Date.now() - timeNow).toLocaleString()}ms`);
+
+    await updateCollectionConstants();
   } catch (e) {
     console.error(e);
   }

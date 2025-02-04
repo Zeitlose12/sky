@@ -1,5 +1,4 @@
 import { building } from "$app/environment";
-import { updateItemsConstants } from "$constants/update-items";
 import { MONGO_DATABASE, MONGO_HOST, MONGO_PORT } from "$env/static/private";
 import { MongoClient, type Db } from "mongodb";
 import { updateCollections } from "./mongo/update-collections";
@@ -9,10 +8,8 @@ const client = !building ? new MongoClient(`mongodb://${MONGO_HOST}:${MONGO_PORT
 
 export async function startMongo() {
   if (building) return;
-  console.log("[MONGO] Starting mongo...");
 
   await updateItems();
-  await updateItemsConstants();
   await updateCollections();
 
   return client?.connect() as Promise<MongoClient>;

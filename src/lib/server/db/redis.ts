@@ -9,6 +9,5 @@ export const REDIS = createClient({
 export async function startRedis() {
   if (REDIS.isReady || REDIS.isOpen || building) return;
 
-  console.log("[REDIS] Starting redis...");
   return REDIS.connect();
 }
