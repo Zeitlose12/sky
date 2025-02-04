@@ -439,9 +439,9 @@ export type ForgeProcess = {
 export type Experimentation = Record<string, ExperimentationGame>;
 
 export type ExperimentationGame = {
-  last_attempt: number;
-  last_claimed: number;
-  bonus_clicks: number;
+  last_attempt?: number;
+  last_claimed?: number;
+  bonus_clicks?: number;
   [string: string]: number;
 };
 
