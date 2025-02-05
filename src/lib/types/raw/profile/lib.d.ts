@@ -64,6 +64,7 @@ export type Member = {
     confirmed: boolean;
   };
   garden_player_data?: MemberGardenData;
+  glacite_player_data: GlacitePlayerData;
 };
 
 export type Medal = "gold" | "silver" | "bronze";
@@ -466,4 +467,11 @@ export type AccessoryBagStorage = {
 
 export type MemberGardenData = {
   copper?: number;
+};
+
+export type GlacitePlayerData = {
+  fossils_donated: string[];
+  fossil_dust: number;
+  corpses_looted: Record<string, number>;
+  mineshafts_entered: number;
 };

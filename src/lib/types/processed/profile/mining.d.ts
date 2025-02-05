@@ -88,4 +88,24 @@ export type MiningStats = {
   };
   forge: ForgeItem[];
   hotm: ProcessedItem[];
+  glaciteTunnels: {
+    mineshaftsEntered: number;
+    fossilDust: number;
+    corpses: {
+      found: number;
+      corpses: {
+        name: string;
+        amount: number;
+        texture_path: string;
+      }[];
+    };
+    fossils: {
+      found: number;
+      fossils: {
+        name: string;
+        found: boolean;
+        texture_path: string;
+      }[];
+    };
+  };
 };

@@ -1,24 +1,20 @@
 import * as constants from "$lib/server/constants/constants";
+import * as helper from "$lib/server/helper";
 import { getLevelByXp } from "$lib/server/stats/leveling/leveling";
 import type { Member } from "$types/global";
 import type { Player } from "$types/raw/player/lib";
 import { getHotmItems } from "./hotm";
 import { stripItems } from "./items/stripping";
 
-/**
- * @param {number} hotmTier
- * @param {number} potmTier
- * @returns {number}
- */
 export function calcHotmTokens(hotmTier: number, potmTier: number) {
   let tokens = 0;
 
   for (let tier = 1; tier <= hotmTier; tier++) {
-    tokens += constants.HOTM.rewards.hotm[tier]?.token_of_the_mountain || 0;
+    tokens += constants.HOTM.rewards.hotm[tier]?.token_of_the_mountain ?? 0;
   }
 
   for (let tier = 1; tier <= potmTier; tier++) {
-    tokens += (constants.HOTM.rewards.potm[tier]?.token_of_the_mountain || 0) as number;
+    tokens += (constants.HOTM.rewards.potm[tier]?.token_of_the_mountain ?? 0) as number;
   }
 
   return tokens;
@@ -72,6 +68,34 @@ function getForge(userProfile: Member) {
   return output;
 }
 
+function getGlaciteTunnels(userProfile: Member) {
+  const glaciteData = userProfile.glacite_player_data ?? {};
+  const corpseIds = Object.keys(constants.CORPSES);
+
+  return {
+    mineshaftsEntered: glaciteData.mineshafts_entered ?? 0,
+    fossilDust: glaciteData.fossil_dust ?? 0,
+    corpses: {
+      found: corpseIds.reduce((acc, corpse) => acc + (glaciteData.corpses_looted?.[corpse] ?? 0), 0),
+      max: corpseIds.length,
+      corpses: corpseIds.map((corpse) => ({
+        name: helper.titleCase(corpse),
+        amount: glaciteData.corpses_looted?.[corpse] ?? 0,
+        texture_path: constants.CORPSES[corpse]
+      }))
+    },
+    fossils: {
+      found: (glaciteData.fossils_donated ?? []).length,
+      max: constants.FOSSILS.length,
+      fossils: constants.FOSSILS.map((fossil) => ({
+        name: helper.titleCase(fossil),
+        found: (glaciteData.fossils_donated ?? []).includes(fossil),
+        texture_path: `/api/item/${fossil === "HELIX" ? fossil : `${fossil}_FOSSIL`}`
+      }))
+    }
+  };
+}
+
 export function getMining(userProfile: Member, player: Player, packs: string[]) {
   const HOTM = getLevelByXp(userProfile.mining_core?.experience, { type: "hotm" });
   const totalTokens = calcHotmTokens(HOTM.level, userProfile.mining_core?.nodes?.special_0 ?? 0);
@@ -96,7 +120,7 @@ export function getMining(userProfile: Member, player: Player, packs: string[]) 
     },
     commissions: {
       milestone: getCommissionMilestone(userProfile),
-      completions: player.achievements.skyblock_hard_working_miner || 0
+      completions: player.achievements?.skyblock_hard_working_miner ?? 0
     },
     crystalHollows: {
       crystalHollowsLastAccess: userProfile.mining_core?.greater_mines_last_access,
@@ -121,6 +145,7 @@ export function getMining(userProfile: Member, player: Player, packs: string[]) 
       }
     },
     forge: getForge(userProfile),
-    hotm: stripItems(getHotmItems(userProfile, packs))
+    hotm: stripItems(getHotmItems(userProfile, packs)),
+    glaciteTunnels: getGlaciteTunnels(userProfile)
   };
 }
