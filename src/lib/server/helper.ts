@@ -137,7 +137,7 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
         const url = json.textures.SKIN.url;
         const uuid = url.split("/").pop();
 
-        item.texture_path = `/api/head/${uuid}?v6`;
+        item.texture_path = `/api/head/${uuid}`;
       } catch (e) {
         console.error(e);
       }
