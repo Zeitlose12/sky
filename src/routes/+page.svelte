@@ -54,7 +54,7 @@
         {/if}
       </Field>
     </div>
-    <Button.Root type="submit" class="bg-icon dark:text-text mx-auto flex w-full max-w-fit items-center justify-center rounded-3xl px-6 py-3 text-base font-bold text-white uppercase transition-all duration-150 [text-shadow:0_0_3px_rgba(0,0,0,.5)] hover:scale-[1.015] disabled:opacity-50" disabled={($formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined) || $submitting}>
+    <Button.Root type="submit" class="bg-icon dark:text-text mx-auto flex w-full max-w-fit items-center justify-center rounded-3xl px-6 py-3 text-base font-bold text-white uppercase transition-all duration-150 [text-shadow:0_0_3px_oklch(0%_0_0_/_50%)] hover:scale-[1.015] disabled:opacity-50" disabled={($formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined) || $submitting}>
       {#if $submitting}
         <LoaderCircle class="size-6 animate-spin" />
       {:else}
@@ -133,7 +133,7 @@
               if (!options?.favorite) return;
               favorites.set($favorites.filter((uuid) => uuid !== user.id));
             }}>
-            <Icon class={cn("size-5", options?.favorite ? "fill-[#B0AEAE] stroke-[#B0AEAE]" : "text-text/60")} />
+            <Icon class={cn("size-5", options?.favorite ? "fill-[oklch(75.25%_0.0023_17.21)] stroke-[oklch(75.25%_0.0023_17.21)]" : "text-text/60")} />
           </div>
         </Tooltip.Trigger>
         <Tooltip.Content class="bg-background-grey rounded-lg p-4" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
