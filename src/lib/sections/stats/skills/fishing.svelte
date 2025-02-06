@@ -112,19 +112,19 @@
                 </div>
                 <div class="grid grid-cols-2 grid-rows-2">
                   <div class="flex items-center gap-1">
-                    <div class="size-4 rounded-full bg-[#a85c03]"></div>
+                    <div class="size-4 rounded-full bg-[oklch(55.23%_0.1295_59.21)]"></div>
                     {format(trophyFish.bronze)}
                   </div>
                   <div class="flex items-center gap-1">
-                    <div class="size-4 rounded-full bg-[#b4b4b5]"></div>
+                    <div class="size-4 rounded-full bg-[oklch(77.02%_0.0014_286.37)]"></div>
                     {format(trophyFish.silver)}
                   </div>
                   <div class="flex items-center gap-1">
-                    <div class="size-4 rounded-full bg-[#feb801]"></div>
+                    <div class="size-4 rounded-full bg-[oklch(82.61%_0.1706_80.88)]"></div>
                     {format(trophyFish.gold)}
                   </div>
                   <div class="flex items-center gap-1">
-                    <div class="size-4 rounded-full bg-[#68ecff]"></div>
+                    <div class="size-4 rounded-full bg-[oklch(87.66%_0.1178_208.16)]"></div>
                     {format(trophyFish.diamond)}
                   </div>
                 </div>

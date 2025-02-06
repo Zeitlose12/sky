@@ -5,6 +5,7 @@
   import type { ProcessedSkyBlockItem } from "$lib/types/stats";
   import { Avatar, ScrollArea, Tabs } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
+  import { Debounced } from "runed";
   import { cubicInOut } from "svelte/easing";
   import { crossfade, fade } from "svelte/transition";
 
@@ -18,6 +19,8 @@
   let { order }: { order: number } = $props();
   let openTab = $state<string>("inv");
   let searchValue = $state<string>("");
+
+  const debouncedSearchValue = new Debounced(() => searchValue, 300);
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
@@ -119,14 +122,14 @@
   });
 
   const searchedItems = $derived.by(() => {
-    const search = searchValue.trim();
+    const search = debouncedSearchValue.current.trim();
     if (!search) return [];
     const searchedItem = allItems
       .map((item) => {
         const tab = tabs.find((t) => t.items.includes(item));
         return { item, sourceTab: { name: tab?.id || "", icon: tab?.icon || "" } };
       })
-      .filter((item) => item.item.display_name?.toLowerCase().includes(searchValue.toLowerCase()))
+      .filter((item) => item.item.display_name?.toLowerCase().includes(debouncedSearchValue.current.toLowerCase()))
       .slice(0, 45);
     return searchedItem;
   });

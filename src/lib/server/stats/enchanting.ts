@@ -33,13 +33,16 @@ export function getEnchanting(userProfile: Member) {
   const output = { data: {} } as Enchanting;
   for (const key in constants.EXPERIMENTS.games) {
     const gameData = userProfile.experimentation[key];
+    if (gameData === undefined) {
+      continue;
+    }
 
     output.data[key] = {
       name: constants.EXPERIMENTS.games[key].name,
       stats: {
-        lastAttempt: gameData.last_attempt,
-        lastClaimed: gameData.last_claimed,
-        bonusClicks: gameData.bonus_clicks,
+        lastAttempt: gameData.last_attempt ?? 0,
+        lastClaimed: gameData.last_claimed ?? 0,
+        bonusClicks: gameData.bonus_clicks ?? 0,
         games: formatGameData(gameData, key)
       }
     };

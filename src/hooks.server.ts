@@ -1,5 +1,3 @@
-import { updateCollections } from "$constants/update-collections";
-import { updateItems } from "$constants/update-items";
 import { init as resourcesInit } from "$lib/server/custom_resources";
 import { indexCollectons } from "$lib/server/db/mongo/index-collections";
 import { intializeNEURepository, parseNEURepository } from "$lib/server/helper/NotEnoughUpdates/parseNEURepository";
@@ -10,18 +8,16 @@ import { startRedis } from "./lib/server/db/redis";
 
 export const init: ServerInit = async () => {
   console.log("[SkyCrypt] Starting...");
+  const timeNow = performance.now();
 
-  await intializeNEURepository().then(async () => {
+  await intializeNEURepository().then(() => {
     parseNEURepository();
   });
 
   await resourcesInit();
 
-  await startMongo()?.then(() => {
+  await startMongo().then(() => {
     console.log("[MONGO] MongoDB successfully connected");
-
-    updateItems();
-    updateCollections();
 
     indexCollectons();
   });
@@ -30,9 +26,9 @@ export const init: ServerInit = async () => {
     console.log("[REDIS] Redis successfully connected");
   });
 
-  await getPrices().then(() => {
+  await getPrices(true).then(() => {
     console.log("[NETWORTH] Prices successfully fetched!");
   });
 
-  console.log("[SkyCrypt] Started!");
+  console.log(`[SkyCrypt] Started in ${(performance.now() - timeNow).toFixed(2)}ms`);
 };

@@ -160,7 +160,7 @@ function getProfilePets(userProfile: Member, pets: Pet[]) {
 
     const skinData = pet.skin ? NEU_ITEMS.get(`PET_SKIN_${pet.skin}`) : null;
     const texture = helper.getHeadTextureUUID((skinData ?? petData).nbttag.SkullOwner.Properties.textures[0].Value);
-    outputPet.texture_path = `/api/head/${texture}?v6`;
+    outputPet.texture_path = `/api/head/${texture}`;
     if (outputPet.skin) {
       outputPet.display_name += " ✦";
     }

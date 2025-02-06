@@ -430,11 +430,10 @@ async function loadResourcePacks() {
           regex = mm.makeRe(regexString.substring(9), { nocase: true });
         } else if (regexString.startsWith("pattern:")) {
           if (regexString === "pattern:*" || regexString.trim() === "pattern:") {
-            texture.match = [];
-            break;
+            regex = new RegExp(".*");
+          } else {
+            regex = mm.makeRe(regexString.substring(9));
           }
-
-          regex = mm.makeRe(regexString.substring(9));
         } else if (regexString.startsWith("iregex:")) {
           regex = new RegExp(regexString.substring(7), "i");
         } else if (regexString.startsWith("regex:")) {

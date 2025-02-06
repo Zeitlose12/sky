@@ -464,7 +464,20 @@ export async function renderItem(skyblockId: string | undefined, query: ItemQuer
   helper.applyResourcePack(item, query.packs);
 
   if (item.texture_path && item.texture_path.includes("/api/")) {
-    outputTexture.image = item.texture_path;
+    if (item.texture_path.startsWith("/api/leather/")) {
+      const args = item.texture_path.split("/");
+      const color = args.pop();
+      const type = args.pop();
+
+      outputTexture.image = await getArmor(type, color);
+    } else if (item.texture_path.startsWith("/api/head/")) {
+      const args = item.texture_path.split("/");
+      const id = args.pop();
+
+      outputTexture.image = await getHead(id);
+    } else {
+      outputTexture.image = outputTexture.texture_path;
+    }
   } else if (item.texture_path !== undefined && item.texture_path.endsWith("/skull-3.png") === false) {
     outputTexture.image = await fs.readFile(`static/${item.texture_path}`);
   } else if (item.texture !== undefined && item.texture) {

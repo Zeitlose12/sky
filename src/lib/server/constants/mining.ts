@@ -2056,3 +2056,12 @@ export const FORGE = {
   SKELETON_KEY: { name: "Skeleton Key", duration: 1800000 },
   PORTABLE_CAMPFIRE: { name: "Portable Campfire", duration: 1800000 }
 } as Record<string, { name: string; duration: number }>;
+
+export const FOSSILS = ["CLAW", "SPINE", "CLUBBED", "UGLY", "HELIX", "FOOTPRINT", "WEBBED", "TUSK"];
+
+export const CORPSES = {
+  lapis: "/api/item/LAPIS_ARMOR_HELMET",
+  umber: "/api/item/ARMOR_OF_YOG_HELMET",
+  tungsten: "/api/item/MINERAL_HELMET",
+  vanguard: "/api/item/VANGUARD_HELMET"
+} as Record<string, string>;

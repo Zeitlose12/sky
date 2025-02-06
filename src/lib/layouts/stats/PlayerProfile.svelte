@@ -36,7 +36,7 @@
 <div class="flex flex-wrap items-center gap-x-2 gap-y-3 text-4xl">
   Stats for
   <DropdownMenu.Root>
-    <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[#7f7f7f]/20 py-2 pr-4 pl-2 align-middle text-3xl font-semibold whitespace-nowrap">
+    <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[oklch(59.65%_0_0)]/20 py-2 pr-4 pl-2 align-middle text-3xl font-semibold whitespace-nowrap">
       <div class="relative flex items-center justify-center overflow-hidden rounded-full bg-[var(--color)] px-2 py-1 text-xl" style={`--color:${profile.rank?.rankColor}`}>
         <div class="relative z-20 inline-flex justify-between gap-3 text-lg font-bold">
           <span>{profile.rank?.rankText}</span>
@@ -62,7 +62,7 @@
   </DropdownMenu.Root>
   on
   <DropdownMenu.Root>
-    <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[#7f7f7f]/20 px-4 py-2 align-middle text-3xl font-semibold">
+    <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[oklch(59.65%_0_0)]/20 px-4 py-2 align-middle text-3xl font-semibold">
       {profile.profile_cute_name}
     </DropdownMenu.Trigger>
 

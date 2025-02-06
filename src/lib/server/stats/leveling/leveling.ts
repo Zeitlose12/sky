@@ -1,28 +1,35 @@
 import * as constants from "$lib/server/constants/skills";
+import { NEU_CONSTANTS } from "$lib/server/helper/NotEnoughUpdates/parseNEURepository";
 import type { Member, Profile } from "$types/global";
 import type { Player } from "$types/raw/player/lib";
 import type { Extra } from "$types/stats";
 
+type XPTable = { [key: number]: number };
 /**
  * gets the xp table for the given type
  * @param {string} type
  * @returns {{[key: number]: number}}
  */
-function getXpTable(type: string): { [key: number]: number } {
-  switch (type) {
-    case "runecrafting":
-      return constants.RUNECRAFTING_XP;
-    case "social":
-      return constants.SOCIAL_XP;
-    case "dungeoneering":
-      return constants.DUNGEONEERING_XP;
-    case "hotm":
-      return constants.HOTM_XP;
-    case "skyblock_level":
-      return constants.SKYBLOCK_XP;
-    default:
-      return constants.LEVELING_XP;
-  }
+function getXpTable(type: string) {
+  const SKILL_TABLES = {
+    default: constants.DEFAULT_LEVELING_XP,
+    runecrafting: constants.RUNECRAFTING_XP,
+    social: constants.SOCIAL_XP,
+    dungeoneering: constants.DUNGEONEERING_XP,
+    hotm: constants.HOTM_XP,
+    skyblock_level: constants.SKYBLOCK_XP,
+    garden: NEU_CONSTANTS.get("garden").gardenXp,
+    crop_upgrades: NEU_CONSTANTS.get("garden").cropUpgrades,
+    ...Object.entries(NEU_CONSTANTS.get("garden").cropMilestones).reduce(
+      (acc, [key, value]) => {
+        acc[`GARDEN_CROP_MILESTONE:${key}`.toLowerCase()] = value as XPTable;
+        return acc;
+      },
+      {} as Record<string, XPTable>
+    )
+  } as Record<string, XPTable>;
+
+  return SKILL_TABLES[type] ?? constants.DEFAULT_LEVELING_XP;
 }
 
 /**
@@ -223,4 +230,16 @@ export function getXpByLevel(
     texture: constants.SKILL_ICONS[extra.texture ?? extra.type]
     // maxExperience
   };
+}
+
+/**
+ * Calculates the total experience required to reach a certain level in a skill.
+ * @param {string} skill The ID of the skill used to determine the xp table.
+ * @param {number} level The target level.
+ * @returns {number} The total experience required.
+ */
+export function getSkillExperience(skill: string, level: number) {
+  const skillTable = getXpTable(skill);
+
+  return Object.entries(skillTable).reduce((acc, [key, value]) => (Number(key) <= level ? acc + value : acc), 0);
 }

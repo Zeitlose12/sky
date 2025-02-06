@@ -17,7 +17,7 @@ export async function intializeNEURepository() {
     fs.mkdirSync("NotEnoughUpdates-REPO", { recursive: true });
   }
 
-  if (dev) {
+  if (dev && !fs.existsSync("NotEnoughUpdates-REPO/.git")) {
     console.log(`[NOT-ENOUGH-UPDATES] Initializing NEU repository.`);
     try {
       await simpleGit().submoduleUpdate(["--init", "--recursive"]);

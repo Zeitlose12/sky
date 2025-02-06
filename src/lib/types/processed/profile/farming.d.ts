@@ -1,5 +1,6 @@
 export type Farming = {
   uniqueGolds: number;
+  copper: number;
   pelts: number;
   medals: Record<
     string,

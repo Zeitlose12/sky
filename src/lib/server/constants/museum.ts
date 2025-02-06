@@ -15,8 +15,7 @@ function sortMuseumItems(museum: MuseumConstants, armorSetId: string) {
 }
 
 async function retrieveMuseumItems() {
-  const timeNow = Date.now();
-  // ! INFO: This is needed, the museum = { ... } doens't work for some reason?
+  // ! INFO: This is needed, the MUSEUM = { ... } doesn't work with vite reloading for some reason?
   MUSEUM.armor_to_id = {};
   MUSEUM.armor_sets = {};
   MUSEUM.children = {};
@@ -65,8 +64,6 @@ async function retrieveMuseumItems() {
       }
     }
   }
-
-  console.log(`[MUSEUM] Updated museum items in ${Date.now() - timeNow}ms`);
 }
 
 const MUSEUM: MuseumConstants = {
