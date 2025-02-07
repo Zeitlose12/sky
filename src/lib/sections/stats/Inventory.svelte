@@ -141,7 +141,7 @@
 </script>
 
 <CollapsibleSection id="Inventory" {order}>
-  {#if tabs.length > 0}
+  {#if tabs.filter((tab) => tab.items.length > 0).length > 0}
     <Tabs.Root bind:value={openTab} class="bg-background/30 @container relative mb-0 rounded-lg p-5 pt-4">
       <Tabs.List>
         <ScrollArea.Root>
