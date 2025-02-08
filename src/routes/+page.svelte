@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { PUBLIC_DISCORD_INVITE, PUBLIC_PATREON } from "$env/static/public";
   import { getUsername } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { favorites } from "$lib/stores/favorites";
@@ -9,6 +10,7 @@
   import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import Server from "lucide-svelte/icons/server";
   import Star from "lucide-svelte/icons/star";
+  import { onMount } from "svelte";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
   import type { PageData } from "./$types";
@@ -31,6 +33,43 @@
     [Role.CONTRIBUTOR]: GitPullRequestArrow,
     [Role.FAVORITE]: Star
   };
+
+  type Cta = {
+    href: string;
+    text: { title: string; description: string };
+    img: { src: string; alt: string };
+  };
+
+  const ctas: Cta[] = [
+    {
+      href: PUBLIC_PATREON,
+      text: {
+        title: "SkyCrypt's",
+        description: "Help keep SkyCrypt ad free by donating"
+      },
+      img: {
+        src: "/img/icons/patreon.svg",
+        alt: "Patreon logo"
+      }
+    },
+    {
+      href: PUBLIC_DISCORD_INVITE,
+      text: {
+        title: "Discord",
+        description: "Announcements, Community, Bug Reports, Feature Requests, Support"
+      },
+      img: {
+        src: "/img/icons/discord.svg",
+        alt: "Discord logo"
+      }
+    }
+  ];
+
+  let selectedCta = $state<Cta>();
+
+  onMount(() => {
+    selectedCta = ctas[Math.floor(Math.random() * ctas.length)];
+  });
 </script>
 
 <main class="@container mx-auto mt-[48px] flex min-h-screen max-w-[68rem] flex-col justify-center gap-6 pt-5 pr-[max(1.25rem+env(safe-area-inset-right))] pb-[max(1.25rem+env(safe-area-inset-bottom))] pl-[max(1.25rem+env(safe-area-inset-left))]">
@@ -63,19 +102,10 @@
     </Button.Root>
   </form>
 
-  <Button.Root href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer" class="flex items-center gap-4 rounded-lg p-4 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] transition-all duration-300 hover:scale-[1.05] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
-    <Avatar.Root class="size-12 shrink-0 rounded-lg select-none">
-      <Avatar.Image loading="lazy" src="/img/icons/patreon.svg" alt="Patreon logo" class="pointer-events-none size-12 rounded-lg" />
-      <Avatar.Fallback class="text-text/60 flex h-full items-center justify-center text-lg font-semibold uppercase">PA</Avatar.Fallback>
-    </Avatar.Root>
-    <div>
-      <div class="font-semibold">
-        <span class="text-text/70">SkyCrypt's</span>
-        <span class="text-link">Patreon</span>
-      </div>
-      <div class="text-text/90 font-medium opacity-85">Help keep SkyCrypt ad free by donating</div>
-    </div>
-  </Button.Root>
+  {#if selectedCta}
+    {@render ctalink(selectedCta.href, selectedCta.text, selectedCta.img)}
+  {/if}
+
   <div class="grid grid-cols-1 gap-5 @xl:grid-cols-2 @5xl:grid-cols-3">
     {#if $favorites.length === 0}
       {@render profile({ id: "0", name: "No favorites set!", quote: "Why don't you set a favorite?" }, { tip: true })}
@@ -103,7 +133,7 @@
 
 {#snippet profile(user: { id: string; name: string; quote?: string; role?: Role }, options?: { tip?: boolean; favorite?: boolean })}
   <div class={cn("relative rounded-lg", { "transition-all duration-300 hover:scale-105": !options?.tip })}>
-    <Button.Root href={options?.tip ? "#" : `/stats/${user.id}`} class="relative flex min-w-0 items-center gap-4 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
+    <Button.Root href={options?.tip ? "#" : `/stats/${user.id}`} class="relative flex h-full min-w-0 items-center gap-4 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
       <Avatar.Root class="bg-text/10 size-16 shrink-0 rounded-lg">
         <Avatar.Image loading="lazy" src={options?.tip ? "https://mc-heads.net/avatar/bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40/64" : `https://crafatar.com/avatars/${user.id}?size=64&overlay`} alt={user.name} class="aspect-square size-16 rounded-lg " />
         <Avatar.Fallback class="text-text/60 flex h-full items-center justify-center text-lg font-semibold uppercase">
@@ -160,4 +190,20 @@
     </div>
     <div class="bg-text/10 absolute right-3 bottom-3 size-5 animate-pulse rounded-lg"></div>
   </div>
+{/snippet}
+
+{#snippet ctalink(href: string, text: { title: string; description: string }, img: { src: string; alt: string })}
+  <Button.Root {href} target="_blank" rel="noreferrer" class="flex w-full items-center gap-4 rounded-lg p-4 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] transition-all duration-300 hover:scale-[1.05] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
+    <Avatar.Root class="size-12 shrink-0 rounded-lg select-none">
+      <Avatar.Image loading="lazy" src={img.src} alt={img.alt} class="pointer-events-none size-12 rounded-lg" />
+      <Avatar.Fallback class="text-text/60 flex h-full items-center justify-center text-lg font-semibold uppercase">{img.alt.slice(0, 2)}</Avatar.Fallback>
+    </Avatar.Root>
+    <div>
+      <div class="font-semibold">
+        <span class="text-text/70">SkyCrypt's</span>
+        <span class="text-link">{text.title}</span>
+      </div>
+      <div class="text-text/90 font-medium opacity-85">{text.description}</div>
+    </div>
+  </Button.Root>
 {/snippet}
