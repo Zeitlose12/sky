@@ -18,7 +18,7 @@
 
   let { order }: { order: number } = $props();
   let openTab = $state<string>("inv");
-  let searchValue = $state<string>("");
+  let searchValue = $state<string>();
 
   const debouncedSearchValue = new Debounced(() => searchValue, 300);
 
@@ -114,25 +114,29 @@
     ].filter((tab) => tab.id === "search" || tab.items.length > 0)
   );
 
-  const allItems = $derived.by(() => {
-    return tabs.reduce((acc, tab) => {
-      acc.push(...tab.items);
-      return acc;
-    }, [] as ProcessedSkyBlockItem[]);
+  const allItemNames = $derived([...inventory, ...rift_inventory, ...rift_enderchest, ...backpack, ...enderchest, ...vault, ...accs, ...pots, ...fish, ...quiver, ...museum].filter((item) => item && item.display_name).map((item) => item.display_name));
+  type SearchedItem = { item: ProcessedSkyBlockItem; sourceTab: { name: string; icon: string } };
+  const searchedItems = $derived.by<SearchedItem[] | []>(() => {
+    const search = debouncedSearchValue.current?.trim();
+    if (!search) return [];
+    const searchedItemName = allItemNames.filter((name) => name.toLowerCase().includes(search.toLowerCase())).slice(0, 45);
+    if (searchedItemName.length === 0) return [];
+
+    const items: SearchedItem[] = [];
+
+    for (const tab of tabs) {
+      for (const item of tab.items) {
+        if (searchedItemName.includes(item.display_name)) {
+          items.push({ item, sourceTab: { name: tab.id, icon: tab.icon } });
+        }
+      }
+    }
+
+    return items;
   });
 
-  const searchedItems = $derived.by(() => {
-    const search = debouncedSearchValue.current.trim();
-    if (!search) return [];
-    const searchedItem = allItems
-      .map((item) => {
-        const tab = tabs.find((t) => t.items.includes(item));
-        return { item, sourceTab: { name: tab?.id || "", icon: tab?.icon || "" } };
-      })
-      .filter((item) => item.item.display_name?.toLowerCase().includes(debouncedSearchValue.current.toLowerCase()))
-      .slice(0, 45);
-    return searchedItem;
-  });
+  const tab = $derived<Tabs>(tabs.find((t) => t.id === openTab) as Tabs);
+  const hasEmptyInventory = $derived(tabs.filter((tab) => tab.items.length > 0).length === 0);
 
   const [send, receive] = crossfade({
     duration: 300,
@@ -141,7 +145,7 @@
 </script>
 
 <CollapsibleSection id="Inventory" {order}>
-  {#if tabs.filter((tab) => tab.items.length > 0).length > 0}
+  {#if !hasEmptyInventory}
     <Tabs.Root bind:value={openTab} class="bg-background/30 @container relative mb-0 rounded-lg p-5 pt-4">
       <Tabs.List>
         <ScrollArea.Root>
@@ -171,17 +175,15 @@
         </ScrollArea.Root>
       </Tabs.List>
 
-      {#each tabs as tab}
-        <Tabs.Content value={tab.id}>
-          {#if tab.id === "storage" || tab.id === "museum"}
-            {@render multipleInventorySection(tab)}
-          {:else if tab.id == "search"}
-            {@render searchSection()}
-          {:else}
-            {@render inventorySection(tab)}
-          {/if}
-        </Tabs.Content>
-      {/each}
+      <Tabs.Content value={openTab}>
+        {#if openTab === "storage" || openTab === "museum"}
+          {@render multipleInventorySection()}
+        {:else if openTab == "search"}
+          {@render searchSection()}
+        {:else}
+          {@render inventorySection()}
+        {/if}
+      </Tabs.Content>
     </Tabs.Root>
   {:else}
     <p class="space-x-0.5 leading-6">{profile.username} doesn't have any items.</p>
@@ -202,7 +204,7 @@
 
 {#snippet searchSection()}
   <input type="search" placeholder="Search inventory" class="bg-text/10 text-text placeholder:text-text/80 mx-auto mt-4 block w-1/5 rounded-lg px-2 py-2 font-normal focus-visible:outline-none" bind:value={searchValue} />
-  {#if searchValue !== "" && searchedItems.length === 0}
+  {#if searchValue && searchValue !== "" && searchedItems.length === 0}
     <p class="mx-auto w-fit leading-6">No items found.</p>
   {:else if searchValue !== ""}
     <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
@@ -219,7 +221,7 @@
   {/if}
 {/snippet}
 
-{#snippet multipleInventorySection(tab: Tabs)}
+{#snippet multipleInventorySection()}
   <Tabs.Root value={tab.id}>
     <Tabs.List class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
       {#each tab.items as item, index}
@@ -263,7 +265,7 @@
   </Tabs.Root>
 {/snippet}
 
-{#snippet inventorySection(tab: Tabs)}
+{#snippet inventorySection()}
   <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
     {#each tab.items as item, index}
       {#if index > 0}
