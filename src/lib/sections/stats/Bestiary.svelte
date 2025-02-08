@@ -40,7 +40,7 @@
         {#each data.mobs as mob}
           {@const hasKilled = mob.kills}
           {@const hasMaxed = mob.tier === mob.maxTier}
-          <Chip image={{ src: mob.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasKilled })} variant="tooltip">
+          <Chip image={{ src: mob.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasKilled })}>
             <div class={cn("flex flex-col")}>
               <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{mob.name}</span>
@@ -51,25 +51,27 @@
                 </div>
               </div>
             </div>
-            <div slot="tooltip" class="text-sm font-bold">
-              {#if hasMaxed}
-                <span class="opacity-85">Progress:</span>
-                <span class="text-gold">max!</span>
-              {:else}
-                <div class="flex flex-col gap-4">
-                  <div>
-                    <span class="opacity-85">
-                      Progress to Tier {mob.tier + 1}:
-                    </span>
-                    <span class="text-text">{format(mob.kills)} / {format(mob.nextTierKills)}</span>
+            {#snippet tooltip()}
+              <div class="text-sm font-bold">
+                {#if hasMaxed}
+                  <span class="opacity-85">Progress:</span>
+                  <span class="text-gold">max!</span>
+                {:else}
+                  <div class="flex flex-col gap-4">
+                    <div>
+                      <span class="opacity-85">
+                        Progress to Tier {mob.tier + 1}:
+                      </span>
+                      <span class="text-text">{format(mob.kills)} / {format(mob.nextTierKills)}</span>
+                    </div>
+                    <div>
+                      <span class="opacity-85"> Overall progress: </span>
+                      <span class="text-text opacity-100">{format(mob.kills)} / {format(mob.maxKills)}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span class="opacity-85"> Overall progress: </span>
-                    <span class="text-text opacity-100">{format(mob.kills)} / {format(mob.maxKills)}</span>
-                  </div>
-                </div>
-              {/if}
-            </div>
+                {/if}
+              </div>
+            {/snippet}
           </Chip>
         {/each}
       </ScrollItems>

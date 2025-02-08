@@ -168,16 +168,18 @@
           </div>
         </div>
 
-        <Progress.Root slot="progress" value={milestone.level.xpCurrent} max={hasMaxed ? milestone.level.xpCurrent : milestone.level.xpForNext} class="relative h-4 w-full overflow-hidden ">
-          <div class="absolute z-10 flex h-full w-full justify-center">
-            <div class="shadow-background/50 text-shadow text-xs font-semibold">
-              {formatNumber(milestone.level.xpCurrent)} / {formatNumber(milestone.level.xpForNext)}
-              XP
+        {#snippet progress()}
+          <Progress.Root value={milestone.level.xpCurrent} max={hasMaxed ? milestone.level.xpCurrent : milestone.level.xpForNext} class="relative h-4 w-full overflow-hidden ">
+            <div class="absolute z-10 flex h-full w-full justify-center">
+              <div class="shadow-background/50 text-shadow text-xs font-semibold">
+                {formatNumber(milestone.level.xpCurrent)} / {formatNumber(milestone.level.xpForNext)}
+                XP
+              </div>
             </div>
-          </div>
 
-          <div class="bg-skillbar data-[maxed=true]:bg-maxedbar h-full w-full flex-1 transition-all duration-1000 ease-in-out" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(milestone.level.xpCurrent, hasMaxed ? milestone.level.xpCurrent : milestone.level.xpForNext))}%)`} data-maxed={hasMaxed}></div>
-        </Progress.Root>
+            <div class="bg-skillbar data-[maxed=true]:bg-maxedbar h-full w-full flex-1 transition-all duration-1000 ease-in-out" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(milestone.level.xpCurrent, hasMaxed ? milestone.level.xpCurrent : milestone.level.xpForNext))}%)`} data-maxed={hasMaxed}></div>
+          </Progress.Root>
+        {/snippet}
       </Chip>
     {/each}
   </ScrollItems>

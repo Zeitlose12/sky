@@ -2,6 +2,8 @@
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { Avatar, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
+  import { IsInViewport } from "runed";
+  import type { Snippet } from "svelte";
   import { fade } from "svelte/transition";
 
   type AnimationOptions =
@@ -21,9 +23,16 @@
     class?: string;
   };
 
-  export let variant: "default" | "tooltip" = "default";
-  export let animationOptions: AnimationOptions = { animate: false };
-  export let image: ImageProps;
+  type Props = {
+    animationOptions?: AnimationOptions;
+    image: ImageProps;
+    class?: string;
+    children?: Snippet;
+    progress?: Snippet;
+    tooltip?: Snippet;
+  };
+
+  let { animationOptions = { animate: false }, image, class: classNames, children, progress, tooltip }: Props = $props();
 
   let targetNode = $state<HTMLDivElement>()!;
   let hasBeenInViewport = $state(false);
@@ -53,13 +62,14 @@
             <Image class="size-12" />
           </div>
         {/if}
+        {@render children?.()}
       </div>
-      <slot name="progress" />
+      {@render progress?.()}
     </div>
   </Tooltip.Trigger>
-  {#if isTooltip}
+  {#if tooltip}
     <Tooltip.Content class="bg-background-grey z-50 rounded-lg p-4" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-      <slot name="tooltip" />
+      {@render tooltip()}
       <Tooltip.Arrow />
     </Tooltip.Content>
   {/if}
