@@ -3,6 +3,7 @@
 @plugin "./plugins/text-shadow.ts";
 @plugin "./plugins/themes.ts";
 @source "./safelist.ts";
+@source "app.html";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
