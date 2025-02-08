@@ -102,7 +102,6 @@ function getPlotLayout(gardenData: GardenResponse) {
     if (plotIndex === 12) {
       const item = NEU_CONSTANTS.get("garden").barnSkins[gardenData.selected_barn_skin] ?? NEU_CONSTANTS.get("garden").barnSkins["default_1"];
       output.push({ display_name: `Barn Skin: ${item.name}`, texture_path: `/api/item/${item.item.replace("-", ":")}` });
-      continue;
     }
 
     const textureId = gardenData.unlocked_plots_ids?.includes(plotId) ? "GRASS" : hasAdjacentUnlocked ? "WOOD_BUTTON" : "STAINED_GLASS_PANE:14";
