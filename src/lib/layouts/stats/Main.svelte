@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { getProfileCtx } from "$ctx/profile.svelte";
+  import { PUBLIC_DISCORD_INVITE } from "$env/static/public";
   import ItemContent from "$lib/components/item/item-content.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -44,7 +45,7 @@
         {#each Object.entries(profile.errors) as [error, message]}
           {error}: {message}
         {/each}
-        <p>Please report this error on our <Button.Root target="_blank" href="https://discord.gg/cNgADv2kEQ" class="underline">Discord</Button.Root></p>
+        <p>Please report this error on our <Button.Root target="_blank" href={PUBLIC_DISCORD_INVITE} class="underline">Discord</Button.Root></p>
       </div>
     {/if}
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
