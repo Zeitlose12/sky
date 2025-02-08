@@ -12,22 +12,26 @@
 </script>
 
 <CollapsibleSection id="Weapons" {order}>
-  <Items>
-    {#snippet text()}
-      <div>
-        {#if profile.items.weapons?.highest_priority_weapon?.display_name}
-          <p class="font-bold">
-            <span class="text-text/60">Active Weapon: </span>
-            {@html renderLore(profile.items.weapons.highest_priority_weapon.display_name)}
-          </p>
-        {/if}
-      </div>
-    {/snippet}
+  {#if profile.items.weapons.weapons.length}
+    <Items>
+      {#snippet text()}
+        <div>
+          {#if profile.items.weapons?.highest_priority_weapon?.display_name}
+            <p class="font-bold">
+              <span class="text-text/60">Active Weapon: </span>
+              {@html renderLore(profile.items.weapons.highest_priority_weapon.display_name)}
+            </p>
+          {/if}
+        </div>
+      {/snippet}
 
-    {#if profile.items.weapons.weapons.length}
-      {#each profile.items.weapons.weapons as weapon}
-        <Item piece={weapon} />
-      {/each}
-    {/if}
-  </Items>
+      {#if profile.items.weapons.weapons.length}
+        {#each profile.items.weapons.weapons as weapon}
+          <Item piece={weapon} />
+        {/each}
+      {/if}
+    </Items>
+  {:else}
+    <p class="space-x-0.5 leading-6">{profile.username} has no weapons</p>
+  {/if}
 </CollapsibleSection>

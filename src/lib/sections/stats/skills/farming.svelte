@@ -5,6 +5,7 @@
   import Item from "$lib/components/Item.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
+  import Garden from "$lib/sections/stats/farming/garden.svelte";
   import { formatNumber, renderLore } from "$lib/shared/helper";
   import { Collapsible } from "bits-ui";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
@@ -94,3 +95,5 @@
     </Collapsible.Content>
   </Collapsible.Root>
 {/if}
+
+<Garden />

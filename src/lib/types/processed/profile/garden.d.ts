@@ -19,12 +19,12 @@ export type Garden = {
   cropMilestones: {
     name: string;
     texture: string;
-    level: skill;
+    level: Skill;
   }[];
   cropUpgrades: {
     name: string;
     texture: string;
-    level: skill;
+    level: Skill;
   }[];
   composter: Record<string, number>;
   plot: ProcessedSkyBlockItem[];

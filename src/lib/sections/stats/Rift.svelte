@@ -109,7 +109,8 @@
     <ScrollItems>
       {#each rift.timecharms.timecharms as timecharm}
         {@const hasUnlocked = timecharm.unlocked}
-        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
+
+        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} tooltip={hasUnlocked ? tooltip : undefined}>
           <div class={cn("flex flex-col")}>
             <div class="font-bold whitespace-nowrap">
               <span class="opacity-60">{timecharm.name}</span>
@@ -126,17 +127,20 @@
               </div>
             </div>
           </div>
-          <div slot="tooltip" class="text-sm font-bold">
-            {#if timecharm.unlockedAt}
-              <div>
-                <span class="opacity-85">Obtained:</span>
-                <span class="text-text">
-                  {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
-                </span>
-              </div>
-            {/if}
-          </div>
         </Chip>
+
+        {#snippet tooltip()}
+          <div class="text-sm font-bold">
+            <div>
+              <span class="opacity-85">Obtained:</span>
+              <span class="text-text">
+                {#if hasUnlocked}
+                  {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
+                {/if}
+              </span>
+            </div>
+          </div>
+        {/snippet}
       {/each}
     </ScrollItems>
   </Items>

@@ -7,6 +7,7 @@
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
   import { Avatar, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
+  import { IsInViewport } from "runed";
   import { getContext } from "svelte";
   import Content from "./item/item-content.svelte";
 
@@ -20,8 +21,12 @@
       icon: string;
     };
   };
-  let { piece, isInventory, showCount, showRecombobulated, tab }: Props = $props();
 
+  let { piece, isInventory, showCount, showRecombobulated, tab }: Props = $props();
+  let targetNode = $state<HTMLButtonElement>()!;
+  let hasBeenInViewport = $state(false);
+
+  const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
   const recombobulated = $derived(showRecombobulated && (skyblockItem.recombobulated ?? false));
@@ -30,11 +35,18 @@
   const showNumbers = $derived(showCount && (skyblockItem.Count ?? 0) > 1);
 
   const isHover = getContext<IsHover>("isHover");
+
+  $effect(() => {
+    if (inViewport.current && !hasBeenInViewport) {
+      hasBeenInViewport = true;
+    }
+  });
 </script>
 
 <Tooltip.Root group="armor" disableHoverableContent={true} openDelay={0} closeDelay={0}>
   <Tooltip.Trigger
     class="nice-colors-dark"
+    bind:el={targetNode}
     onclick={() => {
       if (skyblockItem.containsItems) return;
       itemContent.set(piece);
@@ -42,12 +54,19 @@
     }}>
     <div class={cn(`relative flex aspect-square items-center justify-center overflow-clip`, isInventory ? "p-0" : `rounded-lg p-2 ${bgColor}`)}>
       <div class={cn("absolute inset-0 rounded-lg", { shine: shine })}></div>
-      <Avatar.Root>
-        <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-14 [image-rendering:pixelated] select-none" data-enchanted={enchanted} />
-        <Avatar.Fallback>
+      {#if hasBeenInViewport}
+        <Avatar.Root>
+          <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="lazy data-[enchanted=true]:enchanted h-auto w-14 [image-rendering:pixelated] select-none" data-enchanted={enchanted} />
+          <Avatar.Fallback>
+            <Image class={cn(isInventory ? "size-8 sm:size-14" : "size-14")} />
+          </Avatar.Fallback>
+        </Avatar.Root>
+      {:else}
+        <div>
           <Image class={cn(isInventory ? "size-8 sm:size-14" : "size-14")} />
-        </Avatar.Fallback>
-      </Avatar.Root>
+        </div>
+      {/if}
+
       {#if recombobulated}
         <div class="absolute -top-3 -right-3 z-10 size-6 rotate-45 bg-(--color)" style="--color: var(--§{RARITY_COLORS[RARITIES[RARITIES.indexOf(piece.rarity ?? 'common') - 1]]})"></div>
       {/if}

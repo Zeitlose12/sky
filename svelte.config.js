@@ -30,7 +30,7 @@ const config = {
       checkOrigin: true
     },
     serviceWorker: {
-      register: process.env.NODE_ENV !== "development"
+      register: false
     }
   },
   // Hide build warnings from node_modules

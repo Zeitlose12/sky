@@ -37,7 +37,7 @@
         {#each data.items as item}
           {@const hasUnlocked = item.totalAmount}
           {@const hasMaxed = item.tier === item.maxTier}
-          <Chip image={{ src: item.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })} variant="tooltip">
+          <Chip image={{ src: item.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
             <div class={cn("flex flex-col")}>
               <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{item.name}</span>
@@ -48,24 +48,26 @@
                 </div>
               </div>
             </div>
-            <div slot="tooltip" class="text-sm font-bold">
-              {#if item.amounts.length > 0}
-                <div class="mb-4">
-                  {#each item.amounts as user}
-                    <div>
-                      <span class="opacity-85">
-                        {user.username}:
-                      </span>
-                      <span class="text-text">{format(user.amount)}</span>
-                    </div>
-                  {/each}
+            {#snippet tooltip()}
+              <div class="text-sm font-bold">
+                {#if item.amounts.length > 0}
+                  <div class="mb-4">
+                    {#each item.amounts as user}
+                      <div>
+                        <span class="opacity-85">
+                          {user.username}:
+                        </span>
+                        <span class="text-text">{format(user.amount)}</span>
+                      </div>
+                    {/each}
+                  </div>
+                {/if}
+                <div>
+                  <span class="opacity-85"> Total: </span>
+                  <span class="text-text opacity-100">{format(item.totalAmount)}</span>
                 </div>
-              {/if}
-              <div>
-                <span class="opacity-85"> Total: </span>
-                <span class="text-text opacity-100">{format(item.totalAmount)}</span>
               </div>
-            </div>
+            {/snippet}
           </Chip>
         {/each}
       </ScrollItems>

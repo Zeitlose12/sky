@@ -19,6 +19,7 @@
 
   let { id, class: className, order, children, subtitle }: Props = $props();
   let sectionElement = $state<HTMLElement>();
+  let hasBeenInViewport = $state(false);
 
   let transormedID = $derived.by(() => {
     if (id === "Miscellaneous") {
@@ -26,7 +27,7 @@
     }
     return id.replaceAll(" ", "_");
   });
-  const inViewport = new IsInViewport(() => sectionElement);
+  const inViewport = new IsInViewport(() => sectionElement, { rootMargin: "200px 0px", threshold: 0 });
 
   $effect(() => {
     inviewportSections.update((sections) => {
@@ -35,6 +36,12 @@
         [transormedID]: inViewport.current
       };
     });
+  });
+
+  $effect(() => {
+    if (inViewport.current && !hasBeenInViewport) {
+      hasBeenInViewport = true;
+    }
   });
 </script>
 
@@ -48,8 +55,10 @@
       {/if}
       <ChevronDown class={cn("text-text/60 h-6 w-6 transition-all duration-300", { "rotate-180": $collapsePreferences[transormedID.toLowerCase()] ?? true })} />
     </Collapsible.Trigger>
-    <Collapsible.Content transition={slide}>
-      {@render children?.()}
-    </Collapsible.Content>
+    {#if hasBeenInViewport}
+      <Collapsible.Content transition={slide}>
+        {@render children?.()}
+      </Collapsible.Content>
+    {/if}
   </section>
 </Collapsible.Root>

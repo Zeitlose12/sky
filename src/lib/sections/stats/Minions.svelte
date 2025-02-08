@@ -60,21 +60,21 @@
         {#each data.minions as minion}
           {@const hasTier = minion.tiers[minion.tiers.length - 1]}
           {@const hasMaxed = hasTier === minion.maxTier}
-          <Chip image={{ src: minion.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasTier })} variant="tooltip">
+          <Chip image={{ src: minion.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasTier })}>
             <div class={cn("flex flex-col", { "text-maxed": hasMaxed })}>
               <div class="font-bold whitespace-nowrap">
                 <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{minion.name}</span>
                 <span class={cn({ "text-gold": hasMaxed })}>{hasTier ? minion.tiers[minion.tiers.length - 1] : 0}</span>
               </div>
             </div>
-            <div slot="tooltip">
+            {#snippet tooltip()}
               <div class="flex gap-1">
                 {#each arabicTiers.slice(0, minion.maxTier) as tier}
                   {@const hasTier = minion.tiers.includes(tier)}
                   <span class={cn("text-sm font-medium", { "text-link": hasTier })}>{romanTiers[tier - 1]}</span>
                 {/each}
               </div>
-            </div>
+            {/snippet}
           </Chip>
         {/each}
       </ScrollItems>
