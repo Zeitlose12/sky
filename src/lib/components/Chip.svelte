@@ -33,14 +33,17 @@
 
 <Tooltip.Root group="chip" openDelay={0} closeDelay={0}>
   <Tooltip.Trigger asChild let:builder>
-    <div class={cn("bg-background/30 flex w-full max-w-fit items-center gap-2 rounded-lg p-2", classNames)} use:builder.action {...builder} in:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.index + 1) : 0 }} out:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.amountOfItems - animationOptions.index) : 0 }}>
-      <Avatar.Root class="aspect-square size-12">
-        <Avatar.Image loading="lazy" src={image.src} class={cn("size-full object-contain", image.class)} />
-        <Avatar.Fallback>
-          <Image class="size-full" />
-        </Avatar.Fallback>
-      </Avatar.Root>
-      <slot />
+    <div class={cn("bg-background/30 flex w-full max-w-fit items-center gap-2 rounded-lg py-2", classNames)} use:builder.action {...builder} in:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.index + 1) : 0 }} out:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.amountOfItems - animationOptions.index) : 0 }}>
+      <div class="flex items-center gap-2 px-2">
+        <Avatar.Root class="aspect-square size-12">
+          <Avatar.Image loading="lazy" src={image.src} class={cn("size-full object-contain", image.class)} />
+          <Avatar.Fallback>
+            <Image class="size-full" />
+          </Avatar.Fallback>
+        </Avatar.Root>
+        <slot />
+      </div>
+      <slot name="progress" />
     </div>
   </Tooltip.Trigger>
   {#if isTooltip}
