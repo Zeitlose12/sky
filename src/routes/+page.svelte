@@ -44,7 +44,7 @@
     {
       href: PUBLIC_PATREON,
       text: {
-        title: "SkyCrypt's",
+        title: "Patreon",
         description: "Help keep SkyCrypt ad free by donating"
       },
       img: {
