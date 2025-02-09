@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { PUBLIC_DISCORD_INVITE } from "$env/static/public";
   import { internalPreferences } from "$lib/stores/preferences";
   import { Button } from "bits-ui";
   import { createEventDispatcher } from "svelte";
@@ -22,7 +23,7 @@
   <h3 class="text-2xl font-bold whitespace-nowrap sm:text-3xl">Welcome to <span class="text-link">SkyCrypt v2</span></h3>
   <p>We have written SkyCrypt from the ground up to be faster, more reliable, and more feature-rich than ever before using the latest web technologies</p>
   <p>
-    As with any new software, there may be bugs or missing features. If you find any issues, or have any suggestions, please let us know on our {@render link("https://discord.gg/cNgADv2kEQ", "Discord server")}.
+    As with any new software, there may be bugs or missing features. If you find any issues, or have any suggestions, please let us know on our {@render link(PUBLIC_DISCORD_INVITE, "Discord server")}.
   </p>
   <p>
     P.S. Take a look at {@render link("https://minionah.com", "MinionAH")}, it's made by one of the developers that worked on SkyCrypt v2!

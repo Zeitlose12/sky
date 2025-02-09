@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { PUBLIC_DISCORD_INVITE, PUBLIC_PATREON } from "$env/static/public";
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { Button, Popover } from "bits-ui";
@@ -12,13 +13,13 @@
 {#snippet info()}
   <p class="my-4">SkyCrypt is a free, open-source stats viewer for Hypixel SkyBlock.</p>
   <p class="my-4">
-    You can report bugs, suggest features on <Button.Root class="text-link font-semibold" href="https://discord.gg/cNgADv2kEQ" target="_blank" rel="noreferrer">Discord</Button.Root>, and/or contribute to the code on <Button.Root class="text-link font-semibold" href="https://github.com/SkyCryptWebsite/SkyCrypt" target="_blank" rel="noreferrer">GitHub</Button.Root>. It would be much appreciated!
+    You can report bugs, suggest features on <Button.Root class="text-link font-semibold" href={PUBLIC_DISCORD_INVITE} target="_blank" rel="noreferrer">Discord</Button.Root>, and/or contribute to the code on <Button.Root class="text-link font-semibold" href="https://github.com/SkyCryptWebsite/SkyCrypt" target="_blank" rel="noreferrer">GitHub</Button.Root>. It would be much appreciated!
   </p>
   <p class="my-4">
-    Join our community on <Button.Root class="text-link font-semibold" href="https://discord.gg/cNgADv2kEQ" target="_blank" rel="noreferrer">Discord</Button.Root>!
+    Join our community on <Button.Root class="text-link font-semibold" href={PUBLIC_DISCORD_INVITE} target="_blank" rel="noreferrer">Discord</Button.Root>!
   </p>
   <p class="my-4">
-    Help keep SkyCrypt ad free by donating on <Button.Root class="text-link font-semibold" href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer">Patreon</Button.Root>!
+    Help keep SkyCrypt ad free by donating on <Button.Root class="text-link font-semibold" href={PUBLIC_PATREON} target="_blank" rel="noreferrer">Patreon</Button.Root>!
   </p>
   <p class="my-4">
     The original project, <Button.Root class="text-link font-semibold" href="https://sky.lea.moe">sky.lea.moe</Button.Root>, was created by
