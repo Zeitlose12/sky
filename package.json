@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.67",
+    "@sentry/sveltekit": "^9.1.0",
     "farming-weight": "^0.8.1",
     "minecraft-data": "^3.83.1",
     "mongodb": "^6.13.0",

@@ -110,3 +110,5 @@ vite.config.ts.timestamp-*
 .env.*
 !.env.example
 NotEnoughUpdates-REPO/
+# Sentry Config File
+.env.sentry-build-plugin
