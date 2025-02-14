@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { browser, dev } from "$app/environment";
   import { page } from "$app/state";
   import Header from "$lib/components/header/Header.svelte";
   import V2Toast from "$lib/components/temp/V2Toast.svelte";
@@ -31,11 +30,11 @@
   themeStore.subscribe((newTheme) => theme.set(themes.find((theme) => theme.id === newTheme)?.light ? "light" : "dark"));
 
   onMount(() => {
-    if (browser && navigator && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js", {
-        type: dev ? "module" : "classic"
-      });
-    }
+    // if (browser && navigator && "serviceWorker" in navigator) {
+    //   navigator.serviceWorker.register("/service-worker.js", {
+    //     type: dev ? "module" : "classic"
+    //   });
+    // }
 
     if (!$internalPreferences.hasSeenv2Toast) {
       // @ts-expect-error - Not updated for Svelte 5 yet
