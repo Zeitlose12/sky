@@ -30,14 +30,14 @@ export function getSkills(userProfile: Member, profile: Profile, player: Player)
     });
   } else {
     const achievementSkills = {
-      taming: player.achievements.skyblock_domesticator || 0,
-      farming: player.achievements.skyblock_harvester || 0,
-      mining: player.achievements.skyblock_excavator || 0,
-      combat: player.achievements.skyblock_combat || 0,
-      foraging: player.achievements.skyblock_gatherer || 0,
-      fishing: player.achievements.skyblock_angler || 0,
-      enchanting: player.achievements.skyblock_augmentation || 0,
-      alchemy: player.achievements.skyblock_concoctor || 0,
+      taming: player.achievements?.skyblock_domesticator || 0,
+      farming: player.achievements?.skyblock_harvester || 0,
+      mining: player.achievements?.skyblock_excavator || 0,
+      combat: player.achievements?.skyblock_combat || 0,
+      foraging: player.achievements?.skyblock_gatherer || 0,
+      fishing: player.achievements?.skyblock_angler || 0,
+      enchanting: player.achievements?.skyblock_augmentation || 0,
+      alchemy: player.achievements?.skyblock_concoctor || 0,
       carpentry: 0,
       runecrafting: 0,
       social: 0
