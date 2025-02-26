@@ -249,8 +249,20 @@ export function getMisc(userProfile: Member, profile: Profile, player: Player) {
     uncategorized: {
       soulflow: userProfile.item_data?.soulflow ?? 0,
       teleporter_pill_consumed: userProfile.item_data?.teleporter_pill_consumed ?? false,
+      personal_bank: constants.BANK_COOLDOWN[userProfile.profile?.personal_bank_upgrade ?? 0] ?? "Unknown",
+      metaphysical_serum: userProfile.experimentation?.serums_drank ?? 0,
       reaper_peppers_eaten: userProfile.player_data?.reaper_peppers_eaten ?? 0,
-      personal_bank: constants.BANK_COOLDOWN[userProfile.profile?.personal_bank_upgrade ?? 0] ?? "Unknown"
+      mcgrubber_burger: userProfile.rift?.castle?.grubber_stacks ?? 0,
+      wriggling_larva: userProfile.garden_player_data?.larva_consumed ?? 0,
+      refined_bottle_of_jyrre: userProfile.winter_player_data?.refined_jyrre_uses ?? 0
+      /*
+      refined_dark_cacao_truffle: // MISSING IN THE API
+      spotlite: // MISSING IN THE API
+      dwarven_os_ore_oats: // MISSING IN THE API
+      dwarven_os_block_bran: // MISSING IN THE API
+      dwarven_os_gemstone_grahams: // MISSING IN THE API
+      dwarven_os_metallic_minis: // MISSING IN THE API
+      */
     }
   };
 }

@@ -103,7 +103,7 @@ function getSecrets(catacombs: Member["dungeons"]) {
 }
 
 function formatCatacombsData(catacombs: Catacombs) {
-  if (catacombs?.experience === undefined) {
+  if (catacombs === undefined) {
     return null;
   }
 

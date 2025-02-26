@@ -65,6 +65,7 @@ export type Member = {
   };
   garden_player_data?: MemberGardenData;
   glacite_player_data: GlacitePlayerData;
+  winter_player_data?: WinterPlayerData;
 };
 
 export type Medal = "gold" | "silver" | "bronze";
@@ -467,6 +468,7 @@ export type AccessoryBagStorage = {
 
 export type MemberGardenData = {
   copper?: number;
+  larva_consumed?: number;
 };
 
 export type GlacitePlayerData = {
@@ -475,3 +477,7 @@ export type GlacitePlayerData = {
   corpses_looted: Record<string, number>;
   mineshafts_entered: number;
 };
+
+export type WinterPlayerData = {
+  refined_jyrre_uses?: number;
+}

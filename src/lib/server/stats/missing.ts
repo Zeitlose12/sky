@@ -207,6 +207,8 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
   output.selectedPower = userProfile.accessory_bag_storage?.selected_power ?? null;
 
   const abiphoneContacts = (userProfile.nether_island_player_data?.abiphone?.active_contacts ?? []).length;
+  const abiphoneMagicalPower = abiphoneContacts ? Math.floor(abiphoneContacts / 2) : 0;
+  const hasAbicase = accessories.find((a) => helper.getId(a) === "ABICASE");
   const riftPrism = accessoryIds.find((a) => a.id === "RIFT_PRISM");
   if (riftPrism) {
     output.unique += 1;
@@ -215,7 +217,7 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
   output.magicalPower = {
     total: 0,
     accessories: activeAccessories.reduce((a, b) => a + getMagicalPower(b.rarity ?? "common", helper.getId(b)), 0),
-    abiphone: abiphoneContacts ? Math.floor(abiphoneContacts / 2) : 0,
+    abiphone: hasAbicase ? abiphoneMagicalPower : 0,
     riftPrism: riftPrism ? 11 : 0,
     hegemony: {
       rarity: activeAccessories.find((a) => helper.getId(a) === "HEGEMONY")?.rarity ?? null,
