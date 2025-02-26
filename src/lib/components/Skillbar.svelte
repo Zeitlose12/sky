@@ -16,14 +16,16 @@
 
   let { skill, skillData, apiEnabled = true, class: className }: Props = $props();
 
+  let open = $state(false);
+
   const { hoverAction, isHovered } = createHover();
 
   const isMaxed = $derived(skillData.maxed);
 </script>
 
 <div class={cn("group relative flex grow basis-full flex-col sm:basis-1/3 sm:last:grow-0 sm:last:basis-1/2", !apiEnabled && "opacity-50 grayscale", className)} data-hover={$isHovered} data-maxed={isMaxed} use:hoverAction>
-  <Tooltip.Root group="skills" openDelay={0} closeDelay={0}>
-    <Tooltip.Trigger class={cn("group-data-[maxed=true]:shine group-data-[maxed=false]:bg-icon group-data-[maxed=true]:bg-maxed absolute bottom-0 left-0 z-10 flex size-9 items-center justify-center rounded-full p-1 drop-shadow-sm", apiEnabled ? "" : "bg-gray-600")}>
+  <Tooltip.Root bind:open group="skills" openDelay={0} closeDelay={0}>
+    <Tooltip.Trigger class={cn("group-data-[maxed=true]:shine group-data-[maxed=false]:bg-icon group-data-[maxed=true]:bg-maxed absolute bottom-0 left-0 z-10 flex size-9 items-center justify-center rounded-full p-1 drop-shadow-sm", apiEnabled ? "" : "bg-gray-600")} onpointerdown={() => (open = !open)}>
       <Avatar.Root class="select-none">
         <Avatar.Image loading="lazy" class={cn("pointer-events-none size-[1.625rem]", !apiEnabled && "grayscale")} src={skillData.texture} alt={skill} />
         <Avatar.Fallback>

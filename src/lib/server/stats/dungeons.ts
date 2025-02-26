@@ -103,7 +103,11 @@ function getSecrets(catacombs: Member["dungeons"]) {
 }
 
 function formatCatacombsData(catacombs: Catacombs) {
-  const type = catacombs.experience ? "catacombs" : "master_catacombs";
+  if (catacombs === undefined) {
+    return null;
+  }
+
+  const type = catacombs?.experience ? "catacombs" : "master_catacombs";
 
   const output = [];
   const floorData = constants.DUNGEONS.floors[type];
@@ -174,18 +178,18 @@ export function getDungeons(userProfile: Member) {
   const dungeonClasses = getDungeonClasses(userProfile);
 
   return {
-    level: getLevelByXp(userProfile.dungeons.dungeon_types.catacombs.experience, { type: "dungeoneering" }),
+    level: getLevelByXp(userProfile.dungeons.dungeon_types.catacombs?.experience, { type: "dungeoneering" }),
     classes: {
       selectedClass: helper.titleCase(userProfile.dungeons.selected_dungeon_class ?? "Unknown"),
       classes: dungeonClasses,
       classAverage: Object.values(dungeonClasses).reduce((a, b) => a + b.level, 0) / Object.keys(dungeonClasses).length,
       classAverageWithProgress: Object.values(dungeonClasses).reduce((a, b) => a + b.levelWithProgress, 0) / Object.keys(dungeonClasses).length,
-      totalClassExp: Object.values(userProfile.dungeons.player_classes).reduce((a, b) => a + b.experience, 0)
+      totalClassExp: Object.values(userProfile.dungeons.player_classes).reduce((a, b) => a + b?.experience, 0)
     },
     stats: {
       secrets: getSecrets(userProfile.dungeons),
-      highestFloorBeatenNormal: userProfile.dungeons.dungeon_types.catacombs.highest_tier_completed ?? 0,
-      highestFloorBeatenMaster: userProfile.dungeons.dungeon_types.master_catacombs.highest_tier_completed ?? 0,
+      highestFloorBeatenNormal: userProfile.dungeons.dungeon_types.catacombs?.highest_tier_completed ?? 0,
+      highestFloorBeatenMaster: userProfile.dungeons.dungeon_types.master_catacombs?.highest_tier_completed ?? 0,
       bloodMobKills: getBestiaryFamily(userProfile, "Undead")?.kills ?? 0
     },
     catacombs: formatCatacombsData(userProfile.dungeons.dungeon_types.catacombs),

@@ -106,7 +106,7 @@
               {#each Object.entries(catacomb.stats) as [key, value]}
                 {#if typeof value === "object"}
                   <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value.damage)} subData="({value.type})" />
-                {:else if key.includes("time")}
+                {:else if key.includes("time") && key !== "times_played"}
                   <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
                 {:else}
                   <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />

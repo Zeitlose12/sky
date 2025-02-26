@@ -36,6 +36,7 @@
 
   let targetNode = $state<HTMLDivElement>()!;
   let hasBeenInViewport = $state(false);
+  let open = $state(false);
 
   const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
 
@@ -48,7 +49,7 @@
 
 <Tooltip.Root group="chip" openDelay={0} closeDelay={0}>
   <Tooltip.Trigger asChild let:builder>
-    <div bind:this={targetNode} class={cn("bg-background/30 flex w-full max-w-fit items-center gap-2 rounded-lg py-2", classNames)} use:builder.action {...builder} in:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.index + 1) : 0 }} out:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.amountOfItems - animationOptions.index) : 0 }}>
+    <div bind:this={targetNode} class={cn("bg-background/30 flex w-full max-w-fit items-center gap-2 rounded-lg py-2", classNames)} use:builder.action {...builder} onpointerdown={() => (open = !open)} in:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.index + 1) : 0 }} out:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.amountOfItems - animationOptions.index) : 0 }}>
       <div class="flex items-center gap-2 px-2">
         {#if hasBeenInViewport}
           <Avatar.Root class="aspect-square size-12">

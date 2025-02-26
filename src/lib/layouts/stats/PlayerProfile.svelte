@@ -12,6 +12,7 @@
 
   let toastId: string | number = $state(0);
   let showMore = $state(false);
+  let open = $state(false);
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
@@ -88,7 +89,7 @@
 </div>
 
 <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-  <Tooltip.Root openDelay={0} closeDelay={0} closeOnPointerDown={false}>
+  <Tooltip.Root bind:open openDelay={0} closeDelay={0} closeOnPointerDown={false}>
     <Tooltip.Trigger asChild let:builder>
       <button
         use:builder.action
@@ -104,7 +105,8 @@
             toast.dismiss(toastId);
             toastId = toast.success(`Removed ${profile.username} from your favorites!`);
           }
-        }}>
+        }}
+        onpointerdown={() => (open = !open)}>
         {#if $favorites.includes(profile.uuid)}
           <Star class="size-4 fill-white" />
         {:else}

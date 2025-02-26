@@ -4,19 +4,23 @@
   import { Tooltip } from "bits-ui";
   import { format } from "numerable";
 
-  export let stat: string;
-  export let statData: {
-    [string: string]: number;
-    base: number;
+  type Props = {
+    stat: string;
+    statData: {
+      [string: string]: number;
+      base: number;
+    };
+    class?: string | null | undefined;
   };
 
-  let className: string | null | undefined = undefined;
-  export { className as class };
+  let { stat, statData, class: className = undefined }: Props = $props();
+
+  let open = $state(false);
 </script>
 
 <div>
-  <Tooltip.Root group="stats" openDelay={0} closeDelay={0}>
-    <Tooltip.Trigger class={cn(`my-0 flex items-center gap-1 text-sm font-bold whitespace-nowrap ${STATS_DATA[stat].color}`, className)}>
+  <Tooltip.Root bind:open group="stats" openDelay={0} closeDelay={0}>
+    <Tooltip.Trigger class={cn(`my-0 flex items-center gap-1 text-sm font-bold whitespace-nowrap ${STATS_DATA[stat].color}`, className)} onpointerdown={() => (open = !open)}>
       <div class="font-icomoon inline-block text-base">{STATS_DATA[stat].symbol}</div>
       <span class="capitalize">{stat.replace(/_/g, " ")}</span>
       <span class="text-text">
