@@ -480,4 +480,4 @@ export type GlacitePlayerData = {
 
 export type WinterPlayerData = {
   refined_jyrre_uses?: number;
-}
+};
