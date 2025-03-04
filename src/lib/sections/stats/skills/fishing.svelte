@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import Item from "$lib/components/Item.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { renderLore, titleCase } from "$lib/shared/helper";
@@ -59,24 +60,26 @@
     </Collapsible.Trigger>
     <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
       {@const seaCreatures = Object.entries(profile.fishing.kills)}
-      {#each seaCreatures as [_, seaCreature], index}
-        <div class="bg-background/30 flex size-full max-h-56 max-w-36 flex-col rounded-lg p-2" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
-          <div class="border-icon flex h-12 items-center justify-center border-b-2 pb-2 text-center font-bold">
-            {seaCreature.name}
-          </div>
-          <div class="mt-2 flex h-full flex-col items-center justify-center gap-4">
-            <Avatar.Root class="flex items-center justify-center">
-              <Avatar.Image loading="lazy" src={seaCreature.texture} class="aspect-square size-24 object-contain" />
-              <Avatar.Fallback>
-                <Image class="size-24" />
-              </Avatar.Fallback>
-            </Avatar.Root>
-            <div class="text-center font-bold">
-              {seaCreature.amount} <span class="text-text/60">Kills</span>
+      <ScrollItems>
+        {#each seaCreatures as [_, seaCreature], index}
+          <div class="bg-background/30 flex h-full max-h-56 flex-col rounded-lg p-2 whitespace-nowrap" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
+            <div class="border-icon flex h-12 items-center justify-center border-b-2 pb-2 text-center font-bold">
+              {seaCreature.name}
+            </div>
+            <div class="mt-2 flex h-full w-full flex-col items-center justify-center gap-4">
+              <Avatar.Root class="flex items-center justify-center">
+                <Avatar.Image loading="lazy" src={seaCreature.texture} class="aspect-square size-24 object-contain" />
+                <Avatar.Fallback>
+                  <Image class="size-24" />
+                </Avatar.Fallback>
+              </Avatar.Root>
+              <div class="text-center font-bold">
+                {seaCreature.amount} <span class="text-text/60">Kills</span>
+              </div>
             </div>
           </div>
-        </div>
-      {/each}
+        {/each}
+      </ScrollItems>
     </Collapsible.Content>
   </Collapsible.Root>
 {/if}
