@@ -106,9 +106,10 @@
 
       {#if profile.fishing.trophyFish}
         {@const trophyFishes = Object.entries(profile.fishing.trophyFish.trophyFish)}
-        <div class="flex flex-wrap gap-4">
+
+        <ScrollItems>
           {#each trophyFishes as [_, trophyFish], index}
-            <Chip class="px-4" animationOptions={{ animate: true, amountOfItems: trophyFishes.length, index: index }} image={{ src: trophyFish.texture }}>
+            <Chip class="px-4 whitespace-nowrap" animationOptions={{ animate: true, amountOfItems: trophyFishes.length, index: index }} image={{ src: trophyFish.texture }}>
               <div class="flex flex-col">
                 <div class="flex flex-col gap-0.5">
                   <h4 class="text-text/60 font-bold">{trophyFish.name} <span class="text-text/70 font-medium">x{format(trophyFish.bronze + trophyFish.silver + trophyFish.gold + trophyFish.diamond)}</span></h4>
@@ -137,7 +138,7 @@
               {/snippet}
             </Chip>
           {/each}
-        </div>
+        </ScrollItems>
       {/if}
     </Collapsible.Content>
   </Collapsible.Root>
