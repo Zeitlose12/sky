@@ -168,6 +168,7 @@ export async function fetchMuseum(profileId: string) {
 
   const { members } = data;
   if (!members || Object.keys(members).length === 0) {
+    REDIS.SETEX(`MUSEUM:${profileId}`, 60 * 5, JSON.stringify({}));
     return null;
   }
 
@@ -194,6 +195,7 @@ export async function getGarden(profileId: string) {
 
   const { garden } = data;
   if (!garden) {
+    REDIS.SETEX(`GARDEN:${profileId}`, 60 * 5, JSON.stringify({}));
     return null;
   }
 
