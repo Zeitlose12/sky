@@ -24,9 +24,9 @@
   --color-logo: var(--logo);
 
   /* Text Shadow */
-  --text-shadow-sm: 0 0px 2px var(--tw-shadow-color);
-  --text-shadow: 0 0px 4px var(--tw-shadow-color);
-  --text-shadow-lg: 0 0px 8px var(--tw-shadow-color);
+  --txt-shadow-sm: 0 0px 2px var(--tw-shadow-color);
+  --txt-shadow: 0 0px 4px var(--tw-shadow-color);
+  --txt-shadow-lg: 0 0px 8px var(--tw-shadow-color);
   --tw-shadow-color: --alpha(var(--color-background) / 50%);
 
   /* Animations */

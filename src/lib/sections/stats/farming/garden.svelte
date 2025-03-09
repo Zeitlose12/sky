@@ -40,7 +40,7 @@
             <h3 class="text-text/85 font-bold">Progress to next level:</h3>
             <Progress.Root value={garden.level.xpCurrent} max={hasMaxed ? garden.level.xpCurrent : garden.level.xpForNext} class="bg-text/30 relative h-4 w-full overflow-hidden rounded-full">
               <div class="absolute z-10 flex h-full w-full justify-center">
-                <div class="shadow-background/50 text-shadow text-xs font-semibold">
+                <div class="shadow-background/50 txt-shadow text-xs font-semibold">
                   {formatNumber(garden.level.xpCurrent)} / {formatNumber(garden.level.xpForNext)}
                   XP
                 </div>
@@ -171,7 +171,7 @@
         {#snippet progress()}
           <Progress.Root value={milestone.level.xpCurrent} max={hasMaxed ? milestone.level.xpCurrent : milestone.level.xpForNext} class="relative h-4 w-full overflow-hidden ">
             <div class="absolute z-10 flex h-full w-full justify-center">
-              <div class="shadow-background/50 text-shadow text-xs font-semibold">
+              <div class="shadow-background/50 txt-shadow text-xs font-semibold">
                 {formatNumber(milestone.level.xpCurrent)} / {formatNumber(milestone.level.xpForNext)}
                 XP
               </div>

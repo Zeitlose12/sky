@@ -53,7 +53,7 @@
   <Progress.Root value={skillData.xpCurrent} max={isMaxed ? skillData.xpCurrent : skillData.xpForNext} class={cn("relative ml-2 h-4 w-full overflow-hidden rounded-full", apiEnabled ? "bg-text/30" : "bg-gray-500")}>
     {#if apiEnabled}
       <div class="absolute z-10 flex h-full w-full justify-center">
-        <div class="shadow-background/50 text-shadow text-xs font-semibold">
+        <div class="shadow-background/50 txt-shadow text-xs font-semibold">
           {#if $isHovered && !isMaxed}
             {format(skillData.xpCurrent, "0,0")} / {format(skillData.xpForNext)}
           {:else if !isMaxed}

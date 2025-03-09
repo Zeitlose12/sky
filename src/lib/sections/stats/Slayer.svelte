@@ -59,7 +59,7 @@
 
                 <Progress.Root value={value.level.xp} max={value.level.xpForNext} class="bg-text/30 group h-4 w-full overflow-hidden" data-maxed={value.level.maxed}>
                   <div class="absolute z-10 flex h-full w-full justify-center">
-                    <div class="shadow-background/50 text-shadow text-xs font-semibold">
+                    <div class="shadow-background/50 txt-shadow text-xs font-semibold">
                       {#if value.level.maxed}
                         {format(value.level.xp)}
                       {:else}
