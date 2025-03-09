@@ -4,13 +4,11 @@
   import { getRarityClass } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
-  import { wikiOrderPreferences } from "$lib/stores/wiki";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
   import { Avatar, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
   import { IsInViewport } from "runed";
   import { getContext } from "svelte";
-  import { derived as derivedStore } from "svelte/store";
   import Content from "./item/item-content.svelte";
 
   type Props = {
@@ -38,31 +36,6 @@
 
   const isHover = getContext<IsHover>("isHover");
 
-  // Get the wiki link for the item
-  const wikiInfo = derivedStore<typeof wikiOrderPreferences, { url: string; name: string } | undefined>(wikiOrderPreferences, ($wikiOrderPreferences) => {
-    const wiki = skyblockItem.wiki as unknown as ProcessedSkyBlockItem["wiki"];
-    if (!wiki) return undefined;
-
-    // Try to get the preferred wiki link first, then fall back to any available link
-    const preference = $wikiOrderPreferences[0].name.toLowerCase();
-
-    // Type-safe approach: check if the preference is a valid key
-    if (preference === "fandom" && wiki.fandom) {
-      return { url: wiki.fandom, name: "Fandom" };
-    } else if (preference === "official" && wiki.official) {
-      return { url: wiki.official, name: "Official" };
-    }
-
-    // If no preferred links are available, return any available link or null
-    if (wiki.fandom) {
-      return { url: wiki.fandom, name: "Fandom" };
-    } else if (wiki.official) {
-      return { url: wiki.official, name: "Official" };
-    }
-
-    return undefined;
-  });
-
   $effect(() => {
     if (inViewport.current && !hasBeenInViewport) {
       hasBeenInViewport = true;
@@ -72,11 +45,6 @@
 
 <Tooltip.Root group="armor" disableHoverableContent={true} openDelay={0} closeDelay={0}>
   <Tooltip.Trigger
-    oncontextmenu={(e) => {
-      if (!$wikiInfo) return;
-      e.preventDefault();
-      window.open($wikiInfo.url, "_blank");
-    }}
     class="nice-colors-dark"
     bind:el={targetNode}
     onclick={() => {
@@ -111,7 +79,7 @@
   </Tooltip.Trigger>
   {#if isHover.current}
     <Tooltip.Content class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96%-3rem)] max-w-lg flex-col overflow-hidden rounded-lg select-text" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
-      <Content {piece} {tab} wiki={$wikiInfo} />
+      <Content {piece} {tab} />
     </Tooltip.Content>
   {/if}
 </Tooltip.Root>

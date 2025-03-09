@@ -1,12 +1,17 @@
+<script lang="ts" module>
+</script>
+
 <script lang="ts">
   import ContainedItem from "$lib/components/ContainedItem.svelte";
   import { packConfigs } from "$lib/shared/constants/packs";
   import { getRarityClass, removeFormatting, renderLore } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
+  import { wikiOrderPreferences } from "$lib/stores/wiki";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
   import { Avatar, Button } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
   import Info from "lucide-svelte/icons/info";
+  import { derived as derivedStore } from "svelte/store";
 
   type Props = {
     piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
@@ -15,9 +20,8 @@
       name: string;
       icon: string;
     };
-    wiki?: { url: string; name: string };
   };
-  let { piece, isDrawer, tab, wiki }: Props = $props();
+  let { piece, isDrawer, tab }: Props = $props();
 
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const itemName = $derived(skyblockItem.display_name ?? "???");
@@ -26,6 +30,31 @@
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
   const enchanted = $derived(skyblockItem.shiny);
   const packData = $derived(packConfigs.find((pack) => pack.id === skyblockItem.texture_pack));
+
+  // Get the wiki link for the item
+  export const wikiInfo = derivedStore<typeof wikiOrderPreferences, { url: string; name: string } | undefined>(wikiOrderPreferences, ($wikiOrderPreferences) => {
+    const wiki = skyblockItem.wiki as unknown as ProcessedSkyBlockItem["wiki"];
+    if (!wiki) return undefined;
+
+    // Try to get the preferred wiki link first, then fall back to any available link
+    const preference = $wikiOrderPreferences[0].name.toLowerCase();
+
+    // Type-safe approach: check if the preference is a valid key
+    if (preference === "fandom" && wiki.fandom) {
+      return { url: wiki.fandom, name: "Fandom" };
+    } else if (preference === "official" && wiki.official) {
+      return { url: wiki.official, name: "Official" };
+    }
+
+    // If no preferred links are available, return any available link or null
+    if (wiki.fandom) {
+      return { url: wiki.fandom, name: "Fandom" };
+    } else if (wiki.official) {
+      return { url: wiki.official, name: "Official" };
+    }
+
+    return undefined;
+  });
 </script>
 
 <div class={cn(`nice-colors-dark flex flex-nowrap items-center justify-center gap-4 p-5`, { "rounded-t-[10px]": isDrawer }, bgColor)}>
@@ -106,10 +135,10 @@
         </Button.Root>
       {/if}
 
-      {#if wiki}
-        <Button.Root href={wiki.url} target="_blank" class="bg-text/[0.05] hover:bg-text/[0.08] flex flex-1 items-center justify-center rounded-[0.625rem] p-2 transition-colors ">
+      {#if $wikiInfo}
+        <Button.Root href={$wikiInfo.url} target="_blank" class="bg-text/[0.05] hover:bg-text/[0.08] flex shrink items-center justify-center rounded-[0.625rem] p-2 whitespace-nowrap transition-colors">
           <Info class="mr-2 size-6 p-0" />
-          <span class="text-link font-semibold underline">{wiki.name} Wiki</span>
+          <span class="text-link font-semibold underline">{$wikiInfo.name} Wiki</span>
         </Button.Root>
       {/if}
     </div>
