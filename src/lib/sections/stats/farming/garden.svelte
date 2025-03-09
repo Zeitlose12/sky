@@ -49,7 +49,7 @@
             </Progress.Root>
           </AdditionStat>
           <AdditionStat text="Composter" data={Object.values(garden.composter).reduce((acc, curr) => acc + curr, 0)} asterisk={true}>
-            {#each Object.entries(garden.composter) as [key, value]}
+            {#each Object.entries(garden.composter) as [key, value], index (index)}
               <h3 class="text-text/85 font-bold">
                 <span class="capitalize">{key.replaceAll("_", " ")}</span>:
                 <span class="text-text">
@@ -59,7 +59,7 @@
             {/each}
           </AdditionStat>
           <AdditionStat text="Visitors" data={format(garden.visitors.completed)} asterisk={true}>
-            {#each Object.entries(garden.visitors.visitors) as [key, value]}
+            {#each Object.entries(garden.visitors.visitors) as [key, value], index (index)}
               <h3 class="text-text/85 font-bold">
                 <span class={cn("capitalize", getRarityClass(key, "text"))}>{key}</span>:
                 <span class="text-text">
@@ -69,7 +69,7 @@
             {/each}
           </AdditionStat>
           <AdditionStat text="Unique Visitors" data={garden.visitors.uniqueVisitors} asterisk={true}>
-            {#each Object.entries(garden.visitors.visitors) as [key, value]}
+            {#each Object.entries(garden.visitors.visitors) as [key, value], index (index)}
               <h3 class="text-text/85 font-bold">
                 <span class={cn("capitalize", getRarityClass(key, "text"))}>{key}</span>:
                 <span class="text-text">
@@ -102,7 +102,7 @@
   </div>
   <div class="bg-background/30 @container relative mb-0 rounded-lg p-5">
     <div class="grid grid-cols-[repeat(5,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-      {#each garden.plot as plot}
+      {#each garden.plot as plot, index (index)}
         <Tooltip.Root openDelay={0} closeDelay={0} closeOnPointerDown={false} group="garden-plot">
           <Tooltip.Trigger>
             <Avatar.Root class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm p-1">
@@ -133,7 +133,7 @@
     {/if}
   </div>
   <ScrollItems>
-    {#each garden.cropUpgrades as upgrade}
+    {#each garden.cropUpgrades as upgrade, index (index)}
       {@const hasMaxed = upgrade.level.maxed}
       <Chip image={{ src: upgrade.texture }} class={cn("h-fit w-fit", { "opacity-50": !upgrade.level.level })}>
         <div class={cn("flex flex-col")}>
@@ -158,7 +158,7 @@
     {/if}
   </div>
   <ScrollItems>
-    {#each garden.cropMilestones as milestone}
+    {#each garden.cropMilestones as milestone, index (index)}
       {@const hasMaxed = milestone.level.maxed}
       <Chip image={{ src: milestone.texture }} class={cn("h-fit w-fit flex-col overflow-clip pb-0", { "opacity-50": !milestone.level.xp })}>
         <div class={cn("flex flex-col")}>

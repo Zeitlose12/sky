@@ -44,7 +44,7 @@
         {/if}
       </div>
     {/snippet}
-    {#each fishingTools as tool}
+    {#each fishingTools as tool, index (index)}
       <Item piece={tool} />
     {/each}
   </Items>
@@ -61,7 +61,7 @@
     <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
       {@const seaCreatures = Object.entries(profile.fishing.kills)}
       <ScrollItems>
-        {#each seaCreatures as [_, seaCreature], index}
+        {#each seaCreatures as [_, seaCreature], index (index)}
           <div class="bg-background/30 flex h-full max-h-56 flex-col rounded-lg p-2 whitespace-nowrap" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
             <div class="border-icon flex h-12 items-center justify-center border-b-2 pb-2 text-center font-bold">
               {seaCreature.name}
@@ -96,7 +96,7 @@
           <AdditionStat text="Total Caught" data={format(profile.fishing.trophyFish.totalCaught)} />
           <AdditionStat text="Current Stage" data={profile.fishing.trophyFish.stage.name} asterisk={true}>
             <div class="mb-4">
-              {#each profile.fishing.trophyFish.stage.progress as tier}
+              {#each profile.fishing.trophyFish.stage.progress as tier, index (index)}
                 <AdditionStat text={titleCase(tier.tier)} data={`${tier.caught} / ${tier.total}`} />
               {/each}
             </div>
@@ -108,7 +108,7 @@
         {@const trophyFishes = Object.entries(profile.fishing.trophyFish.trophyFish)}
 
         <ScrollItems>
-          {#each trophyFishes as [_, trophyFish], index}
+          {#each trophyFishes as [_, trophyFish], index (index)}
             <Chip class="px-4 whitespace-nowrap" animationOptions={{ animate: true, amountOfItems: trophyFishes.length, index: index }} image={{ src: trophyFish.texture }}>
               <div class="flex flex-col">
                 <div class="flex flex-col gap-0.5">

@@ -42,7 +42,7 @@
               {/if}
             </div>
             <div class="w-full space-y-5 px-5 pb-5">
-              {#each enchating.stats.games as game}
+              {#each enchating.stats.games as game, index (index)}
                 <Chip image={{ src: game.texture }} class="w-full max-w-none">
                   <div class="flex flex-col">
                     <div class="flex flex-col gap-0.5">

@@ -12,7 +12,7 @@
   {/if}
 
   <div class="flex flex-col flex-wrap gap-x-4 gap-y-2 @md:flex-row">
-    {#each Object.entries(profile.skills.skills) as [skillName, skillData]}
+    {#each Object.entries(profile.skills.skills) as [skillName, skillData], index (index)}
       <Skillbar skill={skillName} {skillData} apiEnabled={profile.apiSettings.skills} />
     {/each}
   </div>

@@ -93,7 +93,7 @@
     </Tabs.List>
     <Tabs.Content value="packs">
       <div class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto">
-        {#each packConfigs as pack}
+        {#each packConfigs as pack (pack.id)}
           <Label.Root for={pack.id} class="bg-text/[0.05] flex items-center justify-between gap-4 rounded-lg p-2">
             <div class="flex items-center gap-2">
               <Avatar.Root class="shrink-0 select-none">
@@ -127,7 +127,7 @@
     </Tabs.Content>
     <Tabs.Content value="themes">
       <RadioGroup.Root class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto" bind:value={$themeStore} onValueChange={changeTheme}>
-        {#each themes as theme}
+        {#each themes as theme (theme.id)}
           <Label.Root for={theme.id} class="bg-text/[0.05] flex items-center justify-between gap-4 rounded-lg p-2">
             <div class="flex items-center gap-2">
               <Avatar.Root class="shrink-0 select-none">

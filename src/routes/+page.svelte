@@ -110,7 +110,7 @@
     {#if $favorites.length === 0}
       {@render profile({ id: "0", name: "No favorites set!", quote: "Why don't you set a favorite?" }, { tip: true })}
     {:else}
-      {#each $favorites.reverse() as favorite}
+      {#each $favorites.reverse() as favorite, index (index)}
         {#await getUsername(favorite)}
           {@render profileSkeleton()}
         {:then username}
@@ -120,7 +120,7 @@
     {/if}
 
     {#await data.contributors}
-      {#each new Array(3 * 4) as _}
+      {#each new Array(3 * 4) as _, index (index)}
         {@render profileSkeleton()}
       {/each}
     {:then contributors}

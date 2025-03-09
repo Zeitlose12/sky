@@ -42,14 +42,14 @@
 </div>
 <div class="w-full overflow-auto">
   <div class="w-full p-6 leading-snug font-semibold">
-    {#each skyblockItem.lore as lore}
+    {#each skyblockItem.lore as lore, index (index)}
       {@html renderLore(lore)}
     {/each}
 
     {#if Array.isArray(skyblockItem.containsItems) && !skyblockItem.containsItems.every((item) => Object.keys(item).length === 0)}
       <div class="border-text/10 mt-4 border-t pt-4">
         <div class="grid grid-cols-9 gap-1">
-          {#each skyblockItem.containsItems.slice(0, Math.min(skyblockItem.containsItems.length, 54)) as containedItem}
+          {#each skyblockItem.containsItems.slice(0, Math.min(skyblockItem.containsItems.length, 54)) as containedItem, index (index)}
             {#if containedItem.texture_path}
               <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
                 <ContainedItem piece={containedItem} isInventory={true} />

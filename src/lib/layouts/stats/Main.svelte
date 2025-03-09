@@ -42,7 +42,7 @@
     {#if profile.errors && Object.keys(profile.errors).length > 0}
       <div class="space-y-5 bg-red-600 p-4 @[75rem]/parent:p-8">
         <h3 class="text-2xl font-semibold">An unexpected error has occurred</h3>
-        {#each Object.entries(profile.errors) as [error, message]}
+        {#each Object.entries(profile.errors) as [error, message], index (index)}
           {error}: {message}
         {/each}
         <p>Please report this error on our <Button.Root target="_blank" href={PUBLIC_DISCORD_INVITE} class="underline">Discord</Button.Root></p>

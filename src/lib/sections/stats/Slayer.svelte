@@ -24,7 +24,7 @@
         <AdditionStat text="Total Slayer XP" data={format(slayer.totalSlayerExp)} />
       </div>
       <div class="flex flex-wrap gap-5">
-        {#each Object.entries(slayer.data) as [key, value]}
+        {#each Object.entries(slayer.data) as [key, value], index (index)}
           {#if value.level.xp > 0}
             <div class="bg-background/30 relative flex min-w-[min(20.625rem,100vw)] flex-col items-center gap-1 space-y-5 overflow-hidden rounded-lg">
               <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
@@ -37,7 +37,7 @@
                 {value.name}
               </div>
               <div class="flex h-full w-full flex-wrap gap-5 px-5 uppercase">
-                {#each Object.entries(value.kills) as [key, killValue]}
+                {#each Object.entries(value.kills) as [key, killValue], index (index)}
                   <div class="text-text/60 flex flex-col items-center gap-1 text-sm font-bold">
                     <span>
                       {#if !isNaN(Number(key))}

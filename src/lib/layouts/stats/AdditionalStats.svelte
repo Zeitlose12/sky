@@ -77,7 +77,7 @@
       </div>
       <div>
         <ul class="[&_li]:text-text/85 [&_li_span]:text-text font-bold [&_li]:capitalize [&_li_span]:normal-case">
-          {#each Object.entries(profile.stats.networth.types) as [key, value]}
+          {#each Object.entries(profile.stats.networth.types) as [key, value], index (index)}
             <li>
               {key.replace(/_/g, " ")}:
               <span>

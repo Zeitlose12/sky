@@ -33,7 +33,7 @@
         <SectionSubtitle class="my-0">Kuudra Completions</SectionSubtitle>
         <AdditionStat text="Total Completions" data={isle.kuudra.totalKills} />
         <div class="flex flex-wrap gap-4">
-          {#each isle.kuudra.tiers as tier}
+          {#each isle.kuudra.tiers as tier, index (index)}
             {@const hasUnlocked = tier.kills}
             <Chip image={{ src: tier.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
               <div class={cn("flex flex-col")}>
@@ -58,7 +58,7 @@
       </div>
 
       <ScrollItems>
-        {#each isle.dojo.challenges as challenge}
+        {#each isle.dojo.challenges as challenge, index (index)}
           {@const hasMaxed = challenge.points >= 1000}
           {@const hasUnlocked = challenge.points}
           <Chip image={{ src: challenge.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>

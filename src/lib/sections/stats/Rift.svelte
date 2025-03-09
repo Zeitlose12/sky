@@ -59,7 +59,7 @@
 
         <Items subtitle="Armor">
           {#if armor.armor.length > 0}
-            {#each armor.armor as piece}
+            {#each armor.armor as piece, index (index)}
               <Item {piece} />
             {/each}
           {:else}
@@ -72,7 +72,7 @@
 
         <Items subtitle="Equipment">
           {#if equipment.equipment.length > 0}
-            {#each equipment.equipment as piece}
+            {#each equipment.equipment as piece, index (index)}
               <Item {piece} />
             {/each}
           {:else}
@@ -91,7 +91,7 @@
     </div>
 
     <ScrollItems>
-      {#each rift.porhtal.porhtals as porhtal}
+      {#each rift.porhtal.porhtals as porhtal, index (index)}
         {@const hasUnlocked = porhtal.unlocked}
         <Chip image={{ src: porhtal.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
           <div class={cn("flex flex-col")}>
@@ -107,7 +107,7 @@
       <AdditionStat text="Timecharms Obtained" data={rift.timecharms.timecharmsFound} maxed={rift.timecharms.timecharmsFound === 8} />
     </div>
     <ScrollItems>
-      {#each rift.timecharms.timecharms as timecharm}
+      {#each rift.timecharms.timecharms as timecharm, index (index)}
         {@const hasUnlocked = timecharm.unlocked}
 
         <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} tooltip={hasUnlocked ? tooltip : undefined}>

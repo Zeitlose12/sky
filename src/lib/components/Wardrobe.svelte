@@ -8,7 +8,7 @@
 </script>
 
 <div class="mt-2 flex flex-col gap-2">
-  {#each wardrobeItems as piece, index}
+  {#each wardrobeItems as piece, index (index)}
     {#if piece && piece.display_name}
       <Item {piece} />
     {:else}

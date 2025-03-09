@@ -14,7 +14,7 @@
   <Items>
     {#snippet text()}
       <div>
-        {#each Object.entries(misc.damage) as [text, data]}
+        {#each Object.entries(misc.damage) as [text, data], index (index)}
           <AdditionStat text={text.replaceAll("_", " ")} data={format(data.toFixed(3))} />
         {/each}
       </div>
