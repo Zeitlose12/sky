@@ -106,7 +106,7 @@
         <Tooltip.Root openDelay={0} closeDelay={0} closeOnPointerDown={false} group="garden-plot">
           <Tooltip.Trigger>
             <Avatar.Root class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm p-1">
-              <Avatar.Image src={plot.texture_path} class="h-auto w-14 [image-rendering:pixelated] select-none" />
+              <Avatar.Image src={plot.texture_path} class="h-auto w-14 select-none [image-rendering:pixelated]" />
               <Avatar.Fallback>
                 <Image class="size-full" />
               </Avatar.Fallback>
