@@ -20,7 +20,7 @@
     <div class="bg-icon py-1 text-center text-xl font-semibold uppercase">Notice</div>
     <div class="p-5 text-center font-medium text-pretty">
       <p>
-        {#each apiSettings as [key, _], index}
+        {#each apiSettings as [key, _], index (index)}
           {#if index === apiSettings.length - 1 && index > 0}
             &nbsp;and
           {/if}

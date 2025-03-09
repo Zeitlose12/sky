@@ -151,7 +151,7 @@
         <ScrollArea.Root>
           <ScrollArea.Viewport class="border-icon border-b">
             <ScrollArea.Content class="flex! h-full shrink-0 flex-nowrap items-center gap-3 px-4 whitespace-nowrap">
-              {#each tabs as tab}
+              {#each tabs as tab (tab.id)}
                 <Tabs.Trigger value={tab.id} class="group relative flex items-center justify-center gap-0.5 pb-2 text-xs uppercase">
                   <Avatar.Root class="size-8">
                     <Avatar.Image loading="lazy" src={tab.icon} class="size-8 object-contain" />
@@ -208,7 +208,7 @@
     <p class="mx-auto w-fit leading-6">No items found.</p>
   {:else if searchValue !== ""}
     <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-      {#each searchedItems as item}
+      {#each searchedItems as item, index (index)}
         {#if item.item}
           <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
             {@render itemSnippet(item.item, item.sourceTab)}
@@ -224,7 +224,7 @@
 {#snippet multipleInventorySection()}
   <Tabs.Root value={tab.id}>
     <Tabs.List class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-      {#each tab.items as item, index}
+      {#each tab.items as item, index (index)}
         <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
           <div use:builder.action {...builder} class="group">
             {#if item.texture_path}
@@ -238,11 +238,11 @@
         </Tabs.Trigger>
       {/each}
     </Tabs.List>
-    {#each tab.items as item, index}
+    {#each tab.items as item, index (index)}
       <Tabs.Content value={index.toString()}>
         <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
           {#if item?.containsItems}
-            {#each item.containsItems as containedItem, index2}
+            {#each item.containsItems as containedItem, index2 (index2)}
               {#if index2 > 0}
                 {#if index2 % 54 === 0}
                   {@render gap()}
@@ -267,7 +267,7 @@
 
 {#snippet inventorySection()}
   <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-    {#each tab.items as item, index}
+    {#each tab.items as item, index (index)}
       {#if index > 0}
         {#if index % tab.gap === 0}
           {@render gap()}

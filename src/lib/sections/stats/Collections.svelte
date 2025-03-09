@@ -23,7 +23,7 @@
         <AdditionStat text="Maxed Collections" data="{collections.maxedCollections} / {collections.totalCollections}" maxed={collections.maxedCollections === collections.totalCollections} />
       </div>
     {/snippet}
-    {#each Object.entries(collections.categories) as [_, data]}
+    {#each Object.entries(collections.categories) as [_, data], index (index)}
       <div class="flex items-center gap-1 text-base font-semibold uppercase">
         <h3 class="text-xl">{data.name}</h3>
         {#if data.maxTiers === data.totalTiers}
@@ -34,7 +34,7 @@
       </div>
 
       <ScrollItems>
-        {#each data.items as item}
+        {#each data.items as item, index (index)}
           {@const hasUnlocked = item.totalAmount}
           {@const hasMaxed = item.tier === item.maxTier}
           <Chip image={{ src: item.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
@@ -52,7 +52,7 @@
               <div class="text-sm font-bold">
                 {#if item.amounts.length > 0}
                   <div class="mb-4">
-                    {#each item.amounts as user}
+                    {#each item.amounts as user, index (index)}
                       <div>
                         <span class="opacity-85">
                           {user.username}:

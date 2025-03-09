@@ -14,7 +14,7 @@
   <Items>
     {#snippet text()}
       <div>
-        {#each Object.entries(misc.claimed_items) as [item, time]}
+        {#each Object.entries(misc.claimed_items) as [item, time], index (index)}
           <AdditionStat
             text={item.replaceAll("_", " ")}
             data={formatDistanceToNowStrict(time, {

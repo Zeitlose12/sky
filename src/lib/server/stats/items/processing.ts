@@ -3,6 +3,7 @@ import * as helper from "$lib/server/helper";
 
 import type { Item, ProcessedItem } from "$types/stats";
 
+import { NEU_ITEMS } from "$lib/server/helper/NotEnoughUpdates/parseNEURepository";
 import { getItemNetworth } from "skyhelper-networth";
 import { addLevelableEnchantmentsToLore, parseItemGems } from "./helper";
 
@@ -165,6 +166,17 @@ export async function processItems(items: ProcessedItem[], source: string, packs
         const totalValue = itemNetworth.reduce((acc, cur) => acc + cur.price, 0);
         itemLore.push("", `§7Total Value: §6${Math.round(totalValue).toLocaleString()} Coins §7(§6${helper.formatNumber(totalValue)}§7)`);
       }
+    }
+
+    const NEUItem = NEU_ITEMS.get(helper.getId(item));
+    if (NEUItem?.info) {
+      const [link1, link2] = NEUItem.info;
+      const isFandom = link1?.includes("hypixel-skyblock.fandom");
+
+      item.extra.wiki = {
+        fandom: (isFandom ? link1 : link2) ?? null,
+        official: (isFandom ? link2 : link1) ?? null
+      };
     }
   }
 

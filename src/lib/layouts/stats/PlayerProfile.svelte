@@ -50,7 +50,7 @@
       <span class="pl-4">{profile.displayName}</span>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="bg-background-grey/95 z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
-      {#each profile.members as member}
+      {#each profile.members as member (member.uuid)}
         {#if member.username !== profile.username}
           <DropdownMenu.Item href={`/stats/${member.username}/${profile.profile_cute_name}`} class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
             <span class="pl-4 {member.removed ? 'line-through' : ''}">
@@ -68,7 +68,7 @@
     </DropdownMenu.Trigger>
 
     <DropdownMenu.Content class="bg-background-grey/95  z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
-      {#each profile.profiles ?? [] as otherProfile}
+      {#each profile.profiles ?? [] as otherProfile (otherProfile.profile_id)}
         {#if otherProfile.profile_id !== profile.profile_id}
           <DropdownMenu.Item href={`/stats/${profile.username}/${otherProfile.cute_name}`} class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
             {otherProfile.cute_name}
@@ -149,7 +149,7 @@
     Copy UUID
   </Button.Root>
 
-  {#each Object.entries(profile.social) as [key, value]}
+  {#each Object.entries(profile.social) as [key, value], index (index)}
     {#if key === "DISCORD"}
       <Button.Root class="bg-icon/90 hover:bg-icon hidden items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150 data-[visible=true]:flex" data-visible={showMore} on:click={() => copyToClipboard(value)}>
         <Avatar.Root>

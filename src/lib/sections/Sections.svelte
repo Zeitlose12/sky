@@ -188,7 +188,7 @@
 
 <div class="space-y-4">
   {#if preloadComplete}
-    {#each Object.entries(COMPONENTS).sort(([a], [b]) => findIndex(a as SectionName) - findIndex(b as SectionName)) as [section, { valid }]}
+    {#each Object.entries(COMPONENTS).sort(([a], [b]) => findIndex(a as SectionName) - findIndex(b as SectionName)) as [section, { valid }], index (index)}
       <div data-section={section} use:setupObserver>
         {#if valid(profile)}
           {#if renderedComponents.has(section)}

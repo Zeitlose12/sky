@@ -56,7 +56,7 @@
       <div class={cn("absolute inset-0 rounded-lg", { shine: shine })}></div>
       {#if hasBeenInViewport}
         <Avatar.Root>
-          <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="lazy data-[enchanted=true]:enchanted h-auto w-14 [image-rendering:pixelated] select-none" data-enchanted={enchanted} />
+          <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="lazy data-[enchanted=true]:enchanted h-auto w-14 select-none [image-rendering:pixelated]" data-enchanted={enchanted} />
           <Avatar.Fallback>
             <Image class={cn(isInventory ? "size-8 sm:size-14" : "size-14")} />
           </Avatar.Fallback>

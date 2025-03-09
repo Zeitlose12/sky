@@ -34,7 +34,7 @@
                 <h3 class="text-text/85">Pet score is calculated based on how many unique pets you have and the rarity of these pets.</h3>
                 <h3 class="text-text/85">You gain an additional score for each max level pet you have!</h3>
                 <div class="flex flex-col">
-                  {#each pets.petScore.reward as { score, bonus, unlocked }}
+                  {#each pets.petScore.reward as { score, bonus, unlocked }, index (index)}
                     <div>
                       {score} Score: <span style="color: var(--§b)">+{bonus} Magic Find</span>
                       {#if unlocked}
@@ -69,7 +69,7 @@
           {#if uniquePets.length > 0 && uniquePets.find((pet) => !pet.active)}
             <SectionSubtitle class="mt-0">Other Pets</SectionSubtitle>
             <Items>
-              {#each uniquePets as pet}
+              {#each uniquePets as pet, index (index)}
                 {#if !pet.active}
                   <div>
                     <Item piece={pet} />
@@ -81,7 +81,7 @@
           {/if}
         {:else}
           <Items>
-            {#each uniquePets as pet}
+            {#each uniquePets as pet, index (index)}
               {#if !pet.active}
                 <div>
                   <Item piece={pet} />
@@ -100,7 +100,7 @@
             </Collapsible.Trigger>
             <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
               <Items>
-                {#each otherPets as pet}
+                {#each otherPets as pet, index (index)}
                   <div>
                     <Item piece={pet} />
                     <p class="mt-2 text-center font-semibold">LVL {pet.level}</p>
@@ -119,7 +119,7 @@
             </Collapsible.Trigger>
             <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
               <Items>
-                {#each pets.missing as pet}
+                {#each pets.missing as pet, index (index)}
                   <div class="grayscale-[80%] hover:grayscale-0">
                     <Item piece={pet} />
                   </div>

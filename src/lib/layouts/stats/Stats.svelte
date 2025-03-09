@@ -15,7 +15,7 @@
 <div class="stats flex flex-col">
   <Collapsible.Root>
     <Collapsible.Content class="columns-[12.5rem]" transition={slide} transitionConfig={{ duration: 300, easing: quadInOut }}>
-      {#each Object.entries(stats) as [statName, statData]}
+      {#each Object.entries(stats) as [statName, statData], index (index)}
         {#if statData.total > 0}
           <Stat stat={statName} {statData} />
         {/if}

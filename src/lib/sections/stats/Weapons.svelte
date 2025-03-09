@@ -26,7 +26,7 @@
       {/snippet}
 
       {#if profile.items.weapons.weapons.length}
-        {#each profile.items.weapons.weapons as weapon}
+        {#each profile.items.weapons.weapons as weapon, index (index)}
           <Item piece={weapon} />
         {/each}
       {/if}

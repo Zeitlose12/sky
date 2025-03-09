@@ -18,6 +18,7 @@ export type NEUItem = {
       Lore: string[];
     };
   };
+  info?: string[];
 };
 
 export type NEUConstants = {

@@ -30,7 +30,7 @@
         {/if}
       </div>
     {/snippet}
-    {#each miningTools as tool}
+    {#each miningTools as tool, index (index)}
       <Item piece={tool} />
     {/each}
   </Items>
@@ -64,7 +64,7 @@
     {@const placableCrystals = ["jade", "amber", "amethyst", "sapphire", "topaz"]}
     <h3 class="text-text/85 text-sm font-bold">Crystals:</h3>
     <ul class="mt-0.5 space-y-0.5 text-sm font-bold">
-      {#each Object.entries(profile.mining.crystalHollows.progress.crystals).filter(([crystalName, _crystalStatus]) => placableCrystals.includes(crystalName)) as [crystalName, crystalStatus]}
+      {#each Object.entries(profile.mining.crystalHollows.progress.crystals).filter(([crystalName, _crystalStatus]) => placableCrystals.includes(crystalName)) as [crystalName, crystalStatus], index (index)}
         <li class="flex">
           <span class="text-text/85 flex-1 capitalize">
             - {crystalName}:
@@ -78,7 +78,7 @@
 
     <h3 class="text-text/85 mt-5 text-sm font-bold">Other Crystals:</h3>
     <ul class="mt-0.5 space-y-0.5 text-sm font-bold">
-      {#each Object.entries(profile.mining.crystalHollows.progress.crystals).filter(([crystalName, _crystalStatus]) => !placableCrystals.includes(crystalName)) as [crystalName, crystalStatus]}
+      {#each Object.entries(profile.mining.crystalHollows.progress.crystals).filter(([crystalName, _crystalStatus]) => !placableCrystals.includes(crystalName)) as [crystalName, crystalStatus], index (index)}
         <li class="flex">
           <span class="text-text/85 flex-1 capitalize">
             - {crystalName}:
@@ -92,7 +92,7 @@
 
     <h3 class="text-text/85 mt-5 text-sm font-bold">Precursor parts delivered:</h3>
     <ul class="mt-0.5 space-y-0.5 text-sm font-bold">
-      {#each Object.entries(profile.mining.crystalHollows.progress.parts) as [partName, partStatus]}
+      {#each Object.entries(profile.mining.crystalHollows.progress.parts) as [partName, partStatus], index (index)}
         {@const delivered = partStatus === "DELIVERED"}
         <li class={cn("capitalize", delivered ? "text-minecraft-a" : "text-minecraft-c")}>
           {delivered ? "✔" : "✖"}
@@ -112,10 +112,10 @@
   <AdditionStat text="Tier" data={profile.mining.level.level.toString()} maxed={profile.mining.level.level === profile.mining.level.maxLevel} />
   <AdditionStat text="Token Of The Mountain" data={`${profile.mining.tokens.spent}/${profile.mining.tokens.total}`} />
   <AdditionStat text="Peak Of The Mountain" data={`${profile.mining.peak_of_the_mountain.level}/${profile.mining.peak_of_the_mountain.maxLevel}`} maxed={profile.mining.peak_of_the_mountain.level === profile.mining.peak_of_the_mountain.maxLevel} />
-  {#each Object.entries(profile.mining.powder) as [key, value]}
+  {#each Object.entries(profile.mining.powder) as [key, value], index (index)}
     <AdditionStat text={`${key} Powder`} data={format(value.available + value.spent)} asterisk={true}>
       <ul>
-        {#each Object.entries(value) as [type, amount]}
+        {#each Object.entries(value) as [type, amount], index (index)}
           <li>
             <AdditionStat text={type} data={format(amount)} class="capitalize" />
           </li>
@@ -130,7 +130,7 @@
   <div class="pt-5">
     <div class="bg-background/30 @container relative mb-0 rounded-lg p-5">
       <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-        {#each profile.mining.hotm as item, index}
+        {#each profile.mining.hotm as item, index (index)}
           {#if item.display_name}
             <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}>
               <Item piece={item} isInventory={true} />
@@ -149,7 +149,7 @@
   {#if profile.mining.forge.length === 0}
     No items currently forging!
   {/if}
-  {#each profile.mining.forge as item}
+  {#each profile.mining.forge as item, index (index)}
     {@const ended = item.endingTime < Date.now()}
     <AdditionStat text={`Slot ${item.slot}`} data={`${item.name} - ${ended ? "ended" : `ends ${formatDistanceToNowStrict(item.endingTime, { addSuffix: true })}`}`} asterisk={true}>
       {formatDate(item.endingTime, "dd MMMM yyyy 'at' HH:mm")}

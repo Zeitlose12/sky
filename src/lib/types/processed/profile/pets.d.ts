@@ -128,4 +128,10 @@ export type ProcessedPet = {
   stats: Record<string, number>;
   candyUsed: number;
   skin: string | null;
+  extra?: {
+    wiki?: {
+      official?: string;
+      fandom?: string;
+    };
+  };
 };

@@ -44,6 +44,21 @@ export function stripItem(item: ProcessedItem | ProcessedPet, keys?: string[]): 
     output.texture_pack = itemData.texture_pack;
   }
 
+  if (itemData.extra?.wiki) {
+    const { official, fandom } = itemData.extra.wiki;
+
+    if (official || fandom) {
+      output.wiki = {};
+      if (official) {
+        output.wiki.official = official;
+      }
+
+      if (fandom) {
+        output.wiki.fandom = fandom;
+      }
+    }
+  }
+
   if (keys?.length) {
     for (const key of keys) {
       output[key] = getNestedValue(itemData, key);
@@ -66,6 +81,21 @@ function stripPetData(pet: ProcessedPet): ProcessedSkyblockPet {
 
   if (pet.active) {
     output.stats = pet.stats;
+  }
+
+  if (pet.extra?.wiki) {
+    const { official, fandom } = pet.extra.wiki;
+
+    if (official || fandom) {
+      output.wiki = {};
+      if (official) {
+        output.wiki.official = official;
+      }
+
+      if (fandom) {
+        output.wiki.fandom = fandom;
+      }
+    }
   }
 
   return output;

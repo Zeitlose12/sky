@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import Item from "$lib/components/Item.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import Garden from "$lib/sections/stats/farming/garden.svelte";
@@ -27,12 +28,12 @@
           <p class="text-text/50 text-sm italic">Weight calculations by <a href="https://elitebot.dev/" target="_blank" class="text-icon underline">Elite</a></p>
         </div>
         <div>
-          {#each Object.entries(profile.farming.weight.bonusSources) as [key, value]}
+          {#each Object.entries(profile.farming.weight.bonusSources) as [key, value], index (index)}
             <AdditionStat text={key} data={formatNumber(value)} class="capitalize" />
           {/each}
         </div>
         <div>
-          {#each profile.farming.weight.crops as crop}
+          {#each profile.farming.weight.crops as crop, index (index)}
             <AdditionStat text={crop.name.toLowerCase().replace("_", " ")} data={formatNumber(crop.amount)} class="capitalize" />
           {/each}
         </div>
@@ -44,9 +45,9 @@
   </div>
 
   <div class="space-y-0.5">
-    {#each Object.entries(profile.farming.medals) as [medal, medalData]}
+    {#each Object.entries(profile.farming.medals) as [medal, medalData], index (index)}
       <AdditionStat text={medal} data={medalData.total.toString()} asterisk={true}>
-        {#each Object.entries(medalData) as [key, value]}
+        {#each Object.entries(medalData) as [key, value], index (index)}
           <AdditionStat text={key} data={value.toString()} class="capitalize" />
         {/each}
       </AdditionStat>
@@ -67,7 +68,7 @@
         {/if}
       </div>
     {/snippet}
-    {#each farmingTools as tool}
+    {#each farmingTools as tool, index (index)}
       <Item piece={tool} />
     {/each}
   </Items>
@@ -83,15 +84,17 @@
     </Collapsible.Trigger>
     <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
       {@const crops = Object.entries(profile.farming.contests)}
-      {#each crops as [_, cropData], index}
-        <Chip image={{ src: cropData.texture }} animationOptions={{ animate: true, amountOfItems: crops.length, index: index }}>
-          <div class="flex flex-col gap-0.5">
-            <h4 class="text-lg font-semibold">{cropData.name}</h4>
-            <AdditionStat text="Personal Best" data={formatNumber(cropData.collected)} />
-            <AdditionStat text="Contests" data={cropData.amount.toString()} />
-          </div>
-        </Chip>
-      {/each}
+      <ScrollItems>
+        {#each crops as [_, cropData], index (index)}
+          <Chip image={{ src: cropData.texture }} animationOptions={{ animate: true, amountOfItems: crops.length, index: index }}>
+            <div class="flex flex-col gap-0.5 whitespace-nowrap">
+              <h4 class="text-lg font-semibold">{cropData.name}</h4>
+              <AdditionStat text="Personal Best" data={formatNumber(cropData.collected)} />
+              <AdditionStat text="Contests" data={cropData.amount.toString()} />
+            </div>
+          </Chip>
+        {/each}
+      </ScrollItems>
     </Collapsible.Content>
   </Collapsible.Root>
 {/if}

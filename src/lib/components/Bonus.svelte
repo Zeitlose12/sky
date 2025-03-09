@@ -15,7 +15,7 @@
 {#if statsData.length > 0}
   <p class={cn("text-text/60 my-4 space-x-0.5 leading-6 font-bold capitalize", classNames)}>
     <span>{title}</span>
-    {#each statsData as [key, value], index}
+    {#each statsData as [key, value], index (index)}
       {#if STAT_ALIASES[key] !== undefined}
         {(key = STAT_ALIASES[key])}
       {/if}

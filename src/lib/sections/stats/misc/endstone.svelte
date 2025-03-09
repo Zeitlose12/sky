@@ -14,7 +14,7 @@
   <Items>
     {#snippet text()}
       <div>
-        {#each Object.entries(misc.endstone_protector) as [text, data]}
+        {#each Object.entries(misc.endstone_protector) as [text, data], index (index)}
           <AdditionStat text={text.replaceAll("_", " ")} data={format(data)} />
         {/each}
       </div>

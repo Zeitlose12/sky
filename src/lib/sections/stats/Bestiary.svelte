@@ -26,7 +26,7 @@
         <AdditionStat text="Families Tiers" data="{bestiary.familyTiers} / {bestiary.maxFamilyTiers}" maxed={bestiary.familyTiers === bestiary.maxFamilyTiers} />
       </div>
     {/snippet}
-    {#each Object.entries(bestiary.categories) as [_, data]}
+    {#each Object.entries(bestiary.categories) as [_, data], index (index)}
       <div class="flex items-center gap-1 text-base font-semibold uppercase">
         <h3 class="text-xl">{data.name}</h3>
         {#if data.mobsMaxed === data.mobs.length}
@@ -37,7 +37,7 @@
       </div>
 
       <ScrollItems>
-        {#each data.mobs as mob}
+        {#each data.mobs as mob, index (index)}
           {@const hasKilled = mob.kills}
           {@const hasMaxed = mob.tier === mob.maxTier}
           <Chip image={{ src: mob.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasKilled })}>

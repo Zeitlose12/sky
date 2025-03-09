@@ -2,6 +2,7 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Skillbar from "$lib/components/Skillbar.svelte";
   import { formatNumber } from "$lib/shared/helper";
@@ -39,7 +40,7 @@
     {:else if dungeons}
       <div class="flex flex-col flex-wrap justify-start gap-x-4 gap-y-2 pt-4 sm:flex-row">
         <Skillbar class="" skill="Catacombs" skillData={dungeons.level} />
-        {#each Object.entries(dungeons.classes.classes) as [className, classData]}
+        {#each Object.entries(dungeons.classes.classes) as [className, classData], index (index)}
           <Skillbar class="sm:last:grow sm:last:basis-1/3" skill={className} skillData={classData} />
         {/each}
       </div>
@@ -83,9 +84,9 @@
 </CollapsibleSection>
 
 {#snippet cataCard(catacombs: CatacombsData[] | null, master: boolean = false)}
-  <div class="flex flex-wrap gap-5">
-    {#if catacombs}
-      {#each catacombs as catacomb}
+  {#if catacombs}
+    <ScrollItems>
+      {#each catacombs as catacomb, index (index)}
         <div class="bg-background/30 flex min-w-80 basis-[calc((100%/3)-1.25rem)] flex-col gap-1 rounded-lg">
           <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
             <Avatar.Root>
@@ -103,7 +104,7 @@
               <SectionSubtitle class="my-0">Floor Stats</SectionSubtitle>
             </Collapsible.Trigger>
             <Collapsible.Content>
-              {#each Object.entries(catacomb.stats) as [key, value]}
+              {#each Object.entries(catacomb.stats) as [key, value], index (index)}
                 {#if typeof value === "object"}
                   <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value.damage)} subData="({value.type})" />
                 {:else if key.includes("time") && key !== "times_played"}
@@ -122,7 +123,7 @@
                 <SectionSubtitle class="my-0">Best run</SectionSubtitle>
               </Collapsible.Trigger>
               <Collapsible.Content>
-                {#each Object.entries(catacomb.best_run) as [key, value]}
+                {#each Object.entries(catacomb.best_run) as [key, value], index (index)}
                   {#if typeof value === "number"}
                     {#if key === "timestamp"}
                       <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDistanceToNowStrict(value, { addSuffix: true })} asterisk={true}>
@@ -144,8 +145,8 @@
           {/if}
         </div>
       {/each}
-    {:else}
-      This player has not played any {master ? "Master Catacombs" : "Catacombs"}.
-    {/if}
-  </div>
+    </ScrollItems>
+  {:else}
+    This player has not played any {master ? "Master Catacombs" : "Catacombs"}.
+  {/if}
 {/snippet}

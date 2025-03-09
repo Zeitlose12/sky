@@ -34,7 +34,7 @@
     {/snippet}
 
     {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
-      {#each armor.armor as piece}
+      {#each armor.armor as piece, index (index)}
         {#if piece.display_name}
           <Item {piece} />
         {/if}
@@ -49,7 +49,7 @@
 
   <Items subtitle="Equipment">
     {#if equipment.equipment.length > 0}
-      {#each equipment.equipment as piece}
+      {#each equipment.equipment as piece, index (index)}
         <Item {piece} />
       {/each}
     {:else}
@@ -68,7 +68,7 @@
           <ScrollArea.Viewport>
             <ScrollArea.Content>
               <div class="flex flex-row gap-6 md:gap-3">
-                {#each firstWardrobeItems as _, i}
+                {#each firstWardrobeItems as _, i (i)}
                   <div class="min-h-[4.5rem] min-w-[4.5rem]">
                     <Wardrobe wardrobeItems={wardrobe[i]} />
                   </div>

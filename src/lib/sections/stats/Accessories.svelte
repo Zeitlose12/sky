@@ -138,7 +138,7 @@
           <div>
             <SectionSubtitle class="mt-2">Active Accessories</SectionSubtitle>
             <Items>
-              {#each accessories.accessories as accessory}
+              {#each accessories.accessories as accessory, index (index)}
                 {#if accessory.isInactive === false}
                   <Item piece={accessory} />
                 {/if}
@@ -147,7 +147,7 @@
             {#if accessories.enrichments != null}
               <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
                 <span>Enrichments: </span>
-                {#each Object.entries(accessories.enrichments) as [key, value], index}
+                {#each Object.entries(accessories.enrichments) as [key, value], index (index)}
                   {#if key !== "missing"}
                     <span class={STATS_DATA[key.toLowerCase()].color}>
                       {value}×
@@ -167,7 +167,7 @@
 
             {#if accessories.accessories.length > 0 && accessories.accessories.find((accessory) => accessory.isInactive)}
               <Items subtitle="Inactive Accessories">
-                {#each accessories.accessories as accessory}
+                {#each accessories.accessories as accessory, index (index)}
                   {#if accessory.isInactive === true}
                     <Item piece={accessory} />
                   {/if}
@@ -187,7 +187,7 @@
             <Collapsible.Content>
               {#if accessories.missing.length > 0}
                 <Items>
-                  {#each accessories.missing as accessory}
+                  {#each accessories.missing as accessory, index (index)}
                     <div class="grayscale-[80%] hover:grayscale-0">
                       <Item piece={accessory} />
                     </div>
@@ -196,7 +196,7 @@
               {/if}
               {#if accessories.upgrades.length > 0}
                 <Items subtitle="Missing Accessory Upgrades">
-                  {#each accessories.upgrades as accessory}
+                  {#each accessories.upgrades as accessory, index (index)}
                     <div class="grayscale-[80%] hover:grayscale-0">
                       <Item piece={accessory} />
                     </div>

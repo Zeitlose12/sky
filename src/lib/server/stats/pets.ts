@@ -158,6 +158,17 @@ function getProfilePets(userProfile: Member, pets: Pet[]) {
       continue;
     }
 
+    if (petData.info) {
+      const [link1, link2] = petData.info;
+      const isFandom = link1?.includes("hypixel-skyblock.fandom");
+
+      outputPet.extra ??= {};
+      outputPet.extra.wiki = {
+        fandom: (isFandom ? link1 : link2) ?? null,
+        official: (isFandom ? link2 : link1) ?? null
+      };
+    }
+
     const skinData = pet.skin ? NEU_ITEMS.get(`PET_SKIN_${pet.skin}`) : null;
     const texture = helper.getHeadTextureUUID((skinData ?? petData).nbttag.SkullOwner.Properties.textures[0].Value);
     outputPet.texture_path = `/api/head/${texture}`;

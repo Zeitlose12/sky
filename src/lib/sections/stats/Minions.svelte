@@ -46,7 +46,7 @@
       </div>
     </Button.Root>
 
-    {#each Object.entries(minions.minions) as [category, data]}
+    {#each Object.entries(minions.minions) as [category, data], index (index)}
       <div class="flex items-center gap-1 text-base font-semibold uppercase">
         <h3 class="text-xl">{category}</h3>
         {#if data.maxedMinions === data.totalMinions}
@@ -57,7 +57,7 @@
       </div>
 
       <ScrollItems>
-        {#each data.minions as minion}
+        {#each data.minions as minion, index (index)}
           {@const hasTier = minion.tiers[minion.tiers.length - 1]}
           {@const hasMaxed = hasTier === minion.maxTier}
           <Chip image={{ src: minion.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasTier })}>
@@ -69,7 +69,7 @@
             </div>
             {#snippet tooltip()}
               <div class="flex gap-1">
-                {#each arabicTiers.slice(0, minion.maxTier) as tier}
+                {#each arabicTiers.slice(0, minion.maxTier) as tier, index (index)}
                   {@const hasTier = minion.tiers.includes(tier)}
                   <span class={cn("text-sm font-medium", { "text-link": hasTier })}>{romanTiers[tier - 1]}</span>
                 {/each}

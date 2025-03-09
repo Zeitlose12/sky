@@ -3,11 +3,11 @@ import plugin from "tailwindcss/plugin";
 const textShadowPlugin = plugin(function ({ matchUtilities, theme }) {
   matchUtilities(
     {
-      "text-shadow": (value) => ({
+      "txt-shadow": (value) => ({
         textShadow: value
       })
     },
-    { values: theme("textShadow") }
+    { values: theme("txtShadow") }
   );
 });
 

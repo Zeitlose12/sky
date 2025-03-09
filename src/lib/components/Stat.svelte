@@ -39,7 +39,7 @@
           <p>Bonus value obtained from:</p>
 
           <div class="flex flex-col">
-            {#each Object.entries(statData) as [key, value]}
+            {#each Object.entries(statData) as [key, value], index (index)}
               {#if !["total", "base"].includes(key)}
                 <div class="capitalize">- {key.replaceAll("_", " ")} +{format(value)}</div>
               {/if}

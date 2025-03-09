@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import { calculatePercentage } from "$lib/shared/helper";
   import { Avatar, Progress } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
@@ -23,8 +24,8 @@
       <div class="pt-4 pb-1.5">
         <AdditionStat text="Total Slayer XP" data={format(slayer.totalSlayerExp)} />
       </div>
-      <div class="flex flex-wrap gap-5">
-        {#each Object.entries(slayer.data) as [key, value]}
+      <ScrollItems>
+        {#each Object.entries(slayer.data) as [key, value], index (index)}
           {#if value.level.xp > 0}
             <div class="bg-background/30 relative flex min-w-[min(20.625rem,100vw)] flex-col items-center gap-1 space-y-5 overflow-hidden rounded-lg">
               <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
@@ -37,7 +38,7 @@
                 {value.name}
               </div>
               <div class="flex h-full w-full flex-wrap gap-5 px-5 uppercase">
-                {#each Object.entries(value.kills) as [key, killValue]}
+                {#each Object.entries(value.kills) as [key, killValue], index (index)}
                   <div class="text-text/60 flex flex-col items-center gap-1 text-sm font-bold">
                     <span>
                       {#if !isNaN(Number(key))}
@@ -59,7 +60,7 @@
 
                 <Progress.Root value={value.level.xp} max={value.level.xpForNext} class="bg-text/30 group h-4 w-full overflow-hidden" data-maxed={value.level.maxed}>
                   <div class="absolute z-10 flex h-full w-full justify-center">
-                    <div class="shadow-background/50 text-shadow text-xs font-semibold">
+                    <div class="shadow-background/50 txt-shadow text-xs font-semibold">
                       {#if value.level.maxed}
                         {format(value.level.xp)}
                       {:else}
@@ -74,7 +75,7 @@
             </div>
           {/if}
         {/each}
-      </div>
+      </ScrollItems>
       <Bonus title="Bonus:" stats={slayer.stats} />
     {/if}
   </div>

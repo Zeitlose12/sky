@@ -14,7 +14,7 @@
   <div class="space-y-4">
     <SectionSubtitle class="uppercase!">Essence</SectionSubtitle>
     <ScrollItems>
-      {#each misc.essence as essence}
+      {#each misc.essence as essence, index (index)}
         {@const hasUnlocked = essence.amount}
         <Chip image={{ src: essence.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
           <div class={cn("flex flex-col")}>
