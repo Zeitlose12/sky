@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
   import Item from "$lib/components/Item.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import Garden from "$lib/sections/stats/farming/garden.svelte";
@@ -83,15 +84,17 @@
     </Collapsible.Trigger>
     <Collapsible.Content class="mt-4 flex flex-wrap gap-4">
       {@const crops = Object.entries(profile.farming.contests)}
-      {#each crops as [_, cropData], index (index)}
-        <Chip image={{ src: cropData.texture }} animationOptions={{ animate: true, amountOfItems: crops.length, index: index }}>
-          <div class="flex flex-col gap-0.5">
-            <h4 class="text-lg font-semibold">{cropData.name}</h4>
-            <AdditionStat text="Personal Best" data={formatNumber(cropData.collected)} />
-            <AdditionStat text="Contests" data={cropData.amount.toString()} />
-          </div>
-        </Chip>
-      {/each}
+      <ScrollItems>
+        {#each crops as [_, cropData], index (index)}
+          <Chip image={{ src: cropData.texture }} animationOptions={{ animate: true, amountOfItems: crops.length, index: index }}>
+            <div class="flex flex-col gap-0.5 whitespace-nowrap">
+              <h4 class="text-lg font-semibold">{cropData.name}</h4>
+              <AdditionStat text="Personal Best" data={formatNumber(cropData.collected)} />
+              <AdditionStat text="Contests" data={cropData.amount.toString()} />
+            </div>
+          </Chip>
+        {/each}
+      </ScrollItems>
     </Collapsible.Content>
   </Collapsible.Root>
 {/if}

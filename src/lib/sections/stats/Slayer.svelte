@@ -3,6 +3,7 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import { calculatePercentage } from "$lib/shared/helper";
   import { Avatar, Progress } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
@@ -23,7 +24,7 @@
       <div class="pt-4 pb-1.5">
         <AdditionStat text="Total Slayer XP" data={format(slayer.totalSlayerExp)} />
       </div>
-      <div class="flex flex-wrap gap-5">
+      <ScrollItems>
         {#each Object.entries(slayer.data) as [key, value], index (index)}
           {#if value.level.xp > 0}
             <div class="bg-background/30 relative flex min-w-[min(20.625rem,100vw)] flex-col items-center gap-1 space-y-5 overflow-hidden rounded-lg">
@@ -74,7 +75,7 @@
             </div>
           {/if}
         {/each}
-      </div>
+      </ScrollItems>
       <Bonus title="Bonus:" stats={slayer.stats} />
     {/if}
   </div>

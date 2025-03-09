@@ -32,23 +32,22 @@
       <div class="flex flex-col gap-4">
         <SectionSubtitle class="my-0">Kuudra Completions</SectionSubtitle>
         <AdditionStat text="Total Completions" data={isle.kuudra.totalKills} />
-        <div class="flex flex-wrap gap-4">
-          {#each isle.kuudra.tiers as tier, index (index)}
-            {@const hasUnlocked = tier.kills}
-            <Chip image={{ src: tier.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
-              <div class={cn("flex flex-col")}>
-                <div class="font-bold">
-                  <span class="opacity-60">{tier.name}</span>
-                  <div class="text-sm">
-                    <span class="opacity-60">Kills:</span>
-                    <span class="text-text">{format(tier.kills)}</span>
-                  </div>
-                </div>
-              </div>
-            </Chip>
-          {/each}
-        </div>
       </div>
+
+      <ScrollItems>
+        {#each isle.kuudra.tiers as tier, index (index)}
+          {@const hasUnlocked = tier.kills}
+          <Chip image={{ src: tier.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
+            <div class="flex flex-col font-bold whitespace-nowrap">
+              <span class="opacity-60">{tier.name}</span>
+              <div class="text-sm">
+                <span class="opacity-60">Kills:</span>
+                <span class="text-text">{format(tier.kills)}</span>
+              </div>
+            </div>
+          </Chip>
+        {/each}
+      </ScrollItems>
     {/if}
 
     {#if isle.dojo.totalPoints}
@@ -62,21 +61,19 @@
           {@const hasMaxed = challenge.points >= 1000}
           {@const hasUnlocked = challenge.points}
           <Chip image={{ src: challenge.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })}>
-            <div class={cn("flex flex-col")}>
-              <div class="font-bold whitespace-nowrap">
-                <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{challenge.name}</span>
-                <div class="text-sm">
-                  <span class="opacity-60">Points:</span>
-                  <span class="text-text">{format(challenge.points)}</span>
-                </div>
-                <div class="text-sm">
-                  <span class="opacity-60">Rank:</span>
-                  <span class="text-text">{challenge.rank}</span>
-                </div>
-                <div class="text-sm">
-                  <span class="opacity-60">Time:</span>
-                  <span class="text-text">{formatTime(challenge.time)}</span>
-                </div>
+            <div class="flex flex-col font-bold whitespace-nowrap">
+              <span class={cn(hasMaxed ? "text-maxed" : "opacity-60")}>{challenge.name}</span>
+              <div class="text-sm">
+                <span class="opacity-60">Points:</span>
+                <span class="text-text">{format(challenge.points)}</span>
+              </div>
+              <div class="text-sm">
+                <span class="opacity-60">Rank:</span>
+                <span class="text-text">{challenge.rank}</span>
+              </div>
+              <div class="text-sm">
+                <span class="opacity-60">Time:</span>
+                <span class="text-text">{formatTime(challenge.time)}</span>
               </div>
             </div>
           </Chip>

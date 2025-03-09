@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import { format } from "numerable";
   import VirtualList from "svelte-tiny-virtual-list";
@@ -17,7 +18,7 @@
       <AdditionStat text="Total Deaths" data={format(misc.kills.total_deaths)} />
     </div>
     {#if misc.kills.kills.length > 0}
-      <div class="flex flex-wrap gap-4">
+      <ScrollItems>
         <div class="bg-background/30 flex min-w-[22rem] flex-col gap-1 rounded-lg @md:min-w-96">
           <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">Kills</div>
           <VirtualList height={320} width="100%" itemCount={misc.kills.kills.length} itemSize={misc.kills.kills.length > 0 ? 20 : 0} scrollDirection="vertical">
@@ -38,7 +39,7 @@
             </div>
           </VirtualList>
         </div>
-      </div>
+      </ScrollItems>
     {/if}
   </div>
 {/if}

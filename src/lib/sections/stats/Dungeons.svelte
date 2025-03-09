@@ -2,6 +2,7 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Skillbar from "$lib/components/Skillbar.svelte";
   import { formatNumber } from "$lib/shared/helper";
@@ -83,8 +84,8 @@
 </CollapsibleSection>
 
 {#snippet cataCard(catacombs: CatacombsData[] | null, master: boolean = false)}
-  <div class="flex flex-wrap gap-5">
-    {#if catacombs}
+  {#if catacombs}
+    <ScrollItems>
       {#each catacombs as catacomb, index (index)}
         <div class="bg-background/30 flex min-w-80 basis-[calc((100%/3)-1.25rem)] flex-col gap-1 rounded-lg">
           <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
@@ -144,8 +145,8 @@
           {/if}
         </div>
       {/each}
-    {:else}
-      This player has not played any {master ? "Master Catacombs" : "Catacombs"}.
-    {/if}
-  </div>
+    </ScrollItems>
+  {:else}
+    This player has not played any {master ? "Master Catacombs" : "Catacombs"}.
+  {/if}
 {/snippet}

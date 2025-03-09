@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
+  import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import { format } from "numerable";
 
@@ -11,7 +12,7 @@
 {#if misc.races != null}
   <div class="space-y-4">
     <SectionSubtitle class="uppercase!">Races</SectionSubtitle>
-    <div class="flex flex-wrap gap-4">
+    <ScrollItems>
       {#each Object.entries(misc.races) as [_, race], index (index)}
         <div class="bg-background/30 flex min-w-64 flex-col gap-1 rounded-lg">
           <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">{race.name}</div>
@@ -50,6 +51,6 @@
           </div>
         </div>
       {/each}
-    </div>
+    </ScrollItems>
   </div>
 {/if}
