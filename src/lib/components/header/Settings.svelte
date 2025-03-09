@@ -8,7 +8,9 @@
   import { disabledPacks } from "$lib/stores/packs";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
+  import { wikiOrderPreferences } from "$lib/stores/wiki";
   import { Avatar, Button, Label, Popover, RadioGroup, Switch, Tabs } from "bits-ui";
+  import BookOpenText from "lucide-svelte/icons/book-open-text";
   import Check from "lucide-svelte/icons/check";
   import Cog from "lucide-svelte/icons/cog";
   import GripVertical from "lucide-svelte/icons/grip-vertical";
@@ -40,6 +42,10 @@
 
   let sectionOrder = $state(initialSectionOrderPreferences);
 
+  const initialWikiOrderPreferences = get(wikiOrderPreferences);
+
+  let wikiOrder = $state(initialWikiOrderPreferences);
+
   function changeTheme(themeId: Theme["id"]) {
     const theme = themes.find((theme) => theme.id === themeId);
     if (!theme) {
@@ -67,7 +73,7 @@
 
 {#snippet settings()}
   <Tabs.Root value="packs">
-    <Tabs.List class="bg-text/30 text-text mb-4 flex gap-4 rounded-lg p-2 font-semibold">
+    <Tabs.List class="bg-text/30 text-text mb-4 flex justify-between rounded-lg p-2 font-semibold">
       <Tabs.Trigger value="packs" class="data-[state=active]:bg-icon flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold">
         <PackageOpen class="size-5" />
         Packs
@@ -80,28 +86,34 @@
         <ListOrdered class="size-5" />
         Order
       </Tabs.Trigger>
+      <Tabs.Trigger value="wiki" class="data-[state=active]:bg-icon flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold">
+        <BookOpenText class="size-5" />
+        Wiki
+      </Tabs.Trigger>
     </Tabs.List>
-    <Tabs.Content value="packs" class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto">
-      {#each packConfigs as pack}
-        <Label.Root for={pack.id} class="bg-text/[0.05] flex items-center justify-between gap-4 rounded-lg p-2">
-          <div class="flex items-center gap-2">
-            <Avatar.Root class="shrink-0 select-none">
-              <Avatar.Image loading="lazy" src="/resourcepacks/{pack.folder}/pack.png" alt={pack.name} class="pointer-events-none aspect-square size-10 h-full rounded-lg select-none" />
-              <Avatar.Fallback class="flex items-center rounded-lg text-center font-semibold uppercase">{pack.name.slice(0, 2)}</Avatar.Fallback>
-            </Avatar.Root>
-            <div class="flex flex-col">
-              <h4 class="text-text/90 font-semibold">{pack.name} <small>{pack.version}</small></h4>
-              <p class="text-text/60 overflow-hidden font-normal text-ellipsis whitespace-nowrap">
-                by
-                <span class="text-text/80">{pack.author}</span>
-              </p>
+    <Tabs.Content value="packs">
+      <div class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto">
+        {#each packConfigs as pack}
+          <Label.Root for={pack.id} class="bg-text/[0.05] flex items-center justify-between gap-4 rounded-lg p-2">
+            <div class="flex items-center gap-2">
+              <Avatar.Root class="shrink-0 select-none">
+                <Avatar.Image loading="lazy" src="/resourcepacks/{pack.folder}/pack.png" alt={pack.name} class="pointer-events-none aspect-square size-10 h-full rounded-lg select-none" />
+                <Avatar.Fallback class="flex items-center rounded-lg text-center font-semibold uppercase">{pack.name.slice(0, 2)}</Avatar.Fallback>
+              </Avatar.Root>
+              <div class="flex flex-col">
+                <h4 class="text-text/90 font-semibold">{pack.name} <small>{pack.version}</small></h4>
+                <p class="text-text/60 overflow-hidden font-normal text-ellipsis whitespace-nowrap">
+                  by
+                  <span class="text-text/80">{pack.author}</span>
+                </p>
+              </div>
             </div>
-          </div>
-          <Switch.Root id={pack.id} checked={!$disabledPacks.includes(pack.id)} class="data-[state=checked]:bg-icon data-[state=unchecked]:bg-text/30 peer inline-flex h-6 min-h-6 w-10 shrink-0 cursor-pointer items-center rounded-full px-0 transition-colors" onCheckedChange={() => disabledPacks.update((value) => (!value.includes(pack.id) ? [...new Set([...value, pack.id])] : value.filter((id) => id !== pack.id)))}>
-            <Switch.Thumb class="bg-text pointer-events-none block size-4 shrink-0 rounded-full transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-1" />
-          </Switch.Root>
-        </Label.Root>
-      {/each}
+            <Switch.Root id={pack.id} checked={!$disabledPacks.includes(pack.id)} class="data-[state=checked]:bg-icon data-[state=unchecked]:bg-text/30 peer inline-flex h-6 min-h-6 w-10 shrink-0 cursor-pointer items-center rounded-full px-0 transition-colors" onCheckedChange={() => disabledPacks.update((value) => (!value.includes(pack.id) ? [...new Set([...value, pack.id])] : value.filter((id) => id !== pack.id)))}>
+              <Switch.Thumb class="bg-text pointer-events-none block size-4 shrink-0 rounded-full transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-1" />
+            </Switch.Root>
+          </Label.Root>
+        {/each}
+      </div>
       {#if $hasPackConfigChanged}
         <Button.Root
           class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
@@ -152,6 +164,39 @@
             <GripVertical class="text-text/60 size-5" />
             {normalizedName}
             {#if SHADOW_ITEM_MARKER_PROPERTY_NAME in section && section[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
+              <div in:fade={{ duration: 300, easing: cubicIn }} class="bg-text/[0.05] visible absolute inset-0 flex animate-pulse items-center gap-2 rounded-lg p-2 font-semibold opacity-30">
+                <GripVertical class="text-text/60 size-5" />
+                {normalizedName}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
+      {#if $differsFromDefault}
+        <Button.Root
+          class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
+          on:click={() => {
+            sectionOrderPreferences.set(defaultSectionOrder);
+          }}>
+          Reset to default
+        </Button.Root>
+      {/if}
+    </Tabs.Content>
+    <Tabs.Content value="wiki">
+      <div
+        class="flex max-h-96 flex-col gap-4 overflow-x-clip overflow-y-auto"
+        use:dndzone={{ items: wikiOrder, flipDurationMs: 300, dropTargetStyle: {} }}
+        onconsider={(e) => (wikiOrder = e.detail.items)}
+        onfinalize={(e) => {
+          wikiOrderPreferences.set(e.detail.items);
+          wikiOrder = e.detail.items;
+        }}>
+        {#each wikiOrder as wiki (wiki.id)}
+          {@const normalizedName = wiki.name.replaceAll("_", " ")}
+          <div animate:flip={{ duration: 300 }} class="bg-text/[0.05] relative flex items-center gap-2 rounded-lg p-2 font-semibold">
+            <GripVertical class="text-text/60 size-5" />
+            {normalizedName}
+            {#if SHADOW_ITEM_MARKER_PROPERTY_NAME in wiki && wiki[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
               <div in:fade={{ duration: 300, easing: cubicIn }} class="bg-text/[0.05] visible absolute inset-0 flex animate-pulse items-center gap-2 rounded-lg p-2 font-semibold opacity-30">
                 <GripVertical class="text-text/60 size-5" />
                 {normalizedName}

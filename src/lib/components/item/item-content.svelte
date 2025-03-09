@@ -6,6 +6,7 @@
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
   import { Avatar, Button } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
+  import Info from "lucide-svelte/icons/info";
 
   type Props = {
     piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
@@ -14,8 +15,9 @@
       name: string;
       icon: string;
     };
+    wiki?: { url: string; name: string };
   };
-  let { piece, isDrawer, tab }: Props = $props();
+  let { piece, isDrawer, tab, wiki }: Props = $props();
 
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const itemName = $derived(skyblockItem.display_name ?? "???");
@@ -77,8 +79,8 @@
         </div>
       </div>
     {/if}
-    {#if packData}
-      <div class="mt-4">
+    <div class="mx-auto mt-4 flex w-full flex-nowrap gap-4">
+      {#if packData}
         <Button.Root href={packData.link} target="_blank">
           <div class="bg-text/[0.05] hover:bg-text/[0.08] flex items-center justify-between gap-4 rounded-[0.625rem] p-2 transition-colors">
             <div class="flex items-center gap-2">
@@ -102,7 +104,14 @@
             </div>
           </div>
         </Button.Root>
-      </div>
-    {/if}
+      {/if}
+
+      {#if wiki}
+        <Button.Root href={wiki.url} target="_blank" class="bg-text/[0.05] hover:bg-text/[0.08] flex flex-1 items-center justify-center rounded-[0.625rem] p-2 transition-colors ">
+          <Info class="mr-2 size-6 p-0" />
+          <span class="text-link font-semibold underline">{wiki.name} Wiki</span>
+        </Button.Root>
+      {/if}
+    </div>
   </div>
 </div>
