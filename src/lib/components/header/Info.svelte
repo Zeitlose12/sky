@@ -106,11 +106,19 @@
       <Info class="fill-text stroke-header size-5 @md:hidden" />
       <span class="hidden @md:inline">About</span>
     </Popover.Trigger>
-    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-50">
-      <div class="bg-background-grey/95 max-h-96 max-w-[32rem] overflow-x-clip overflow-y-auto rounded-lg px-8 py-4">
-        {@render info()}
-      </div>
-    </Popover.Content>
+    <Popover.Portal>
+      <Popover.Content forceMount side="bottom" sideOffset={8} align="center" collisionPadding={8} class="bg-background-grey/95 z-50 max-h-96 max-w-[32rem] overflow-x-clip overflow-y-auto rounded-lg px-8 py-4">
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 300 }}>
+                {@render info()}
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </Popover.Content>
+    </Popover.Portal>
   </Popover.Root>
 {:else}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false}>

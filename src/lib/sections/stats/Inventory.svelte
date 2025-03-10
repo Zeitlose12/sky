@@ -150,7 +150,7 @@
       <Tabs.List>
         <ScrollArea.Root>
           <ScrollArea.Viewport class="border-icon border-b">
-            <ScrollArea.Content class="flex! h-full shrink-0 flex-nowrap items-center gap-3 px-4 whitespace-nowrap">
+            <div class="flex! h-full shrink-0 flex-nowrap items-center gap-3 px-4 whitespace-nowrap">
               {#each tabs as tab (tab.id)}
                 <Tabs.Trigger value={tab.id} class="group relative flex items-center justify-center gap-0.5 pb-2 text-xs uppercase">
                   <Avatar.Root class="size-8">
@@ -167,7 +167,7 @@
                   {/if}
                 </Tabs.Trigger>
               {/each}
-            </ScrollArea.Content>
+            </div>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar orientation="horizontal">
             <ScrollArea.Thumb />
@@ -225,16 +225,18 @@
   <Tabs.Root value={tab.id}>
     <Tabs.List class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
       {#each tab.items as item, index (index)}
-        <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
-          <div use:builder.action {...builder} class="group">
-            {#if item.texture_path}
-              <div class="group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
-                {@render itemSnippet(item)}
-              </div>
-            {:else}
-              {@render emptyItem()}
-            {/if}
-          </div>
+        <Tabs.Trigger value={item.texture_path ? index.toString() : "undefined"} class="group">
+          {#snippet child({ props })}
+            <div {...props}>
+              {#if item.texture_path}
+                <div class="group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
+                  {@render itemSnippet(item)}
+                </div>
+              {:else}
+                {@render emptyItem()}
+              {/if}
+            </div>
+          {/snippet}
         </Tabs.Trigger>
       {/each}
     </Tabs.List>

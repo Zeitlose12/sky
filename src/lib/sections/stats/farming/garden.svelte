@@ -103,7 +103,7 @@
   <div class="bg-background/30 @container relative mb-0 rounded-lg p-5">
     <div class="grid grid-cols-[repeat(5,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
       {#each garden.plot as plot, index (index)}
-        <Tooltip.Root openDelay={0} closeDelay={0} closeOnPointerDown={false} group="garden-plot">
+        <Tooltip.Root disableCloseOnTriggerClick={false}>
           <Tooltip.Trigger>
             <Avatar.Root class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm p-1">
               <Avatar.Image src={plot.texture_path} class="h-auto w-14 select-none [image-rendering:pixelated]" />
@@ -112,10 +112,20 @@
               </Avatar.Fallback>
             </Avatar.Root>
           </Tooltip.Trigger>
-          <Tooltip.Content class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-            <Tooltip.Arrow />
-            <p>{@html renderLore(plot.display_name)}</p>
-          </Tooltip.Content>
+          <Tooltip.Portal>
+            <Tooltip.Content forceMount class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" sideOffset={6} side="top" align="center">
+              {#snippet child({ wrapperProps, props, open })}
+                {#if open}
+                  <div {...wrapperProps}>
+                    <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                      <Tooltip.Arrow />
+                      <p>{@html renderLore(plot.display_name)}</p>
+                    </div>
+                  </div>
+                {/if}
+              {/snippet}
+            </Tooltip.Content>
+          </Tooltip.Portal>
         </Tooltip.Root>
       {/each}
     </div>

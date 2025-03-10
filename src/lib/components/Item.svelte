@@ -23,8 +23,9 @@
   };
 
   let { piece, isInventory, showCount, showRecombobulated, tab }: Props = $props();
-  let targetNode = $state<HTMLButtonElement>()!;
+  let targetNode = $state<HTMLButtonElement | null>(null);
   let hasBeenInViewport = $state(false);
+  let open = $state(false);
 
   const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
   const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
@@ -43,10 +44,10 @@
   });
 </script>
 
-<Tooltip.Root group="armor" disableHoverableContent={true} openDelay={0} closeDelay={0}>
+<Tooltip.Root bind:open disableHoverableContent={true} ignoreNonKeyboardFocus={true}>
   <Tooltip.Trigger
     class="nice-colors-dark"
-    bind:el={targetNode}
+    bind:ref={targetNode}
     onclick={() => {
       if (skyblockItem.containsItems) return;
       itemContent.set(piece);
@@ -77,9 +78,19 @@
       {/if}
     </div>
   </Tooltip.Trigger>
-  {#if isHover.current}
-    <Tooltip.Content class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96%-3rem)] max-w-lg flex-col overflow-hidden rounded-lg select-text" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
-      <Content {piece} {tab} />
-    </Tooltip.Content>
-  {/if}
+  <Tooltip.Portal>
+    {#if isHover.current}
+      <Tooltip.Content forceMount class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96vh-3rem)] max-w-lg flex-col overflow-clip rounded-lg select-text" sideOffset={8} side="right" align="center">
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                <Content {piece} {tab} />
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </Tooltip.Content>
+    {/if}
+  </Tooltip.Portal>
 </Tooltip.Root>

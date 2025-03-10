@@ -8,8 +8,18 @@
   import { onDestroy, onMount } from "svelte";
 
   let pinned = $state(false);
-  let navbarElement = $state<HTMLDivElement>()!;
-  let allLinks = $state<Record<string, HTMLAnchorElement>>({});
+  let navbarElement = $state<HTMLDivElement | null>(null);
+
+  let allLinks = $state<Record<string, HTMLAnchorElement | null>>(
+    $sectionOrderPreferences.reduce(
+      (acc: Record<string, HTMLAnchorElement | null>, section) => {
+        acc[section.name] = null;
+        return acc;
+      },
+      {} as Record<string, HTMLAnchorElement | null>
+    )
+  );
+
   let observer: IntersectionObserver;
   let lowestActive = $derived(
     Object.entries($inviewportSections)
@@ -49,6 +59,10 @@
   }
 
   function observerInit() {
+    if (!navbarElement) {
+      console.warn("Navbar element is not defined");
+      return;
+    }
     observer = new IntersectionObserver(([e]) => (pinned = e.intersectionRatio < 1), {
       threshold: [1],
       rootMargin: `-${parseInt(window.getComputedStyle(navbarElement).getPropertyValue("top")) + 1}px 0px` // shrink the viewport to element top value +1px to trigger observer when element has reach it's sticky position
@@ -80,17 +94,17 @@
   });
 </script>
 
-<ScrollArea.Root type="scroll" class="navbar group sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20" data-pinned={pinned} bind:el={navbarElement}>
+<ScrollArea.Root type="scroll" class="navbar group !sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20 overflow-clip" data-pinned={pinned} bind:ref={navbarElement}>
   <ScrollArea.Viewport>
-    <ScrollArea.Content class="text-text/80 flex! flex-nowrap items-center gap-2 pb-2 font-semibold whitespace-nowrap">
+    <div class="text-text/80 flex! flex-nowrap items-center gap-2 pb-2 font-semibold whitespace-nowrap">
       <div class="bg-icon absolute bottom-[0.4375rem] z-1 h-[2px] w-[calc(100%+0.5rem)]"></div>
       <div class="absolute inset-0 bottom-2 group-data-[pinned=true]:group-data-[mode=dark]/html:bg-[oklch(19.13%_0_0)]/90 group-data-[pinned=true]:group-data-[mode=light]/html:bg-[oklch(95.51%_0_0)]/92"></div>
       {#each $sectionOrderPreferences as section, index (index)}
-        <Button.Root href="#{section.name}" class="after:bg-icon data-[active=true]:text-text relative px-2 py-3 after:absolute after:top-full after:left-0 after:h-0 after:w-full after:origin-top after:rounded-full after:transition-all after:duration-100 hover:after:top-[calc(100%-4px)] hover:after:h-2 data-[active=true]:after:top-[calc(100%-4px)] data-[active=true]:after:h-2" data-active={lowestActive === section.name} bind:el={allLinks[section.name]} on:click={() => handleSectionClick(section.name)}>
+        <Button.Root href="#{section.name}" class="after:bg-icon data-[active=true]:text-text relative px-2 py-3 after:absolute after:top-full after:left-0 after:h-0 after:w-full after:origin-top after:rounded-full after:transition-all after:duration-100 hover:after:top-[calc(100%-4px)] hover:after:h-2 data-[active=true]:after:top-[calc(100%-4px)] data-[active=true]:after:h-2" data-active={lowestActive === section.name} bind:ref={allLinks[section.name]} onclick={() => handleSectionClick(section.name)}>
           {section.name?.replaceAll("_", " ")}
         </Button.Root>
       {/each}
-    </ScrollArea.Content>
+    </div>
   </ScrollArea.Viewport>
   <ScrollArea.Scrollbar orientation="horizontal">
     <ScrollArea.Thumb />

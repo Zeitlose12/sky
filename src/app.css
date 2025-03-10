@@ -160,6 +160,10 @@
     @apply text-sm text-pretty;
   }
 
+  [data-arrow] {
+    @apply text-background-grey;
+  }
+
   ::-webkit-scrollbar {
     width: 10px;
   }

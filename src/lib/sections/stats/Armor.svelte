@@ -66,15 +66,13 @@
         <!-- min height was calc by: each piece of armor was 72px with a 8px gap and scrollbar was 2.5px and some more for gap for scrollbar -->
         <ScrollArea.Root class="relative min-h-[335px]" type="auto">
           <ScrollArea.Viewport>
-            <ScrollArea.Content>
-              <div class="flex flex-row gap-6 md:gap-3">
-                {#each firstWardrobeItems as _, i (i)}
-                  <div class="min-h-[4.5rem] min-w-[4.5rem]">
-                    <Wardrobe wardrobeItems={wardrobe[i]} />
-                  </div>
-                {/each}
-              </div>
-            </ScrollArea.Content>
+            <div class="flex flex-row gap-6 md:gap-3">
+              {#each firstWardrobeItems as _, i (i)}
+                <div class="min-h-[4.5rem] min-w-[4.5rem]">
+                  <Wardrobe wardrobeItems={wardrobe[i]} />
+                </div>
+              {/each}
+            </div>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar orientation="horizontal" class="mt-2 flex h-2.5 w-full touch-none rounded-full transition-all select-none">
             <ScrollArea.Thumb class="bg-icon flex rounded-full" />

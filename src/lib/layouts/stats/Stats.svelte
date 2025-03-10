@@ -14,12 +14,18 @@
 
 <div class="stats flex flex-col">
   <Collapsible.Root>
-    <Collapsible.Content class="columns-[12.5rem]" transition={slide} transitionConfig={{ duration: 300, easing: quadInOut }}>
-      {#each Object.entries(stats) as [statName, statData], index (index)}
-        {#if statData.total > 0}
-          <Stat stat={statName} {statData} />
+    <Collapsible.Content forceMount class="columns-[12.5rem]">
+      {#snippet child({ props, open })}
+        {#if open}
+          <div {...props} transition:slide={{ duration: 300, easing: quadInOut }}>
+            {#each Object.entries(stats) as [statName, statData], index (index)}
+              {#if statData.total > 0}
+                <Stat stat={statName} {statData} />
+              {/if}
+            {/each}
+          </div>
         {/if}
-      {/each}
+      {/snippet}
     </Collapsible.Content>
     <Collapsible.Trigger class="bg-text/10 mx-auto mt-3.5 w-full rounded-full p-2.5 text-xs font-semibold uppercase">Show Stats</Collapsible.Trigger>
   </Collapsible.Root>
