@@ -105,7 +105,7 @@ function getPlotLayout(gardenData: GardenResponse) {
     }
 
     const textureId = gardenData.unlocked_plots_ids?.includes(plotId) ? "GRASS" : hasAdjacentUnlocked ? "WOOD_BUTTON" : "STAINED_GLASS_PANE:14";
-    output.push({ display_name: `Plot ${plotName}`, texture_path: `/api/item/${textureId}` });
+    output.push({ display_name: plotName, texture_path: `/api/item/${textureId}` });
   }
 
   return output;
