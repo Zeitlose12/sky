@@ -3,11 +3,13 @@
   import { cn } from "$lib/shared/utils";
   import { format } from "numerable";
 
-  export let stats;
-  export let title = "Bonus:";
+  type Props = {
+    stats: never;
+    title?: string;
+    class?: string;
+  };
 
-  let classNames: string | undefined = undefined;
-  export { classNames as class };
+  let { stats, title = "Bonus:", class: classNames }: Props = $props();
 
   const statsData = Object.entries(stats);
 </script>
@@ -16,13 +18,11 @@
   <p class={cn("text-text/60 my-4 space-x-0.5 leading-6 font-bold capitalize", classNames)}>
     <span>{title}</span>
     {#each statsData as [key, value], index (index)}
-      {#if STAT_ALIASES[key] !== undefined}
-        {(key = STAT_ALIASES[key])}
-      {/if}
+      {@const displayKey = STAT_ALIASES[key] !== undefined ? STAT_ALIASES[key] : key}
 
-      <span class={STATS_DATA[key].color}>
-        {format(value as string)}{STATS_DATA[key].suffix}
-        {STATS_DATA[key].nameTiny}
+      <span class={STATS_DATA[displayKey].color}>
+        {format(value as string)}{STATS_DATA[displayKey].suffix}
+        {STATS_DATA[displayKey].nameTiny}
       </span>
       {#if statsData.length - 1 !== index}
         // {" "}
