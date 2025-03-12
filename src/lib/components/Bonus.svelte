@@ -1,10 +1,11 @@
 <script lang="ts">
   import { STAT_ALIASES, STATS_DATA } from "$lib/shared/constants/stats";
   import { cn } from "$lib/shared/utils";
+  import type { ItemStats } from "$types/processed/profile/stats";
   import { format } from "numerable";
 
   type Props = {
-    stats: never;
+    stats: ItemStats;
     title?: string;
     class?: string;
   };
@@ -21,7 +22,7 @@
       {@const displayKey = STAT_ALIASES[key] !== undefined ? STAT_ALIASES[key] : key}
 
       <span class={STATS_DATA[displayKey].color}>
-        {format(value as string)}{STATS_DATA[displayKey].suffix}
+        {format(value)}{STATS_DATA[displayKey].suffix}
         {STATS_DATA[displayKey].nameTiny}
       </span>
       {#if statsData.length - 1 !== index}
