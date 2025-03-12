@@ -46,6 +46,7 @@ const config = {
     handler(warning);
   },
   vitePlugin: {
+    // Can be removed once Svelte 6 is released, as `true` will be the default
     dynamicCompileOptions({ filename, compileOptions }) {
       // Dynamically set runes mode per Svelte file
       if (forceRunesMode(filename) && !compileOptions.runes) {
