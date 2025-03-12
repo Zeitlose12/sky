@@ -117,7 +117,7 @@
       {#if $hasPackConfigChanged}
         <Button.Root
           class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
-          on:click={() => {
+          onclick={() => {
             document.cookie = `disabledPacks=${JSON.stringify($disabledPacks)}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
             window.location.reload();
           }}>
@@ -175,7 +175,7 @@
       {#if $differsFromDefault}
         <Button.Root
           class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
-          on:click={() => {
+          onclick={() => {
             sectionOrderPreferences.set(defaultSectionOrder);
           }}>
           Reset to default
@@ -208,7 +208,7 @@
       {#if $differsFromDefault}
         <Button.Root
           class="bg-text/65 text-background/80 hover:bg-text/80 mt-4 w-full rounded-lg p-1.5 text-sm font-semibold uppercase transition-colors"
-          on:click={() => {
+          onclick={() => {
             sectionOrderPreferences.set(defaultSectionOrder);
           }}>
           Reset to default
@@ -224,9 +224,19 @@
       <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
       <p class="hidden @md:block">Settings</p>
     </Popover.Trigger>
-    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="bg-background-grey/95 z-10 min-w-[32rem] rounded-lg px-8 py-4">
-      {@render settings()}
-    </Popover.Content>
+    <Popover.Portal>
+      <Popover.Content forceMount side="bottom" sideOffset={8} align="center" collisionPadding={8} class="bg-background-grey/95 z-10 min-w-[32rem] rounded-lg px-8 py-4">
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 300 }}>
+                {@render settings()}
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </Popover.Content>
+    </Popover.Portal>
   </Popover.Root>
 {:else}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false} bind:open={settingsOpen}>

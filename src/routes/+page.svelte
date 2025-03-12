@@ -151,31 +151,41 @@
     </Button.Root>
     {#if user.role}
       {@const Icon = iconMapper[user.role]}
-      <Tooltip.Root group="role" openDelay={0} closeDelay={0}>
-        <Tooltip.Trigger let:builder asChild>
-          <div
-            use:builder.action
-            {...builder}
-            class="absolute right-3 bottom-3"
-            role="button"
-            tabindex="0"
-            onclick={() => {
-              if (!options?.favorite) return;
-              favorites.set($favorites.filter((uuid) => uuid !== user.id));
-            }}>
-            <Icon class={cn("size-5", options?.favorite ? "fill-[oklch(75.25%_0.0023_17.21)] stroke-[oklch(75.25%_0.0023_17.21)]" : "text-text/60")} />
-          </div>
+      <Tooltip.Root>
+        <Tooltip.Trigger
+          class="absolute right-3 bottom-3"
+          onclick={() => {
+            if (!options?.favorite) return;
+            favorites.set($favorites.filter((uuid) => uuid !== user.id));
+          }}>
+          {#snippet child({ props })}
+            <div {...props} tabindex="0" role="button">
+              <Icon class={cn("size-5", options?.favorite ? "fill-[oklch(75.25%_0.0023_17.21)] stroke-[oklch(75.25%_0.0023_17.21)]" : "text-text/60")} />
+            </div>
+          {/snippet}
         </Tooltip.Trigger>
-        <Tooltip.Content class="bg-background-grey rounded-lg p-4" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-          <Tooltip.Arrow />
-          <p class="text-text/80 font-semibold capitalize">
-            {#if options?.favorite}
-              Favorited
-            {:else}
-              SkyCrypt {Role[user.role].toLowerCase()}
-            {/if}
-          </p>
-        </Tooltip.Content>
+        <Tooltip.Portal>
+          <Tooltip.Content forceMount class="bg-background-grey rounded-lg p-4" sideOffset={6} side="top" align="center">
+            {#snippet child({ wrapperProps, props, open })}
+              {#if open}
+                <div {...wrapperProps}>
+                  <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                    <Tooltip.Arrow />
+                    <p class="text-text/80 font-semibold capitalize">
+                      {#if options?.favorite}
+                        Favorited
+                      {:else if user.role}
+                        SkyCrypt {Role[user.role].toLowerCase()}
+                      {:else}
+                        Unknown
+                      {/if}
+                    </p>
+                  </div>
+                </div>
+              {/if}
+            {/snippet}
+          </Tooltip.Content>
+        </Tooltip.Portal>
       </Tooltip.Root>
     {/if}
   </div>

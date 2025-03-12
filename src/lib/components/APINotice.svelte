@@ -51,12 +51,24 @@
   <Dialog.Root>
     <Dialog.Trigger class="text-link underline">See here</Dialog.Trigger>
     <Dialog.Portal>
-      <Dialog.Overlay transition={fade} transitionConfig={{ duration: 150 }} class="fixed inset-0 z-40 bg-black/80" />
-      <Dialog.Content transition={flyAndScale} class="fixed top-[50%] left-[50%] z-50 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 p-5">
-        {@render video()}
-        <Dialog.Close class="text-text/80 absolute top-6 right-6 p-2">
-          <X class="size-6" />
-        </Dialog.Close>
+      <Dialog.Overlay forceMount class="fixed inset-0 z-40 bg-black/80">
+        {#snippet child({ props, open })}
+          {#if open}
+            <div {...props} transition:fade></div>
+          {/if}
+        {/snippet}
+      </Dialog.Overlay>
+      <Dialog.Content forceMount class="fixed top-[50%] left-[50%] z-50 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 p-5">
+        {#snippet child({ props, open })}
+          {#if open}
+            <div {...props} transition:flyAndScale>
+              {@render video()}
+              <Dialog.Close class="text-text/80 absolute top-6 right-6 p-2">
+                <X class="size-6" />
+              </Dialog.Close>
+            </div>
+          {/if}
+        {/snippet}
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>

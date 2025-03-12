@@ -32,7 +32,7 @@
     class="bg-link/80 dark:text-text w-full rounded-lg py-2 text-white opacity-30 transition-opacity duration-1000 disabled:cursor-not-allowed data-[show=true]:opacity-100"
     disabled={!showClose}
     data-show={showClose}
-    on:click={() => {
+    onclick={() => {
       dispatch("closeToast");
       internalPreferences.update((state) => ({ ...state, hasSeenv2Toast: true }));
     }}>Close</Button.Root>
