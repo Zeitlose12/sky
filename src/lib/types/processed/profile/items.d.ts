@@ -58,6 +58,7 @@ export type ItemQuery = {
   packs?: string[];
   texture?: string;
   texture_path?: string;
+  static?: boolean;
 };
 
 export type ProcessedItem = {

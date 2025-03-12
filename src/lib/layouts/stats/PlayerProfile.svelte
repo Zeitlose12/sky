@@ -49,79 +49,117 @@
       </div>
       <span class="pl-4">{profile.displayName}</span>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content class="bg-background-grey/95 z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
-      {#each profile.members as member (member.uuid)}
-        {#if member.username !== profile.username}
-          <DropdownMenu.Item href={`/stats/${member.username}/${profile.profile_cute_name}`} class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
-            <span class="pl-4 {member.removed ? 'line-through' : ''}">
-              {member.username}
-            </span>
-          </DropdownMenu.Item>
-        {/if}
-      {/each}
-    </DropdownMenu.Content>
+
+    <DropdownMenu.Portal>
+      <DropdownMenu.Content forceMount class="bg-background-grey/95 z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom">
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                {#each profile.members as member (member.uuid)}
+                  {#if member.username !== profile.username}
+                    <DropdownMenu.Item class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
+                      {#snippet child({ props })}
+                        <a {...props} href={`/stats/${member.username}/${profile.profile_cute_name}`}>
+                          <span class="pl-4 {member.removed ? 'line-through' : ''}">
+                            {member.username}
+                          </span>
+                        </a>
+                      {/snippet}
+                    </DropdownMenu.Item>
+                  {/if}
+                {/each}
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </DropdownMenu.Content>
+    </DropdownMenu.Portal>
   </DropdownMenu.Root>
   on
   <DropdownMenu.Root>
     <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[oklch(59.65%_0_0)]/20 px-4 py-2 align-middle text-3xl font-semibold">
       {profile.profile_cute_name}
     </DropdownMenu.Trigger>
-
-    <DropdownMenu.Content class="bg-background-grey/95  z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
-      {#each profile.profiles ?? [] as otherProfile (otherProfile.profile_id)}
-        {#if otherProfile.profile_id !== profile.profile_id}
-          <DropdownMenu.Item href={`/stats/${profile.username}/${otherProfile.cute_name}`} class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
-            {otherProfile.cute_name}
-            {#if otherProfile.game_mode === "bingo"}
-              🎲
-            {/if}
-            {#if otherProfile.game_mode === "ironman"}
-              🥋
-            {/if}
-            {#if otherProfile.game_mode === "island"}
-              🌴
-            {/if}
-          </DropdownMenu.Item>
-        {/if}
-      {/each}
-    </DropdownMenu.Content>
+    <DropdownMenu.Portal>
+      <DropdownMenu.Content forceMount class="bg-background-grey/95 z-50 min-w-64 overflow-hidden rounded-lg text-3xl font-semibold" align="start" side="bottom">
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                {#each profile.profiles ?? [] as otherProfile (otherProfile.profile_id)}
+                  {#if otherProfile.profile_id !== profile.profile_id}
+                    <DropdownMenu.Item class="hover:bg-text/20 flex items-center p-4" data-sveltekit-preload-code="viewport">
+                      {#snippet child({ props })}
+                        <a {...props} href={`/stats/${profile.username}/${otherProfile.cute_name}`}>
+                          {otherProfile.cute_name}
+                          {#if otherProfile.game_mode === "bingo"}
+                            🎲
+                          {/if}
+                          {#if otherProfile.game_mode === "ironman"}
+                            🥋
+                          {/if}
+                          {#if otherProfile.game_mode === "island"}
+                            🌴
+                          {/if}
+                        </a>
+                      {/snippet}
+                    </DropdownMenu.Item>
+                  {/if}
+                {/each}
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </DropdownMenu.Content>
+    </DropdownMenu.Portal>
   </DropdownMenu.Root>
 </div>
 
 <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-  <Tooltip.Root bind:open openDelay={0} closeDelay={0} closeOnPointerDown={false}>
-    <Tooltip.Trigger asChild let:builder>
-      <button
-        use:builder.action
-        {...builder}
-        class="bg-icon/90 hover:bg-icon aspect-square rounded-full p-2 transition-opacity duration-150"
-        onclick={() => {
-          if (!$favorites.includes(profile.uuid)) {
-            favorites.set([...$favorites, profile.uuid]);
-            toast.dismiss(toastId);
-            toastId = toast.success(`Added ${profile.username} to your favorites!`);
-          } else {
-            favorites.set($favorites.filter((uuid) => uuid !== profile.uuid));
-            toast.dismiss(toastId);
-            toastId = toast.success(`Removed ${profile.username} from your favorites!`);
-          }
-        }}
-        onpointerdown={() => (open = !open)}>
-        {#if $favorites.includes(profile.uuid)}
-          <Star class="size-4 fill-white" />
-        {:else}
-          <Star class="size-4" />
-        {/if}
-      </button>
+  <Tooltip.Root bind:open disableCloseOnTriggerClick={false}>
+    <Tooltip.Trigger
+      class="bg-icon/90 hover:bg-icon aspect-square rounded-full p-2 transition-opacity duration-150"
+      onclick={() => {
+        if (!$favorites.includes(profile.uuid)) {
+          favorites.set([...$favorites, profile.uuid]);
+          toast.dismiss(toastId);
+          toastId = toast.success(`Added ${profile.username} to your favorites!`);
+        } else {
+          favorites.set($favorites.filter((uuid) => uuid !== profile.uuid));
+          toast.dismiss(toastId);
+          toastId = toast.success(`Removed ${profile.username} from your favorites!`);
+        }
+      }}
+      onpointerdown={() => (open = !open)}>
+      {#snippet child({ props })}
+        <button {...props}>
+          {#if $favorites.includes(profile.uuid)}
+            <Star class="size-4 fill-white" />
+          {:else}
+            <Star class="size-4" />
+          {/if}
+        </button>
+      {/snippet}
     </Tooltip.Trigger>
-    <Tooltip.Content class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-      <Tooltip.Arrow />
-      {#if $favorites.includes(profile.uuid)}
-        <p>Remove from favorites</p>
-      {:else}
-        <p>Add to favorites</p>
-      {/if}
-    </Tooltip.Content>
+    <Tooltip.Portal>
+      <Tooltip.Content forceMount class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" sideOffset={6} side="top" align="center">
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                <Tooltip.Arrow />
+                {#if $favorites.includes(profile.uuid)}
+                  <p>Remove from favorites</p>
+                {:else}
+                  <p>Add to favorites</p>
+                {/if}
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </Tooltip.Content>
+    </Tooltip.Portal>
   </Tooltip.Root>
 
   <Button.Root
@@ -151,7 +189,7 @@
 
   {#each Object.entries(profile.social) as [key, value], index (index)}
     {#if key === "DISCORD"}
-      <Button.Root class="bg-icon/90 hover:bg-icon hidden items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150 data-[visible=true]:flex" data-visible={showMore} on:click={() => copyToClipboard(value)}>
+      <Button.Root class="bg-icon/90 hover:bg-icon hidden items-center justify-center gap-1.5 rounded-full px-2 py-1 font-semibold transition-opacity duration-150 data-[visible=true]:flex" data-visible={showMore} onclick={() => copyToClipboard(value)}>
         <Avatar.Root>
           <Avatar.Image loading="lazy" src="/img/icons/{iconMapper[key]}" alt="{profile.username}'s {key.toLocaleLowerCase()}" class="size-4 text-white" />
           <Avatar.Fallback>
@@ -172,7 +210,7 @@
     {/if}
   {/each}
 
-  <Button.Root class="bg-icon/90 hover:bg-icon rounded-full p-2 transition-opacity duration-150" on:click={() => (showMore = !showMore)}>
+  <Button.Root class="bg-icon/90 hover:bg-icon rounded-full p-2 transition-opacity duration-150" onclick={() => (showMore = !showMore)}>
     {#if showMore}
       <ChevronLeft class="size-4" />
     {:else}

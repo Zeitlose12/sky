@@ -488,5 +488,18 @@ export async function renderItem(skyblockId: string | undefined, query: ItemQuer
     outputTexture.error = "item not found";
   }
 
+  if (query.static === true && outputTexture.image) {
+    try {
+      const image = await loadImage(outputTexture.image);
+      const canvas = createCanvas(128, 128);
+      const ctx = canvas.getContext("2d");
+
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(image, 0, 0, 128, 128);
+      outputTexture.image = canvas.toBuffer("image/png");
+    } catch (error) {
+      console.error("Error processing static image:", error);
+    }
+  }
   return outputTexture;
 }

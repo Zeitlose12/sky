@@ -7,6 +7,7 @@
   import themes from "$lib/shared/constants/themes";
   import { internalPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
+  import { Tooltip } from "bits-ui";
   import Wifi from "lucide-svelte/icons/wifi";
   import WifiOff from "lucide-svelte/icons/wifi-off";
   import { onMount, setContext } from "svelte";
@@ -82,7 +83,7 @@
 </script>
 
 <svelte:window
-  on:resize={() => {
+  onresize={() => {
     if (window.innerWidth <= 600) {
       position.set("bottom-center");
     } else {
@@ -130,4 +131,6 @@
 
 <div class="pointer-events-none fixed inset-0 z-[-1] h-dvh w-screen [background-image:var(--bg-url)] bg-cover bg-scroll bg-center bg-no-repeat"></div>
 
-{@render children()}
+<Tooltip.Provider delayDuration={0}>
+  {@render children()}
+</Tooltip.Provider>

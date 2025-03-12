@@ -24,7 +24,7 @@
 </script>
 
 <div class={cn("group relative flex grow basis-full flex-col sm:basis-1/3 sm:last:grow-0 sm:last:basis-1/2", !apiEnabled && "opacity-50 grayscale", className)} data-hover={$isHovered} data-maxed={isMaxed} use:hoverAction>
-  <Tooltip.Root bind:open group="skills" openDelay={0} closeDelay={0}>
+  <Tooltip.Root bind:open>
     <Tooltip.Trigger class={cn("group-data-[maxed=true]:shine group-data-[maxed=false]:bg-icon group-data-[maxed=true]:bg-maxed absolute bottom-0 left-0 z-10 flex size-9 items-center justify-center rounded-full p-1 drop-shadow-sm", apiEnabled ? "" : "bg-gray-600")} onpointerdown={() => (open = !open)}>
       <Avatar.Root class="select-none">
         <Avatar.Image loading="lazy" class={cn("pointer-events-none size-[1.625rem]", !apiEnabled && "grayscale")} src={skillData.texture} alt={skill} />
@@ -33,15 +33,25 @@
         </Avatar.Fallback>
       </Avatar.Root>
     </Tooltip.Trigger>
-    {#if apiEnabled}
-      <Tooltip.Content class="bg-background-grey z-50 rounded-lg p-4" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-        <Tooltip.Arrow />
-        <div class="text-text text-lg font-semibold">
-          <span class="text-text/80">Rank:</span>
-          {`#${skillData.rank ?? "N/A"}`}
-        </div>
-      </Tooltip.Content>
-    {/if}
+    <Tooltip.Portal>
+      {#if apiEnabled}
+        <Tooltip.Content forceMount class="bg-background-grey z-50 rounded-lg p-4" sideOffset={6} side="top" align="center">
+          {#snippet child({ wrapperProps, props, open })}
+            {#if open}
+              <div {...wrapperProps}>
+                <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                  <Tooltip.Arrow />
+                  <div class="text-text text-lg font-semibold">
+                    <span class="text-text/80">Rank:</span>
+                    {`#${skillData.rank ?? "N/A"}`}
+                  </div>
+                </div>
+              </div>
+            {/if}
+          {/snippet}
+        </Tooltip.Content>
+      {/if}
+    </Tooltip.Portal>
   </Tooltip.Root>
 
   <div class="relative ml-10 text-sm font-semibold capitalize">

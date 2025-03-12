@@ -48,6 +48,7 @@
         <p>Please report this error on our <Button.Root target="_blank" href={PUBLIC_DISCORD_INVITE} class="underline">Discord</Button.Root></p>
       </div>
     {/if}
+
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
@@ -74,11 +75,23 @@
       if (!open) itemContent.set(undefined);
     }}>
     <Dialog.Portal>
-      <Dialog.Overlay transition={fade} transitionConfig={{ duration: 150 }} class="fixed inset-0 z-40 bg-black/80" />
-      <Dialog.Content class="bg-background-lore font-icomoon fixed top-[50%] left-[50%] z-50 flex max-h-[calc(96%-3rem)] max-w-[calc(100vw-2.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-lg select-text" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }}>
-        {#if $itemContent}
-          <ItemContent piece={$itemContent} />
-        {/if}
+      <Dialog.Overlay forceMount class="fixed inset-0 z-40 bg-black/80">
+        {#snippet child({ props, open })}
+          {#if open}
+            <div {...props} transition:fade={{ duration: 150 }}></div>
+          {/if}
+        {/snippet}
+      </Dialog.Overlay>
+      <Dialog.Content forceMount class="bg-background-lore font-icomoon fixed top-[50%] left-[50%] z-50 flex max-h-[calc(96%-3rem)] max-w-[calc(100vw-2.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-lg select-text">
+        {#snippet child({ props, open })}
+          {#if open}
+            <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+              {#if $itemContent}
+                <ItemContent piece={$itemContent} />
+              {/if}
+            </div>
+          {/if}
+        {/snippet}
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>
