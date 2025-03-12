@@ -1,6 +1,13 @@
 import adapter from "@sveltejs/adapter-node";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
+const forceRunesMode = (filename) => {
+  if (filename.match(/[\\/\\]node_modules[\\/\\]/)) {
+    return false;
+  }
+  return true;
+};
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
@@ -37,6 +44,14 @@ const config = {
   onwarn: (warning, handler) => {
     if (warning.filename.includes("node_modules")) return;
     handler(warning);
+  },
+  vitePlugin: {
+    dynamicCompileOptions({ filename, compileOptions }) {
+      // Dynamically set runes mode per Svelte file
+      if (forceRunesMode(filename) && !compileOptions.runes) {
+        return { runes: true };
+      }
+    }
   }
 };
 
