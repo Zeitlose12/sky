@@ -96,11 +96,21 @@
 </Collapsible.Root>
 
 {#snippet plots(garden: Garden)}
+  {@const allMaxed = garden.plot.unlocked === garden.plot.total}
   <div class="mb-3 flex items-center gap-1 text-base font-semibold uppercase">
     <h3 class="text-xl">Plots</h3>
-    <!-- TODO: Add maxed count -->
+    {#if allMaxed}
+      <span class="text-gold">Max!</span>
+    {:else}
+      <span class="text-text/80">({garden.plot.unlocked} / {garden.plot.total} max)</span>
+    {/if}
   </div>
-  <div class="bg-background/30 @container relative mb-0 rounded-lg p-5">
+
+  <div class="space-y-0.5">
+    <AdditionStat text="Unlocked Plots" data={`${garden.plot.unlocked}/${garden.plot.total}`} maxed={garden.plot.unlocked === garden.plot.total} />
+    <AdditionStat text="Barn Skin" data={garden.plot.barnSkin} />
+  </div>
+  <div class="bg-background/30 @container relative mt-3 mb-0 rounded-lg p-5">
     <div class="grid grid-cols-[repeat(5,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
       {#each garden.plot.layout as plot, index (index)}
         <Tooltip.Root disableCloseOnTriggerClick={false}>
