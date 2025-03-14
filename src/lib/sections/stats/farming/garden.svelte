@@ -48,7 +48,7 @@
               <div class="bg-skillbar data-[maxed=true]:bg-maxedbar h-full w-full flex-1 rounded-full transition-all duration-1000 ease-in-out" style={`transform: translateX(-${100 - parseFloat(calculatePercentage(garden.level.xpCurrent, hasMaxed ? garden.level.xpCurrent : garden.level.xpForNext))}%)`} data-maxed={hasMaxed}></div>
             </Progress.Root>
           </AdditionStat>
-          <AdditionStat text="Composter" data={Object.values(garden.composter).reduce((acc, curr) => acc + curr, 0)} asterisk={true}>
+          <AdditionStat text="Composter" data={Object.values(garden.composter).join(" / ")} asterisk={true} maxed={Object.values(garden.composter).every((value) => value === 25)}>
             {#each Object.entries(garden.composter) as [key, value], index (index)}
               <h3 class="text-text/85 font-bold">
                 <span class="capitalize">{key.replaceAll("_", " ")}</span>:
@@ -102,7 +102,7 @@
   </div>
   <div class="bg-background/30 @container relative mb-0 rounded-lg p-5">
     <div class="grid grid-cols-[repeat(5,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
-      {#each garden.plot as plot, index (index)}
+      {#each garden.plot.layout as plot, index (index)}
         <Tooltip.Root disableCloseOnTriggerClick={false}>
           <Tooltip.Trigger>
             <Avatar.Root class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm p-1">

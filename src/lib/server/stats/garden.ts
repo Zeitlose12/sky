@@ -1,6 +1,6 @@
 import { CROP_TO_ID, CROPS } from "$constants/farming";
 import type { GardenResponse } from "$types/global";
-import { sortByRarity } from "../helper";
+import { getRawLore, sortByRarity } from "../helper";
 import { NEU_CONSTANTS } from "../helper/NotEnoughUpdates/parseNEURepository";
 import { getLevelByXp, getSkillExperience } from "./leveling/leveling";
 
@@ -111,6 +111,17 @@ function getPlotLayout(gardenData: GardenResponse) {
   return output;
 }
 
+function getPlotData(gardenData: GardenResponse) {
+  const layout = getPlotLayout(gardenData);
+  const barnSkin = NEU_CONSTANTS.get("garden").barnSkins[gardenData.selected_barn_skin] ?? NEU_CONSTANTS.get("garden").barnSkins["default_1"];
+  return {
+    unlocked: gardenData.unlocked_plots_ids?.length ?? 0,
+    total: Object.keys(NEU_CONSTANTS.get("garden").plotLayout).length,
+    barnSkin: getRawLore(barnSkin.name),
+    layout: layout
+  };
+}
+
 export function formatGarden(gardenData: GardenResponse) {
   return {
     level: getLevelByXp(gardenData.garden_experience, { type: "garden" }),
@@ -118,6 +129,6 @@ export function formatGarden(gardenData: GardenResponse) {
     cropMilestones: getCropMilestones(gardenData),
     cropUpgrades: getCropUpgrades(gardenData),
     composter: getComposterUpgrades(gardenData),
-    plot: getPlotLayout(gardenData)
+    plot: getPlotData(gardenData)
   };
 }
