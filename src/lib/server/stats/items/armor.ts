@@ -30,7 +30,7 @@ export function getArmor(armor: ProcessedItem[]) {
   }
 
   // Full armor set (4 pieces)
-  if (armor.length === 4) {
+  if (armor.every((a) => helper.getId(a).length) && armor.length === 4) {
     let outputName;
     let reforgeName;
 

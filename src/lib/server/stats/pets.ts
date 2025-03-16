@@ -2,7 +2,7 @@ import * as constants from "$lib/server/constants/constants";
 import * as helper from "$lib/server/helper";
 import { NEU_CONSTANTS, NEU_ITEMS } from "$lib/server/helper/NotEnoughUpdates/parseNEURepository";
 import { formatNumber, uniqBy } from "$lib/shared/helper";
-import type { Member, Pet, Pets, ProcessedItem, ProcessedPet, ProcessedSkyblockPet, Profile } from "$types/global";
+import type { GetItemsItems, Member, Pet, Pets, ProcessedPet, ProcessedSkyblockPet, Profile } from "$types/global";
 import { getItemNetworth } from "skyhelper-networth";
 import { stripItems } from "./items/stripping";
 
@@ -399,12 +399,12 @@ function getPetScore(pets: ProcessedPet[]) {
   };
 }
 
-export async function getPets(userProfile: Member, items: ProcessedItem[], profile: Profile) {
+export async function getPets(userProfile: Member, items: GetItemsItems, profile: Profile) {
   const output = {} as Pets;
 
   const allPets = JSON.parse(JSON.stringify(userProfile.pets_data?.pets ?? [])) as Pet[];
-  if (items !== undefined) {
-    allPets.push(...(items as unknown as Pet[]));
+  if (items?.pets !== undefined) {
+    allPets.push(...(items.pets as unknown as Pet[]));
   }
 
   if (userProfile.rift?.dead_cats?.montezuma !== undefined) {

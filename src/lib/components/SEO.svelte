@@ -158,10 +158,10 @@
       description += `${profile.displayName} has been playing SkyBlock for ${formatDistanceToNowStrict(profile.stats.joined)}`;
     }
 
-    const highestRaritySword = profile.items.weapons?.highest_priority_weapon?.display_name;
+    const highestRaritySword = profile.items?.weapons?.highest_priority_weapon?.display_name;
 
     // Armor set
-    if (profile.items.armor?.set_name !== undefined) {
+    if (profile.items?.armor?.set_name !== undefined) {
       if (highestRaritySword !== undefined) {
         description += `, is wearing ${profile.items.armor.set_name}`;
       } else {

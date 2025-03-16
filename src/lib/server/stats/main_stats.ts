@@ -14,21 +14,23 @@ export async function getMainStats(userProfile: Member, profile: Profile, items:
   };
 
   const networthItems = {
-    armor: items.armor?.armor ?? [],
-    equipment: items.equipment?.equipment ?? [],
-    wardrobe: items.wardrobe.flat() ?? [],
-    inventory: items.inventory ?? [],
-    enderchest: items.enderchest ?? [],
-    accessories: items.talisman_bag ?? [],
-    personal_vault: items.personal_vault ?? [],
-    storage: items.backpack ? items.backpack.concat(items.backpack.map((item) => item.containsItems ?? []).flat()).flat() : [],
-    fishing_bag: items.fishing_bag ?? [],
-    potion_bag: items.potion_bag ?? [],
-    museum: items.museumItems ?? []
+    armor: items?.armor?.armor ?? [],
+    equipment: items?.equipment?.equipment ?? [],
+    wardrobe: items?.wardrobe.flat() ?? [],
+    inventory: items?.inventory ?? [],
+    enderchest: items?.enderchest ?? [],
+    accessories: items?.talisman_bag ?? [],
+    personal_vault: items?.personal_vault ?? [],
+    storage: items?.backpack ? items?.backpack.concat(items?.backpack.map((item) => item.containsItems ?? []).flat()).flat() : [],
+    fishing_bag: items?.fishing_bag ?? [],
+    potion_bag: items?.potion_bag ?? [],
+    museum: items?.museumItems ?? []
   };
 
   const predecodedNetworth = await getPreDecodedNetworth(userProfile, networthItems, bank, networthOptions);
-  items.museumItems = [];
+  if (items) {
+    items.museumItems = [];
+  }
 
   return {
     joined: userProfile.profile?.first_join ?? 0,

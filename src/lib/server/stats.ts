@@ -51,7 +51,7 @@ export async function getStats(profile: Profile, player: Player, extra: { museum
     ["profiles", () => getProfiles(profile.uuid)],
     ["stats", () => stats.getMainStats(userProfile, profile, items)],
     ["accessories", () => stats.getAccessories(userProfile, items, ignoredPacks)],
-    ["pets", () => stats.getPets(userProfile, items.pets, profile)],
+    ["pets", () => stats.getPets(userProfile, items, profile)],
     ["collections", () => stats.getCollections(userProfile, profile)],
     ["skills", () => stats.getSkills(userProfile, profile, player)],
     ["skyblock_level", () => stats.getSkyblockLevel(userProfile)],
