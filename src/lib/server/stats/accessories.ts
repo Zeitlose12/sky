@@ -6,6 +6,10 @@ import { getMissingAccessories } from "$lib/server/stats/missing";
 import type { Accessories, Accessory, GetItemsItems, Member } from "$types/global";
 
 export async function getAccessories(userProfile: Member, items: GetItemsItems, packs: string[]) {
+  if (!items) {
+    return null;
+  }
+
   const { talisman_bag: accessoryBag, inventory, enderchest } = items;
   const storage = items.backpack.map((i) => i.containsItems ?? []).flat();
   const armor = items.armor.armor;

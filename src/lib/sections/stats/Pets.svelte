@@ -62,7 +62,9 @@
                   <h4 class="text-text text-xl font-medium capitalize">Level {activePet.level}</h4>
                 </div>
               </div>
-              <Bonus stats={activePet.stats} class="my-2" />
+              {#if activePet.stats}
+                <Bonus stats={activePet.stats} class="my-2" />
+              {/if}
             </div>
           </Items>
 

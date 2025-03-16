@@ -113,6 +113,10 @@ const isToolCategory = (category: string) => ["farming_tools", "mining_tools", "
 const isEquipmentCategory = (category: string) => ["armor", "rift_armor", "equipment", "rift_equipment", "weapons"].includes(category);
 
 export function stripAllItems(items: GetItemsItems) {
+  if (items === null) {
+    return null;
+  }
+
   return {
     ...Object.entries(items as unknown as GetItemsItems).reduce(
       (acc, [key, value]) => {

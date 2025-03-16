@@ -27,5 +27,10 @@ export type Garden = {
     level: Skill;
   }[];
   composter: Record<string, number>;
-  plot: ProcessedSkyBlockItem[];
+  plot: {
+    unlocked: number;
+    total: number;
+    barnSkin: string;
+    layout: ProcessedSkyBlockItem[];
+  };
 };

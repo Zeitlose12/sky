@@ -37,6 +37,7 @@ export type CommunityUpgrade = {
 };
 
 export type Member = {
+  player_id: string;
   player_data?: PlayerData;
   jacobs_contest?: JacobsContest;
   leveling?: Leveling;
