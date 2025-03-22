@@ -47,7 +47,7 @@
 
 <Collapsible.Root bind:open={() => $collapsePreferences[transormedID.toLowerCase()] ?? true, (v) => ($collapsePreferences[transormedID.toLowerCase()] = v)}>
   {#snippet child({ props })}
-    <section {...props} id={transormedID} class={cn("order-(--order) scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement}>
+    <section {...props} id={transormedID} class={cn("order-(--order) mx-auto scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement}>
       <Collapsible.Trigger class="flex items-center justify-between">
         {#if !subtitle}
           <SectionTitle>{id}</SectionTitle>

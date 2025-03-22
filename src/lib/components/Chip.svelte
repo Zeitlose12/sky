@@ -1,9 +1,11 @@
 <script lang="ts">
+  import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { cn, flyAndScale } from "$lib/shared/utils";
+  import { content } from "$lib/stores/internal";
   import { Avatar, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
   import { IsInViewport } from "runed";
-  import type { Snippet } from "svelte";
+  import { getContext, type Snippet } from "svelte";
   import { fade } from "svelte/transition";
 
   type AnimationOptions =
@@ -39,6 +41,7 @@
   let open = $state(false);
 
   const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
+  const isHover = getContext<IsHover>("isHover");
 
   $effect(() => {
     if (inViewport.current && !hasBeenInViewport) {
@@ -48,7 +51,7 @@
 </script>
 
 <Tooltip.Root>
-  <Tooltip.Trigger class={cn("bg-background/30 flex w-full max-w-fit items-center gap-2 rounded-lg py-2", classNames)} onpointerdown={() => (open = !open)}>
+  <Tooltip.Trigger class={cn("bg-background/30 flex w-full max-w-fit items-center gap-2 rounded-lg py-2", classNames)} onpointerdown={() => (open = !open)} onclick={() => content.set(tooltip)}>
     {#snippet child({ props })}
       <div {...props} bind:this={targetNode} in:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.index + 1) : 0 }} out:fade|global={{ duration: animationOptions.animate ? 300 : 0, delay: animationOptions.animate ? 25 * (animationOptions.amountOfItems - animationOptions.index) : 0 }}>
         <div class="flex items-center gap-2 px-2">
@@ -71,7 +74,7 @@
     {/snippet}
   </Tooltip.Trigger>
   <Tooltip.Portal>
-    {#if tooltip}
+    {#if tooltip && isHover.current}
       <Tooltip.Content forceMount class="bg-background-grey z-50 rounded-lg p-4" sideOffset={6} side="top" align="center">
         {#snippet child({ wrapperProps, props, open })}
           {#if open}
