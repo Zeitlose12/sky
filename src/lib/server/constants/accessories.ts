@@ -82,10 +82,13 @@ const accessoryUpgrades = [
   ["HASTE_RING", "HASTE_ARTIFACT"],
   ["IQ_POINT", "TWO_IQ_POINT"],
   ["CENTURY_TALISMAN", "CENTURY_RING"],
-  ["SEAL_TALISMAN", "SEAL_RING"]
+  ["SEAL_TALISMAN", "SEAL_RING"],
+  ["FROZEN_CHICKEN", "FRIED_FROZEN_CHICKEN"],
+  ["JUNK_TALISMAN", "JUNK_RING", "JUNK_ARTIFACT"],
+  ["BLUETOOTH_RING", "BLUERTOOTH_RING"]
 ];
 
-const ignoredAccessories = ["BINGO_HEIRLOOM", "LUCK_TALISMAN", "TALISMAN_OF_SPACE", "RING_OF_SPACE", "MASTER_SKULL_TIER_8", "MASTER_SKULL_TIER_9", "MASTER_SKULL_TIER_10", "COMPASS_TALISMAN", "ARTIFACT_OF_SPACE", "GRIZZLY_PAW", "ETERNAL_CRYSTAL", "OLD_BOOT", "ARGOFAY_TRINKET", "DEFECTIVE_MONITOR", "PUNCHCARD_ARTIFACT", "HARMONIOUS_SURGERY_TOOLKIT", "CRUX_TALISMAN_1", "CRUX_TALISMAN_2", "CRUX_TALISMAN_3", "CRUX_TALISMAN_4", "CRUX_TALISMAN_5", "CRUX_TALISMAN_6", "WARDING_TRINKET", "RING_OF_BROKEN_LOVE", "GARLIC_FLAVORED_GUMMY_BEAR", "CRUX_TALISMAN_7", "COMBO_MANIA_TALISMAN", "SATELITE", "RING_OF_ETERNAL_LOVE"];
+const ignoredAccessories = ["BINGO_HEIRLOOM", "LUCK_TALISMAN", "TALISMAN_OF_SPACE", "RING_OF_SPACE", "MASTER_SKULL_TIER_8", "MASTER_SKULL_TIER_9", "MASTER_SKULL_TIER_10", "COMPASS_TALISMAN", "ARTIFACT_OF_SPACE", "GRIZZLY_PAW", "ETERNAL_CRYSTAL", "OLD_BOOT"];
 
 export const ACCESSORY_ALIASES = {
   WEDDING_RING_0: ["WEDDING_RING_1"],
@@ -148,15 +151,14 @@ export const SPECIAL_ACCESSORIES = {
   },
   HOCUS_POCUS_CIPHER: {
     allowsEnrichment: false
-  },
-  RUNEBOOK: {
-    allowsRecomb: false
   }
 } as Record<string, SpecialAccessoryConstant>;
 
 export function getAllAccessories() {
   const output = ACCESSORIES.reduce<allAccessories[]>((accessory, item) => {
     if (ignoredAccessories.includes(item.id)) return accessory;
+
+    if (item.origin === "RIFT" && !item.rift_transferrable) return accessory;
 
     if (Object.values(ACCESSORY_ALIASES).find((list) => list.includes(item.id))) return accessory;
 

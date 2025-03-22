@@ -250,10 +250,12 @@ export const MINIONS = {
   },
   fishing: {
     FISHING: {
-      texture: "/api/head/53ea0fd89524db3d7a3544904933830b4fc8899ef60c113d948bb3c4fe7aabb1"
+      texture: "/api/head/53ea0fd89524db3d7a3544904933830b4fc8899ef60c113d948bb3c4fe7aabb1",
+      maxTier: 12
     },
     CLAY: {
-      texture: "/api/head/af9b312c8f53da289060e6452855072e07971458abbf338ddec351e16c171ff8"
+      texture: "/api/head/af9b312c8f53da289060e6452855072e07971458abbf338ddec351e16c171ff8",
+      maxTier: 12
     }
   }
 } as Record<

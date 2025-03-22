@@ -335,6 +335,8 @@ export type allAccessories = {
   tier?: string;
   display_name?: string;
   name?: string;
+  origin?: string;
+  rift_transferrable?: boolean;
 };
 
 export type AccessoriesOutput = {
