@@ -50,7 +50,7 @@
               {/snippet}
             </Control>
           </Field>
-          <Button.Root type="submit" class="bg-background/15 peer-hover:bg-background/20 peer-focus-visible:bg-background/20 flex aspect-square h-full items-center justify-center rounded-full transition-all duration-300 peer-hover:rounded-l-none peer-focus-visible:rounded-l-none @[38rem]:px-4">
+          <Button.Root type="submit" class="bg-background/15 peer-hover:bg-background/20 peer-focus-visible:bg-background/20 flex h-full items-center justify-center rounded-full transition-all duration-300 peer-hover:rounded-l-none peer-focus-visible:rounded-l-none @[38rem]:px-4">
             {#if $formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined}
               <CircleAlert class="text-text size-4 @[38rem]:size-6" />
             {:else if $submitting}

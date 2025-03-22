@@ -220,7 +220,7 @@
 
 {#if isHover.current}
   <Popover.Root bind:open={settingsOpen}>
-    <Popover.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
+    <Popover.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
       <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
       <p class="hidden @md:block">Settings</p>
     </Popover.Trigger>
@@ -240,7 +240,7 @@
   </Popover.Root>
 {:else}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false} bind:open={settingsOpen}>
-    <Drawer.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
+    <Drawer.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
       <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
       <p class="hidden @md:block">Settings</p>
     </Drawer.Trigger>
