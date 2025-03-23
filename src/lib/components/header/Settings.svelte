@@ -218,11 +218,19 @@
   </Tabs.Root>
 {/snippet}
 
+{#snippet settingsButton(props: Record<string, unknown>)}
+  <button {...props} class="bg-background/20 text-text group absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:aspect-auto @md:translate-y-0">
+    <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
+    <p class="hidden @md:block">Settings</p>
+  </button>
+{/snippet}
+
 {#if isHover.current}
   <Popover.Root bind:open={settingsOpen}>
-    <Popover.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
-      <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
-      <p class="hidden @md:block">Settings</p>
+    <Popover.Trigger>
+      {#snippet child({ props })}
+        {@render settingsButton(props)}
+      {/snippet}
     </Popover.Trigger>
     <Popover.Portal>
       <Popover.Content forceMount side="bottom" sideOffset={8} align="center" collisionPadding={8} class="bg-background-grey/95 z-10 min-w-[32rem] rounded-lg px-8 py-4">
@@ -240,9 +248,10 @@
   </Popover.Root>
 {:else}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false} bind:open={settingsOpen}>
-    <Drawer.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
-      <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
-      <p class="hidden @md:block">Settings</p>
+    <Drawer.Trigger>
+      {#snippet child({ props })}
+        {@render settingsButton(props)}
+      {/snippet}
     </Drawer.Trigger>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
