@@ -2,8 +2,8 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { flyAndScale } from "$lib/shared/utils";
+  import X from "@lucide/svelte/icons/x";
   import { Dialog } from "bits-ui";
-  import X from "lucide-svelte/icons/x";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";

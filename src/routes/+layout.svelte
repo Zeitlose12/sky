@@ -5,16 +5,18 @@
   import { IsHover } from "$lib/hooks/is-hover.svelte";
   import { IsMobile } from "$lib/hooks/is-mobile.svelte";
   import themes from "$lib/shared/constants/themes";
+  import { content } from "$lib/stores/internal";
   import { internalPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
+  import Wifi from "@lucide/svelte/icons/wifi";
+  import WifiOff from "@lucide/svelte/icons/wifi-off";
   import { Tooltip } from "bits-ui";
-  import Wifi from "lucide-svelte/icons/wifi";
-  import WifiOff from "lucide-svelte/icons/wifi-off";
   import { onMount, setContext } from "svelte";
   import SvelteSeo from "svelte-seo";
   import type { ToasterProps } from "svelte-sonner";
   import { Toaster, toast } from "svelte-sonner";
   import { writable } from "svelte/store";
+  import { Drawer } from "vaul-svelte";
   import "../app.css";
 
   const position = writable<ToasterProps["position"]>("bottom-right");
@@ -58,6 +60,8 @@
         if (navigator.onLine) {
           toast.dismiss(toastId);
           toastId = toast.success("You are now online!", {
+            // @ts-expect-error - Not updated for Svelte 5 yet
+            // * https://github.com/wobsoriano/svelte-sonner/pull/126
             icon: Wifi,
             description: "Connection has been restored!",
             duration: 5000
@@ -65,6 +69,8 @@
         } else {
           toast.dismiss(toastId);
           toastId = toast.error("You are now offline!", {
+            // @ts-expect-error - Not updated for Svelte 5 yet
+            // * https://github.com/wobsoriano/svelte-sonner/pull/126
             icon: WifiOff,
             description: "Please check your connection and try again.",
             duration: 5000
@@ -134,3 +140,22 @@
 <Tooltip.Provider delayDuration={0}>
   {@render children()}
 </Tooltip.Provider>
+
+{#if !isHover.current}
+  <Drawer.Root
+    bind:open={() => !!$content, (v) => v}
+    shouldScaleBackground={false}
+    setBackgroundColorOnScale={false}
+    onOpenChange={(open) => {
+      if (!open) content.set(undefined);
+    }}>
+    <Drawer.Portal>
+      <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
+      <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
+        <div class="mx-auto w-full max-w-md overflow-auto p-6">
+          {@render $content?.()}
+        </div>
+      </Drawer.Content>
+    </Drawer.Portal>
+  </Drawer.Root>
+{/if}

@@ -8,8 +8,8 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { formatNumber, getRarityClass, renderLore, uniqBy } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { Collapsible } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
 
   let { order }: { order: number } = $props();
 

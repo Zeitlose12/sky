@@ -2,12 +2,12 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { favorites } from "$lib/stores/favorites";
+  import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+  import ChevronRight from "@lucide/svelte/icons/chevron-right";
+  import ExternalLink from "@lucide/svelte/icons/external-link";
+  import Link from "@lucide/svelte/icons/link";
+  import Star from "@lucide/svelte/icons/star";
   import { Avatar, Button, DropdownMenu, Tooltip } from "bits-ui";
-  import ChevronLeft from "lucide-svelte/icons/chevron-left";
-  import ChevronRight from "lucide-svelte/icons/chevron-right";
-  import ExternalLink from "lucide-svelte/icons/external-link";
-  import Link from "lucide-svelte/icons/link";
-  import Star from "lucide-svelte/icons/star";
   import { toast } from "svelte-sonner";
 
   let toastId: string | number = $state(0);

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { cn } from "$lib/shared/utils";
   import type { ProcessedSkyBlockItem } from "$lib/types/global";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
 
   let { piece, isInventory }: { piece: ProcessedSkyBlockItem; isInventory?: boolean } = $props();
 </script>

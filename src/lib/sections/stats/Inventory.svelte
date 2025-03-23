@@ -3,8 +3,8 @@
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Item from "$lib/components/Item.svelte";
   import type { ProcessedSkyBlockItem } from "$lib/types/stats";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar, ScrollArea, Tabs } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
   import { Debounced } from "runed";
   import { cubicInOut } from "svelte/easing";
   import { crossfade, fade } from "svelte/transition";

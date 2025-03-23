@@ -5,8 +5,8 @@
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
   import { calculatePercentage } from "$lib/shared/helper";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar, Progress } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
 
   let { order }: { order: number } = $props();

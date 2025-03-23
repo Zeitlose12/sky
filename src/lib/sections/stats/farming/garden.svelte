@@ -4,18 +4,22 @@
   import Chip from "$lib/components/Chip.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
+  import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { calculatePercentage, formatNumber, getRarityClass, renderLore } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
+  import { content } from "$lib/stores/internal";
   import type { Garden } from "$types/processed/profile/garden";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
+  import Image from "@lucide/svelte/icons/image";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { Avatar, Collapsible, Progress, Tooltip } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
-  import Image from "lucide-svelte/icons/image";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import { format } from "numerable";
+  import { getContext } from "svelte";
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
   const gardenPromise = $derived<Promise<Garden>>(fetch(`/api/garden/${profile.profile_id.replaceAll("-", "")}`).then((res) => res.json()));
+  const isHover = getContext<IsHover>("isHover");
 </script>
 
 <Collapsible.Root>
@@ -113,8 +117,11 @@
   <div class="bg-background/30 @container relative mt-3 mb-0 rounded-lg p-5">
     <div class="grid grid-cols-[repeat(5,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
       {#each garden.plot.layout as plot, index (index)}
+        {#snippet tooltipContent()}
+          <p>{@html renderLore(plot.display_name)}</p>
+        {/snippet}
         <Tooltip.Root disableCloseOnTriggerClick={false}>
-          <Tooltip.Trigger>
+          <Tooltip.Trigger onclick={() => content.set(tooltipContent)}>
             <Avatar.Root class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm p-1">
               <Avatar.Image src={plot.texture_path} class="h-auto w-14 select-none [image-rendering:pixelated]" />
               <Avatar.Fallback>
@@ -123,18 +130,20 @@
             </Avatar.Root>
           </Tooltip.Trigger>
           <Tooltip.Portal>
-            <Tooltip.Content forceMount class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" sideOffset={6} side="top" align="center">
-              {#snippet child({ wrapperProps, props, open })}
-                {#if open}
-                  <div {...wrapperProps}>
-                    <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-                      <Tooltip.Arrow />
-                      <p>{@html renderLore(plot.display_name)}</p>
+            {#if isHover.current}
+              <Tooltip.Content forceMount class="bg-background-grey text-text/80 z-50 rounded-lg p-4 font-semibold" sideOffset={6} side="top" align="center">
+                {#snippet child({ wrapperProps, props, open })}
+                  {#if open}
+                    <div {...wrapperProps}>
+                      <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                        <Tooltip.Arrow />
+                        {@render tooltipContent()}
+                      </div>
                     </div>
-                  </div>
-                {/if}
-              {/snippet}
-            </Tooltip.Content>
+                  {/if}
+                {/snippet}
+              </Tooltip.Content>
+            {/if}
           </Tooltip.Portal>
         </Tooltip.Root>
       {/each}

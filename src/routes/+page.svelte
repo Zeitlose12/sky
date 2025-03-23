@@ -1,16 +1,18 @@
 <script lang="ts">
   import { PUBLIC_DISCORD_INVITE, PUBLIC_PATREON } from "$env/static/public";
+  import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { getUsername } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { favorites } from "$lib/stores/favorites";
+  import { content } from "$lib/stores/internal";
+  import CodeXml from "@lucide/svelte/icons/code-xml";
+  import GitPullRequestArrow from "@lucide/svelte/icons/git-pull-request-arrow";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
+  import Server from "@lucide/svelte/icons/server";
+  import Star from "@lucide/svelte/icons/star";
   import { Avatar, Button, Tooltip } from "bits-ui";
   import { Control, Field, FieldErrors, Label } from "formsnap";
-  import CodeXml from "lucide-svelte/icons/code-xml";
-  import GitPullRequestArrow from "lucide-svelte/icons/git-pull-request-arrow";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
-  import Server from "lucide-svelte/icons/server";
-  import Star from "lucide-svelte/icons/star";
-  import { onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
   import type { PageData } from "./$types";
@@ -18,6 +20,8 @@
   import { schema } from "./schema";
 
   let { data }: { data: PageData } = $props();
+
+  const isHover = getContext<IsHover>("isHover");
 
   const form = superForm(data.searchForm, {
     validators: zodClient(schema),
@@ -132,6 +136,18 @@
 </main>
 
 {#snippet profile(user: { id: string; name: string; quote?: string; role?: Role }, options?: { tip?: boolean; favorite?: boolean })}
+  {#snippet tooltipContent()}
+    <p class="text-text/80 font-semibold capitalize">
+      {#if options?.favorite}
+        Favorited
+      {:else if user.role}
+        SkyCrypt {Role[user.role].toLowerCase()}
+      {:else}
+        Unknown
+      {/if}
+    </p>
+  {/snippet}
+
   <div class={cn("relative rounded-lg", { "transition-all duration-300 hover:scale-105": !options?.tip })}>
     <Button.Root href={options?.tip ? "#" : `/stats/${user.id}`} class="relative flex h-full min-w-0 items-center gap-4 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
       <Avatar.Root class="bg-text/10 size-16 shrink-0 rounded-lg">
@@ -155,8 +171,11 @@
         <Tooltip.Trigger
           class="absolute right-3 bottom-3"
           onclick={() => {
-            if (!options?.favorite) return;
-            favorites.set($favorites.filter((uuid) => uuid !== user.id));
+            if (!options?.favorite) {
+              content.set(tooltipContent);
+            } else {
+              favorites.set($favorites.filter((uuid) => uuid !== user.id));
+            }
           }}>
           {#snippet child({ props })}
             <div {...props} tabindex="0" role="button">
@@ -165,26 +184,20 @@
           {/snippet}
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Content forceMount class="bg-background-grey rounded-lg p-4" sideOffset={6} side="top" align="center">
-            {#snippet child({ wrapperProps, props, open })}
-              {#if open}
-                <div {...wrapperProps}>
-                  <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-                    <Tooltip.Arrow />
-                    <p class="text-text/80 font-semibold capitalize">
-                      {#if options?.favorite}
-                        Favorited
-                      {:else if user.role}
-                        SkyCrypt {Role[user.role].toLowerCase()}
-                      {:else}
-                        Unknown
-                      {/if}
-                    </p>
+          {#if isHover.current}
+            <Tooltip.Content forceMount class="bg-background-grey rounded-lg p-4" sideOffset={6} side="top" align="center">
+              {#snippet child({ wrapperProps, props, open })}
+                {#if open}
+                  <div {...wrapperProps}>
+                    <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                      <Tooltip.Arrow />
+                      {@render tooltipContent()}
+                    </div>
                   </div>
-                </div>
-              {/if}
-            {/snippet}
-          </Tooltip.Content>
+                {/if}
+              {/snippet}
+            </Tooltip.Content>
+          {/if}
         </Tooltip.Portal>
       </Tooltip.Root>
     {/if}

@@ -5,8 +5,8 @@
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar, Tooltip } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
   import { IsInViewport } from "runed";
   import { getContext } from "svelte";
   import Content from "./item/item-content.svelte";

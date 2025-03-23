@@ -3,8 +3,8 @@
   import { cn } from "$lib/shared/utils";
   import { inviewportSections } from "$lib/stores/internal";
   import { collapsePreferences } from "$lib/stores/preferences";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { Collapsible } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { IsInViewport } from "runed";
   import type { Snippet } from "svelte";
   import { slide } from "svelte/transition";
@@ -47,7 +47,7 @@
 
 <Collapsible.Root bind:open={() => $collapsePreferences[transormedID.toLowerCase()] ?? true, (v) => ($collapsePreferences[transormedID.toLowerCase()] = v)}>
   {#snippet child({ props })}
-    <section {...props} id={transormedID} class={cn("order-(--order) scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement}>
+    <section {...props} id={transormedID} class={cn("order-(--order) mx-auto scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement}>
       <Collapsible.Trigger class="flex items-center justify-between">
         {#if !subtitle}
           <SectionTitle>{id}</SectionTitle>

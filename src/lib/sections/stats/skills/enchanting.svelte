@@ -4,9 +4,9 @@
   import Chip from "$lib/components/Chip.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { Collapsible } from "bits-ui";
   import { formatDistanceToNowStrict } from "date-fns";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { fade } from "svelte/transition";
 
   const ctx = getProfileCtx();

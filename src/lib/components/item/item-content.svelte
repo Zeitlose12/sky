@@ -8,9 +8,9 @@
   import { cn } from "$lib/shared/utils";
   import { wikiOrderPreferences } from "$lib/stores/wiki";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
+  import Image from "@lucide/svelte/icons/image";
+  import Info from "@lucide/svelte/icons/info";
   import { Avatar, Button } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
-  import Info from "lucide-svelte/icons/info";
   import { derived as derivedStore } from "svelte/store";
 
   type Props = {
