@@ -137,8 +137,7 @@
 
       {#if $wikiInfo}
         <Button.Root href={$wikiInfo.url} target="_blank" class="bg-text/[0.05] hover:bg-text/[0.08] flex shrink items-center justify-center rounded-[0.625rem] p-2 whitespace-nowrap transition-colors">
-          <Info class="mr-2 size-6 p-0" />
-          <span class="text-link font-semibold underline">{$wikiInfo.name} Wiki</span>
+          <Info class="mr-2 ml-2 size-6 p-0" />
         </Button.Root>
       {/if}
     </div>
