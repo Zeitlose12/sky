@@ -8,9 +8,9 @@
   import { cn } from "$lib/shared/utils";
   import { wikiOrderPreferences } from "$lib/stores/wiki";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
+  import Image from "@lucide/svelte/icons/image";
+  import Info from "@lucide/svelte/icons/info";
   import { Avatar, Button } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
-  import Info from "lucide-svelte/icons/info";
   import { derived as derivedStore } from "svelte/store";
 
   type Props = {
@@ -137,8 +137,7 @@
 
       {#if $wikiInfo}
         <Button.Root href={$wikiInfo.url} target="_blank" class="bg-text/[0.05] hover:bg-text/[0.08] flex shrink items-center justify-center rounded-[0.625rem] p-2 whitespace-nowrap transition-colors">
-          <Info class="mr-2 size-6 p-0" />
-          <span class="text-link font-semibold underline">{$wikiInfo.name} Wiki</span>
+          <Info class="mr-2 ml-2 size-6 p-0" />
         </Button.Root>
       {/if}
     </div>

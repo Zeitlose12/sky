@@ -9,14 +9,14 @@
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
   import { wikiOrderPreferences } from "$lib/stores/wiki";
+  import BookOpenText from "@lucide/svelte/icons/book-open-text";
+  import Check from "@lucide/svelte/icons/check";
+  import Cog from "@lucide/svelte/icons/cog";
+  import GripVertical from "@lucide/svelte/icons/grip-vertical";
+  import ListOrdered from "@lucide/svelte/icons/list-ordered";
+  import PackageOpen from "@lucide/svelte/icons/package-open";
+  import PaintBucket from "@lucide/svelte/icons/paint-bucket";
   import { Avatar, Button, Label, Popover, RadioGroup, Switch, Tabs } from "bits-ui";
-  import BookOpenText from "lucide-svelte/icons/book-open-text";
-  import Check from "lucide-svelte/icons/check";
-  import Cog from "lucide-svelte/icons/cog";
-  import GripVertical from "lucide-svelte/icons/grip-vertical";
-  import ListOrdered from "lucide-svelte/icons/list-ordered";
-  import PackageOpen from "lucide-svelte/icons/package-open";
-  import PaintBucket from "lucide-svelte/icons/paint-bucket";
   import { getContext, onMount } from "svelte";
   import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
@@ -218,11 +218,19 @@
   </Tabs.Root>
 {/snippet}
 
+{#snippet settingsButton(props: Record<string, unknown>)}
+  <button {...props} class="bg-background/20 text-text group absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:aspect-auto @md:translate-y-0">
+    <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
+    <p class="hidden @md:block">Settings</p>
+  </button>
+{/snippet}
+
 {#if isHover.current}
   <Popover.Root bind:open={settingsOpen}>
-    <Popover.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
-      <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
-      <p class="hidden @md:block">Settings</p>
+    <Popover.Trigger>
+      {#snippet child({ props })}
+        {@render settingsButton(props)}
+      {/snippet}
     </Popover.Trigger>
     <Popover.Portal>
       <Popover.Content forceMount side="bottom" sideOffset={8} align="center" collisionPadding={8} class="bg-background-grey/95 z-10 min-w-[32rem] rounded-lg px-8 py-4">
@@ -240,9 +248,10 @@
   </Popover.Root>
 {:else}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false} bind:open={settingsOpen}>
-    <Drawer.Trigger class="bg-background/20 text-text group absolute top-1/2 right-4 flex aspect-square shrink -translate-y-1/2 items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-sm font-semibold transition-all duration-100 @md:relative @md:top-0 @md:right-0 @md:my-1.5 @md:translate-y-0">
-      <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
-      <p class="hidden @md:block">Settings</p>
+    <Drawer.Trigger>
+      {#snippet child({ props })}
+        {@render settingsButton(props)}
+      {/snippet}
     </Drawer.Trigger>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />

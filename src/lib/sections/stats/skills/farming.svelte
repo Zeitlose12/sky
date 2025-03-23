@@ -8,8 +8,8 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import Garden from "$lib/sections/stats/farming/garden.svelte";
   import { formatNumber, renderLore } from "$lib/shared/helper";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { Collapsible } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
