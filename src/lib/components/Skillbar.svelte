@@ -4,8 +4,8 @@
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { content } from "$lib/stores/internal";
   import type { Skill } from "$lib/types/global";
+  import BarChartHorizontal from "@lucide/svelte/icons/bar-chart-horizontal";
   import { Avatar, Progress, Tooltip } from "bits-ui";
-  import BarChartHorizontal from "lucide-svelte/icons/bar-chart-horizontal";
   import { format } from "numerable";
   import { getContext } from "svelte";
   import { createHover } from "svelte-interactions";

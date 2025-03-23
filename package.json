@@ -20,6 +20,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.2.7",
     "@eslint/js": "^9.23.0",
+    "@lucide/svelte": "^0.483.0",
     "@sveltejs/adapter-node": "^5.2.12",
     "@sveltejs/kit": "^2.20.2",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
@@ -42,7 +43,6 @@
     "fs-extra": "^11.3.0",
     "globals": "^16.0.0",
     "lodash": "^4.17.21",
-    "lucide-svelte": "^0.483.0",
     "micromatch": "^4.0.8",
     "mongo-sanitize": "^1.1.0",
     "numerable": "^0.3.15",

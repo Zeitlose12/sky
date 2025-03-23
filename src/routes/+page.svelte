@@ -5,13 +5,13 @@
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { favorites } from "$lib/stores/favorites";
   import { content } from "$lib/stores/internal";
+  import CodeXml from "@lucide/svelte/icons/code-xml";
+  import GitPullRequestArrow from "@lucide/svelte/icons/git-pull-request-arrow";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
+  import Server from "@lucide/svelte/icons/server";
+  import Star from "@lucide/svelte/icons/star";
   import { Avatar, Button, Tooltip } from "bits-ui";
   import { Control, Field, FieldErrors, Label } from "formsnap";
-  import CodeXml from "lucide-svelte/icons/code-xml";
-  import GitPullRequestArrow from "lucide-svelte/icons/git-pull-request-arrow";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
-  import Server from "lucide-svelte/icons/server";
-  import Star from "lucide-svelte/icons/star";
   import { getContext, onMount } from "svelte";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";

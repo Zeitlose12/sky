@@ -3,8 +3,8 @@
   import { cn } from "$lib/shared/utils";
   import { inviewportSections } from "$lib/stores/internal";
   import { collapsePreferences } from "$lib/stores/preferences";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { Collapsible } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { IsInViewport } from "runed";
   import type { Snippet } from "svelte";
   import { slide } from "svelte/transition";

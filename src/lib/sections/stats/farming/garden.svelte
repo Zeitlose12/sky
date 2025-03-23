@@ -9,10 +9,10 @@
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { content } from "$lib/stores/internal";
   import type { Garden } from "$types/processed/profile/garden";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
+  import Image from "@lucide/svelte/icons/image";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { Avatar, Collapsible, Progress, Tooltip } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
-  import Image from "lucide-svelte/icons/image";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import { format } from "numerable";
   import { getContext } from "svelte";
 

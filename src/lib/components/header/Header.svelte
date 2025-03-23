@@ -2,11 +2,11 @@
   import { page } from "$app/state";
   import HeaderInfo from "$lib/components/header/Info.svelte";
   import Settings from "$lib/components/header/Settings.svelte";
+  import CircleAlert from "@lucide/svelte/icons/circle-alert";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
+  import Search from "@lucide/svelte/icons/search";
   import { Avatar, Button } from "bits-ui";
   import { Control, Field } from "formsnap";
-  import CircleAlert from "lucide-svelte/icons/circle-alert";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
-  import Search from "lucide-svelte/icons/search";
   import { toast } from "svelte-sonner";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";

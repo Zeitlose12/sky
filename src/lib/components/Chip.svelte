@@ -2,8 +2,8 @@
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { content } from "$lib/stores/internal";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar, Tooltip } from "bits-ui";
-  import Image from "lucide-svelte/icons/image";
   import { IsInViewport } from "runed";
   import { getContext, type Snippet } from "svelte";
   import { fade } from "svelte/transition";

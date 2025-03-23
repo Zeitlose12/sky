@@ -5,8 +5,8 @@
   import { titleCase } from "$lib/shared/helper";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import type { ValidStats } from "$types/global";
-  import CircleX from "lucide-svelte/icons/circle-x";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
+  import CircleX from "@lucide/svelte/icons/circle-x";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import type { Component } from "svelte";
   import { onMount } from "svelte";
 

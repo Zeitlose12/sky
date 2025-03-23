@@ -7,8 +7,8 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { calculatePercentage } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
+  import ExternalLink from "@lucide/svelte/icons/external-link";
   import { Avatar, Button } from "bits-ui";
-  import ExternalLink from "lucide-svelte/icons/external-link";
 
   let { order }: { order: number } = $props();
 

@@ -2,8 +2,8 @@
   import { PUBLIC_DISCORD_INVITE, PUBLIC_PATREON } from "$env/static/public";
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { flyAndScale } from "$lib/shared/utils";
+  import Info from "@lucide/svelte/icons/info";
   import { Button, Popover } from "bits-ui";
-  import Info from "lucide-svelte/icons/info";
   import { getContext } from "svelte";
   import { Drawer } from "vaul-svelte";
 

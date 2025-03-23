@@ -1,8 +1,8 @@
 <script lang="ts">
   import { dev } from "$app/environment";
   import { goto } from "$app/navigation";
+  import RefreshCw from "@lucide/svelte/icons/refresh-cw";
   import { Button } from "bits-ui";
-  import RefreshCw from "lucide-svelte/icons/refresh-cw";
 
   if (navigator.onLine && !dev) {
     goto("/");

@@ -7,9 +7,9 @@
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { renderLore, titleCase } from "$lib/shared/helper";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar, Collapsible } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
-  import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
   import { fade } from "svelte/transition";
 

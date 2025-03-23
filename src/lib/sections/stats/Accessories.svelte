@@ -10,8 +10,8 @@
   import { STATS_DATA } from "$lib/shared/constants/stats";
   import * as helper from "$lib/shared/helper";
   import { calculatePercentage } from "$lib/shared/helper";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { Collapsible } from "bits-ui";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
 
   let { order }: { order: number } = $props();
 

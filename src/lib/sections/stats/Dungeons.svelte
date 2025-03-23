@@ -7,10 +7,10 @@
   import Skillbar from "$lib/components/Skillbar.svelte";
   import { formatNumber } from "$lib/shared/helper";
   import type { CatacombsData } from "$types/stats";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
+  import Image from "@lucide/svelte/icons/image";
   import { Avatar, Collapsible } from "bits-ui";
   import { formatDate, formatDistanceToNowStrict, formatDuration as formatDurationDateFns, intervalToDuration } from "date-fns";
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
-  import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
 
   let { order }: { order: number } = $props();
