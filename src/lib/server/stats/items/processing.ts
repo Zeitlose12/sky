@@ -127,7 +127,7 @@ export async function processItems(items: ProcessedItem[], source: string, packs
       }
 
       if (item.tag?.display?.color) {
-        const hex = item.tag.display.color.toString().padStart(6, "0");
+        const hex = (item.tag.display.color as unknown as number).toString(16).padStart(6, "0");
         itemLore.push("", `§7Color: #${hex.toUpperCase()}`);
       }
 
