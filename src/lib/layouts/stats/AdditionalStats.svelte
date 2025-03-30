@@ -59,7 +59,7 @@
         <h3 class="text-text/85 font-bold">
           Average Level without progress:
           <span class="text-text">
-            {numberFormat(profile.skills.averageSkillLevelWithProgress, defaultPatternDecimal)}
+            {numberFormat(profile.skills., defaultPatternDecimal)}
           </span>
         </h3>
         <p class="text-text/80 font-medium">Average skill level without including partial level progress.</p>

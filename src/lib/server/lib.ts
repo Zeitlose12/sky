@@ -190,6 +190,7 @@ export async function getGarden(profileId: string) {
 
   const data = await response.json();
   if (data.success === false) {
+    REDIS.SETEX(`GARDEN:${profileId}`, 60 * 5, JSON.stringify({}));
     throw new SkyCryptError(data?.cause ?? "Request to Hypixel API failed. Please try again!");
   }
 
