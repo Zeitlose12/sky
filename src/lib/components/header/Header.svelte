@@ -30,7 +30,7 @@
 <header class="bg-header @container fixed top-0 left-0 z-30 h-12 w-full overflow-clip px-2.5 pt-[env(safe-area-inset-top,0)] pr-[max(0.625rem,env(safe-area-inset-right))] pb-[env(safe-area-inset-bottom,0)] pl-[max(0.625rem,env(safe-area-inset-left))] leading-[3rem]">
   <div class="flex h-full w-full justify-center @md:justify-between">
     <div class="flex gap-2">
-      <Button.Root href="/" class="flex items-center justify-center gap-2 font-bold">
+      <Button.Root href="/" class="flex items-center justify-center gap-2 font-bold" data-sveltekit-preload="hover">
         <Avatar.Root class="size-6 shrink-0 rounded-lg select-none">
           <Avatar.Image loading="lazy" src="/img/app-icons/svg.svg" alt="SkyCrypt" class="pointer-events-none h-6 select-none" />
           <Avatar.Fallback class="text-text/60 flex h-full items-center justify-center text-lg font-semibold uppercase">SC</Avatar.Fallback>

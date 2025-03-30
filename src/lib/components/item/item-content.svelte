@@ -1,6 +1,3 @@
-<script lang="ts" module>
-</script>
-
 <script lang="ts">
   import ContainedItem from "$lib/components/ContainedItem.svelte";
   import { packConfigs } from "$lib/shared/constants/packs";
@@ -69,6 +66,7 @@
     {@html isMulticolor ? itemNameHtml : removeFormatting(itemNameHtml)}
   </p>
 </div>
+
 <div class="w-full overflow-auto">
   <div class="w-full p-6 leading-snug font-semibold">
     {#each skyblockItem.lore as lore, index (index)}
@@ -108,7 +106,7 @@
         </div>
       </div>
     {/if}
-    <div class="mx-auto mt-4 flex w-full flex-nowrap gap-4">
+    <div class="mt-4 flex w-full flex-nowrap gap-4">
       {#if packData}
         <Button.Root href={packData.link} target="_blank">
           <div class="bg-text/[0.05] hover:bg-text/[0.08] flex items-center justify-between gap-4 rounded-[0.625rem] p-2 transition-colors">

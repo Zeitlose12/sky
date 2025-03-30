@@ -62,7 +62,7 @@
       {@const seaCreatures = Object.entries(profile.fishing.kills)}
       <ScrollItems>
         {#each seaCreatures as [_, seaCreature], index (index)}
-          <div class="bg-background/30 flex h-full max-h-56 flex-col rounded-lg p-2 whitespace-nowrap" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
+          <div class="bg-background/30 flex h-full max-h-56 flex-col rounded-lg p-2 whitespace-nowrap" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade={{ duration: 300, delay: 5 * (seaCreatures.length - index) }}>
             <div class="border-icon flex h-12 items-center justify-center border-b-2 pb-2 text-center font-bold">
               {seaCreature.name}
             </div>

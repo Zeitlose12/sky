@@ -28,7 +28,7 @@
         {@const enchantingStats = Object.entries(enchanting)}
         <ScrollItems>
           {#each enchantingStats as [_key, enchating], index (index)}
-            <div class="bg-background/30 flex min-w-80 flex-col items-center gap-1 space-y-5 rounded-lg" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade|global={{ duration: 300, delay: 5 * (enchantingStats.length - index) }}>
+            <div class="bg-background/30 flex min-w-80 flex-col items-center gap-1 space-y-5 rounded-lg" in:fade|global={{ duration: 300, delay: 25 * (index + 1) }} out:fade={{ duration: 300, delay: 5 * (enchantingStats.length - index) }}>
               <div class="border-icon flex w-full items-center justify-center border-b-2 py-2 text-center font-semibold uppercase">
                 {enchating.name}
               </div>
