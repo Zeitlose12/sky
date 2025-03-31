@@ -148,7 +148,7 @@ export async function processItems(items: ProcessedItem[], source: string, packs
     }
 
     if (item.tag || item.exp !== undefined) {
-      if (source.startsWith("storage_icons") === false) {
+      if (source.startsWith("backpack") === false) {
         try {
           const ITEM_PRICE = await getItemNetworth(item, { cache: true });
           if (ITEM_PRICE?.price > 0) {
@@ -158,13 +158,6 @@ export async function processItems(items: ProcessedItem[], source: string, packs
           console.log(error);
           itemLore.push("", `§7Item Value: §cAn error occurred while calculating the value of this item.`);
         }
-      } else if (item.containsItems && item.containsItems.length > 0) {
-        const filteredItems = item.containsItems.filter((item) => item.tag || item.exp);
-        const itemNetworthPromises = filteredItems.map((item) => getItemNetworth(item, { cache: true })).concat(getItemNetworth(item));
-        const itemNetworth = await Promise.all(itemNetworthPromises);
-
-        const totalValue = itemNetworth.reduce((acc, cur) => acc + cur.price, 0);
-        itemLore.push("", `§7Total Value: §6${Math.round(totalValue).toLocaleString()} Coins §7(§6${helper.formatNumber(totalValue)}§7)`);
       }
     }
 

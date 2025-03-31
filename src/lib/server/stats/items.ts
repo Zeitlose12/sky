@@ -5,6 +5,8 @@ import { getEquipment } from "$lib/server/stats/items/equipment";
 import { processItems } from "$lib/server/stats/items/processing";
 import { getWardrobe } from "$lib/server/stats/items/wardrobe";
 import type { GetItemsItems, Member, MuseumRaw } from "$types/global";
+import { getItemNetworth } from "skyhelper-networth";
+import { addToItemLore, formatNumber } from "../helper";
 import { sendWebhookMessage } from "../lib";
 import { getPets, getSkilllTools, getWeapons } from "./items/category";
 import { decodeItems } from "./items/decoding";
@@ -80,6 +82,13 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
             ...backpackIcon,
             containsItems: value
           });
+
+          const filteredItems = value.filter((item) => item.tag || item.exp);
+          const itemNetworthPromises = filteredItems.map((item) => getItemNetworth(item, { cache: true })).concat(getItemNetworth(backpackIcon));
+          const itemNetworth = await Promise.all(itemNetworthPromises);
+          const totalValue = itemNetworth.reduce((acc, cur) => acc + cur.price, 0);
+
+          addToItemLore(output.backpack.at(-1), ["", `§7Total Value: §6${Math.round(totalValue).toLocaleString()} Coins §7(§6${formatNumber(totalValue)}§7)`]);
         }
       }
     }
@@ -108,7 +117,7 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
 
     return output;
   } catch (error) {
-    console.error(`getItems | Failed to get items: ${error}`);
+    console.error(error);
     sendWebhookMessage(error, { uuid: userProfile.player_id });
     return null;
   }
