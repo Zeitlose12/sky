@@ -97,7 +97,7 @@
                             🎲
                           {/if}
                           {#if otherProfile.game_mode === "ironman"}
-                            🥋
+                            ♻️
                           {/if}
                           {#if otherProfile.game_mode === "island"}
                             🌴
