@@ -10,13 +10,13 @@ Modified and Improved by @DuckySoLucky
 export const CACHE_PATH = helper.getCacheFolderPath();
 
 import { base } from "$app/paths";
+import { REDIS } from "$lib/server/db/redis";
+import type { ItemQuery } from "$types/global";
 import { createCanvas, loadImage } from "@napi-rs/canvas";
 import fs from "fs-extra";
+import minecraftData from "minecraft-data";
 import sanitize from "mongo-sanitize";
 import path from "path";
-
-import type { ItemQuery } from "$types/global";
-import minecraftData from "minecraft-data";
 import * as helper from "../helper";
 import { getItemData } from "./item";
 const mcData = minecraftData("1.8.9");
@@ -443,6 +443,12 @@ async function renderPotion(type: string, color: string) {
  * @returns Image of an item
  */
 export async function renderItem(skyblockId: string | undefined, query: ItemQuery): Promise<RenderItemOutput> {
+  const cacheId = `ITEM:${skyblockId}:${JSON.stringify(query)}}`;
+  const cache = await REDIS.get(cacheId);
+  if (cache) {
+    return JSON.parse(cache);
+  }
+
   query = sanitize(query);
   let itemQuery = query ?? {};
 
@@ -501,5 +507,8 @@ export async function renderItem(skyblockId: string | undefined, query: ItemQuer
       console.error("Error processing static image:", error);
     }
   }
+
+  REDIS.SETEX(cacheId, 60 * 30, JSON.stringify(outputTexture));
+
   return outputTexture;
 }

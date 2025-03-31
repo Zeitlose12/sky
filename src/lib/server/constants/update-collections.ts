@@ -9,7 +9,6 @@ export async function updateCollectionConstants() {
 
   const collections = await MONGO.collection("collections").findOne({});
   if (collections?.collections == null) {
-    console.log(collections);
     return;
   }
 

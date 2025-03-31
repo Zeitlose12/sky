@@ -31,11 +31,9 @@ async function processStats<T>(player: Player, profile: Profile, stats: Array<[s
 }
 
 export async function getStats(profile: Profile, player: Player, extra: { museum?: MuseumRawResponse; packs?: string[] } = {}) {
-  const timeNow = Date.now();
   const cacheId = `STATS:${profile.uuid}:${profile.profile_id}:${extra.packs?.join(",") ?? "NONE"}`;
   const cache = await REDIS.get(cacheId);
   if (cache && !dev) {
-    console.log(`[CACHE] Found cache for ${profile.uuid}:${profile.profile_id} in ${Date.now() - timeNow}ms`);
     return JSON.parse(cache);
   }
 
