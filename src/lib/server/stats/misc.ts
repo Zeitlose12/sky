@@ -223,7 +223,7 @@ export function getMisc(userProfile: Member, profile: Profile, player: Player) {
     },
     pet_milestones: {
       sea_creatures_killed: getPetMilestone("sea_creatures_killed", userProfile.player_stats?.pets?.milestone?.sea_creatures_killed ?? 0),
-      ores_mined: getPetMilestone("ores_mined", userProfile?.player_stats?.pets?.milestone.ores_mined ?? 0)
+      ores_mined: getPetMilestone("ores_mined", userProfile.player_stats?.pets?.milestone?.ores_mined ?? 0)
     },
     mythological_event: userProfile.player_stats?.mythos ?? null,
     effects: {
