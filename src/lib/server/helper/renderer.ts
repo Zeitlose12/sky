@@ -443,7 +443,7 @@ async function renderPotion(type: string, color: string) {
  * @returns Image of an item
  */
 export async function renderItem(skyblockId: string | undefined, query: ItemQuery): Promise<RenderItemOutput> {
-  const cacheId = `ITEM:${skyblockId}:${JSON.stringify(query)}}`;
+  const cacheId = `ITEM:${skyblockId}:${JSON.stringify(query)}`;
   const cache = await REDIS.get(cacheId);
   if (cache) {
     return JSON.parse(cache);
