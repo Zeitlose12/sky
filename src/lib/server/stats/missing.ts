@@ -70,10 +70,10 @@ function getEnrichments(accessories: ProcessedItem[]) {
       continue;
     }
 
-    const enrichemntKey = item.tag.ExtraAttributes.talisman_enrichment ?? "missing";
-    const enrichemnt = constants.ENRICHMENT_TO_STAT[enrichemntKey] ?? enrichemntKey;
-    output[enrichemnt] ??= 0;
-    output[enrichemnt] += 1;
+    const enrichmentKey = item.tag.ExtraAttributes.talisman_enrichment ?? "missing";
+    const enrichment = constants.ENRICHMENT_TO_STAT[enrichmentKey] ?? enrichmentKey;
+    output[enrichment] ??= 0;
+    output[enrichment] += 1;
   }
 
   return Object.fromEntries(Object.entries(output).sort(([, a], [, b]) => b - a));
