@@ -50,7 +50,7 @@
         <h3 class="text-text/85 font-bold">
           Average Level:
           <span class="text-text">
-            {profile.skills.averageSkillLevel.toFixed(2)}
+            {profile.skills.averageSkillLevelWithProgress.toFixed(2)}
           </span>
         </h3>
         <p class="text-text/80 font-medium">Average skill level over all skills except Social and Runecrafting, includes progress to next level.</p>
@@ -59,7 +59,7 @@
         <h3 class="text-text/85 font-bold">
           Average Level without progress:
           <span class="text-text">
-            {numberFormat(profile.skills., defaultPatternDecimal)}
+            {numberFormat(profile.skills.averageSkillLevel, defaultPatternDecimal)}
           </span>
         </h3>
         <p class="text-text/80 font-medium">Average skill level without including partial level progress.</p>
