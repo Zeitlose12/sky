@@ -25,7 +25,7 @@
   const itemNameHtml = $derived(renderLore(itemName));
   const isMulticolor = $derived((itemNameHtml.match(/<\/span>/g) || []).length > 1);
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
-  const enchanted = $derived(skyblockItem.shiny);
+  const enchanted = $derived(skyblockItem.texture_path.includes("/api/leather/") ? false : skyblockItem.shiny);
   const packData = $derived(packConfigs.find((pack) => pack.id === skyblockItem.texture_pack));
 
   // Get the wiki link for the item

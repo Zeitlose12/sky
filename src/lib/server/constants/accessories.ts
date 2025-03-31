@@ -212,6 +212,10 @@ export const MAGICAL_POWER = {
   very_special: 5
 } as Record<string, number>;
 
+export const ENRICHMENT_TO_STAT = {
+  walk_speed: "speed"
+} as Record<string, string>;
+
 export const RECOMBABLE_ACCESSORIES_COUNT = new Set(
   getMaxAccessories()
     .filter((a) => SPECIAL_ACCESSORIES[a.id]?.allowsRecomb !== false)

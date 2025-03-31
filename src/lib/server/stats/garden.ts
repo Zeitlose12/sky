@@ -6,7 +6,7 @@ import { getLevelByXp, getSkillExperience } from "./leveling/leveling";
 
 function getVisitorRarities(gardenData: GardenResponse) {
   const output = {} as Record<string, { visited?: number; completed?: number; unique: string[]; maxUnique: number }>;
-  for (const [key, value] of Object.entries(gardenData.commission_data.visits ?? {})) {
+  for (const [key, value] of Object.entries(gardenData.commission_data?.visits ?? {})) {
     const rarity = NEU_CONSTANTS.get("garden").visitors[key] ?? "unknown";
 
     const visited = output[rarity]?.visited ?? 0;
@@ -15,7 +15,7 @@ function getVisitorRarities(gardenData: GardenResponse) {
 
     output[rarity] = {
       visited: visited + value,
-      completed: completed + (gardenData.commission_data.completed?.[key] ?? 0),
+      completed: completed + (gardenData.commission_data?.completed?.[key] ?? 0),
       unique: unique.includes(key) ? unique : [...unique, key],
       maxUnique: NEU_CONSTANTS.get("garden").maxVisitors[rarity]
     };
@@ -26,9 +26,9 @@ function getVisitorRarities(gardenData: GardenResponse) {
 
 function getVisitors(gardenData: GardenResponse) {
   const output = {
-    visited: Object.values(gardenData.commission_data.visits ?? {}).reduce((a, b) => a + b, 0),
-    completed: gardenData.commission_data.total_completed ?? 0,
-    uniqueVisitors: gardenData.commission_data.unique_npcs_served ?? 0,
+    visited: Object.values(gardenData.commission_data?.visits ?? {}).reduce((a, b) => a + b, 0),
+    completed: gardenData.commission_data?.total_completed ?? 0,
+    uniqueVisitors: gardenData.commission_data?.unique_npcs_served ?? 0,
     visitors: getVisitorRarities(gardenData)
   };
 
@@ -67,7 +67,7 @@ function getCropUpgrades(gardenData: GardenResponse) {
 function getComposterUpgrades(gardenData: GardenResponse) {
   const output = {} as Record<string, number>;
   for (const key in NEU_CONSTANTS.get("garden").composterUpgrades) {
-    output[key] = gardenData.composter_data.upgrades?.[key] ?? 0;
+    output[key] = gardenData.composter_data?.upgrades?.[key] ?? 0;
   }
 
   return output;

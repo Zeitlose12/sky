@@ -87,63 +87,65 @@
   {#if catacombs}
     <ScrollItems>
       {#each catacombs as catacomb, index (index)}
-        <div class="bg-background/30 flex min-w-80 basis-[calc((100%/3)-1.25rem)] flex-col gap-1 rounded-lg">
-          <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
-            <Avatar.Root>
-              <Avatar.Image loading="lazy" src={catacomb.texture} class="size-8 object-contain" />
-              <Avatar.Fallback>
-                <Image class="size-8" />
-              </Avatar.Fallback>
-            </Avatar.Root>
-            {catacomb.name}
-          </div>
+        {#if catacomb.stats.tier_completions > 0}
+          <div class="bg-background/30 flex min-w-80 basis-[calc((100%/3)-1.25rem)] flex-col gap-1 rounded-lg">
+            <div class="border-icon flex w-full items-center justify-center gap-1.5 border-b-2 py-2 text-center font-semibold uppercase">
+              <Avatar.Root>
+                <Avatar.Image loading="lazy" src={catacomb.texture} class="size-8 object-contain" />
+                <Avatar.Fallback>
+                  <Image class="size-8" />
+                </Avatar.Fallback>
+              </Avatar.Root>
+              {catacomb.name}
+            </div>
 
-          <Collapsible.Root class="p-5">
-            <Collapsible.Trigger class="group flex items-center gap-0.5">
-              <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
-              <SectionSubtitle class="my-0">Floor Stats</SectionSubtitle>
-            </Collapsible.Trigger>
-            <Collapsible.Content>
-              {#each Object.entries(catacomb.stats) as [key, value], index (index)}
-                {#if typeof value === "object"}
-                  <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value.damage)} subData="({value.type})" />
-                {:else if key.includes("time") && key !== "times_played"}
-                  <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
-                {:else}
-                  <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />
-                {/if}
-              {/each}
-            </Collapsible.Content>
-          </Collapsible.Root>
-
-          {#if catacomb.best_run}
-            <Collapsible.Root class="px-5 pb-[2.5rem]">
+            <Collapsible.Root class="p-5">
               <Collapsible.Trigger class="group flex items-center gap-0.5">
                 <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
-                <SectionSubtitle class="my-0">Best run</SectionSubtitle>
+                <SectionSubtitle class="my-0">Floor Stats</SectionSubtitle>
               </Collapsible.Trigger>
               <Collapsible.Content>
-                {#each Object.entries(catacomb.best_run) as [key, value], index (index)}
-                  {#if typeof value === "number"}
-                    {#if key === "timestamp"}
-                      <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDistanceToNowStrict(value, { addSuffix: true })} asterisk={true}>
-                        {formatDate(value, "dd MMMM yyyy 'at' HH:mm")}
-                      </AdditionStat>
-                    {:else if key.includes("time")}
-                      <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
-                    {:else}
-                      <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />
-                    {/if}
+                {#each Object.entries(catacomb.stats) as [key, value], index (index)}
+                  {#if typeof value === "object"}
+                    <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value.damage)} subData="({value.type})" />
+                  {:else if key.includes("time") && key !== "times_played"}
+                    <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
                   {:else}
-                    <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={value} />
+                    <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />
                   {/if}
                 {/each}
               </Collapsible.Content>
             </Collapsible.Root>
-          {:else}
-            <div class="p-5 text-center">This player has not completed this floor.</div>
-          {/if}
-        </div>
+
+            {#if catacomb.best_run}
+              <Collapsible.Root class="px-5 pb-[2.5rem]">
+                <Collapsible.Trigger class="group flex items-center gap-0.5">
+                  <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
+                  <SectionSubtitle class="my-0">Best run</SectionSubtitle>
+                </Collapsible.Trigger>
+                <Collapsible.Content>
+                  {#each Object.entries(catacomb.best_run) as [key, value], index (index)}
+                    {#if typeof value === "number"}
+                      {#if key === "timestamp"}
+                        <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDistanceToNowStrict(value, { addSuffix: true })} asterisk={true}>
+                          {formatDate(value, "dd MMMM yyyy 'at' HH:mm")}
+                        </AdditionStat>
+                      {:else if key.includes("time")}
+                        <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatDuration(value)} />
+                      {:else}
+                        <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={formatNumber(value)} />
+                      {/if}
+                    {:else}
+                      <AdditionStat class="capitalize" text={key.toLowerCase().replaceAll("_", " ")} data={value} />
+                    {/if}
+                  {/each}
+                </Collapsible.Content>
+              </Collapsible.Root>
+            {:else}
+              <div class="p-5 text-center">This player has not completed this floor.</div>
+            {/if}
+          </div>
+        {/if}
       {/each}
     </ScrollItems>
   {:else}

@@ -148,7 +148,7 @@
               <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
                 <span>Enrichments: </span>
                 {#each Object.entries(accessories.enrichments) as [key, value], index (index)}
-                  {#if key !== "missing"}
+                  {#if key !== "missing" && STATS_DATA[key.toLowerCase()]}
                     <span class={STATS_DATA[key.toLowerCase()].color}>
                       {value}×
                       {STATS_DATA[key.toLowerCase()].name}

@@ -15,7 +15,8 @@ export const GET: RequestHandler = async ({ params, cookies, url }) => {
       static: isStatic
     });
 
-    return new Response(attachment.image, {
+    const imageBuffer = Buffer.isBuffer(attachment.image) ? attachment.image : Buffer.from(attachment.image.data);
+    return new Response(imageBuffer, {
       headers: {
         "Content-Type": "image/png"
       }
