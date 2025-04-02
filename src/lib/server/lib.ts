@@ -69,7 +69,7 @@ export async function getUUID(paramPlayer: string, options = { cache: false }) {
   }
 
   const data = await resolveUsernameOrUUID(paramPlayer);
-  if (data.id) {
+  if (data && data.id) {
     // 24 hours
     REDIS.SETEX(`UUID:${paramPlayer}`, 60 * 60 * 24, data.id);
     return data.id;
@@ -78,7 +78,7 @@ export async function getUUID(paramPlayer: string, options = { cache: false }) {
   return null;
 }
 
-export async function getUsername(paramPlayer: string, options = { cache: false }) {
+export async function getUsername(paramPlayer: string, options = { cache: false, returnNull: false }) {
   if (isPlayer(paramPlayer) && isUUID(paramPlayer) === false) {
     return paramPlayer;
   }
@@ -88,8 +88,8 @@ export async function getUsername(paramPlayer: string, options = { cache: false 
     return username ?? paramPlayer;
   }
 
-  const data = await resolveUsernameOrUUID(paramPlayer);
-  if (data.name) {
+  const data = await resolveUsernameOrUUID(paramPlayer, options);
+  if (data && data.name) {
     // 24 hours
     REDIS.SETEX(`UUID:${data.name}`, 60 * 60 * 24, paramPlayer);
     REDIS.SETEX(`USERNAME:${paramPlayer}`, 60 * 60 * 24, data.name);
@@ -99,14 +99,22 @@ export async function getUsername(paramPlayer: string, options = { cache: false 
   return null;
 }
 
-async function resolveUsernameOrUUID(paramPlayer: string) {
+async function resolveUsernameOrUUID(paramPlayer: string, options = { cache: false, returnNull: false }) {
   const response = await fetch(`https://mowojang.matdoes.dev/${paramPlayer}`);
   if (response.status === 204 || response.status === 404) {
+    if (options.returnNull) {
+      return null;
+    }
+
     throw new SkyCryptError("Player not found");
   }
 
   const data = await response.json();
   if (data.errorMessage) {
+    if (options.returnNull) {
+      return null;
+    }
+
     throw new SkyCryptError(data.errorMessage);
   }
 

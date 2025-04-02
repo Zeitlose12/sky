@@ -72,7 +72,7 @@ export async function getCollections(userProfile: Member, profile: Profile) {
   const cachedUsernames = {} as Record<string, string>;
   for (const member in profile.members) {
     if (!cachedUsernames[member]) {
-      cachedUsernames[member] = await getUsername(member, { cache: true });
+      cachedUsernames[member] = await getUsername(member, { cache: true, returnNull: true });
     }
   }
 
