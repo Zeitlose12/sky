@@ -4,7 +4,7 @@ import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async ({ params }) => {
   try {
-    const username = await getUsername(params.uuid, { cache: true });
+    const username = await getUsername(params.uuid, { cache: true, returnNull: true });
     return json({ username });
   } catch (error) {
     console.error(error);
