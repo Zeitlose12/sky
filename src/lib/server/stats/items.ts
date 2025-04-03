@@ -86,7 +86,7 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
           const filteredItems = value.filter((item) => item.tag || item.exp);
           const itemNetworthPromises = filteredItems.map((item) => getItemNetworth(item, { cache: true })).concat(getItemNetworth(backpackIcon));
           const itemNetworth = await Promise.all(itemNetworthPromises);
-          const totalValue = itemNetworth.reduce((acc, cur) => acc + cur.price, 0);
+          const totalValue = itemNetworth.reduce((acc, cur) => acc + (cur?.price ?? 0), 0);
 
           addToItemLore(output.backpack.at(-1), ["", `§7Total Value: §6${Math.round(totalValue).toLocaleString()} Coins §7(§6${formatNumber(totalValue)}§7)`]);
         }
