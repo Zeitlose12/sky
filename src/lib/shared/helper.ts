@@ -182,9 +182,13 @@ export function uniqBy<T>(arr: T[], key: string) {
  * @returns {Promise<string>} The username of the player.
  */
 export const getUsername = async (uuid: string): Promise<string> => {
-  const res = await fetch(`/api/username/${uuid}`);
-  const { username } = await res.json();
-  return username;
+  try {
+    const res = await fetch(`/api/username/${uuid}`);
+    const { username } = await res.json();
+    return username;
+  } catch {
+    return "???";
+  }
 };
 
 /**
