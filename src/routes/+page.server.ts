@@ -24,7 +24,8 @@ export const load = (async ({ fetch }) => {
       { id: "7d7b04b49c24433cacc60a3da66eba01", quote: "🍞Grandmaster of Unit Testing", role: Role.FACILITATOR },
       { id: "1915444928b64d8b8973df8044f8cdb7", quote: "lea plant", role: Role.CONTRIBUTOR },
       { id: "8a3fa60d87aa4240bcdc624b90632529", quote: "Nate: CSS Wizard", role: Role.CONTRIBUTOR },
-      { id: "5435b597612f4554a3c651fd1c3ee96a", quote: "/visit dukioooo", role: Role.CONTRIBUTOR }
+      { id: "5435b597612f4554a3c651fd1c3ee96a", quote: "/visit dukioooo", role: Role.CONTRIBUTOR },
+      { id: "b876ec32e396476ba1158438d83c67d4", quote: "Long live the Potato king!", role: Role.TECHNOBLADE }
     ];
 
     const usernames = await Promise.all(ids.map(({ id }) => getUsername(id)));
