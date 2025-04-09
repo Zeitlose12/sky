@@ -148,16 +148,16 @@ export async function processItems(items: ProcessedItem[], source: string, packs
     }
 
     if (item.tag || item.exp !== undefined) {
-      if (source.startsWith("backpack") === false) {
-        try {
-          const ITEM_PRICE = await getItemNetworth(item, { cache: true });
-          if (ITEM_PRICE?.price > 0) {
-            itemLore.push("", `§7Item Value: §6${Math.round(ITEM_PRICE.price).toLocaleString()} Coins §7(§6${helper.formatNumber(ITEM_PRICE.price)}§7)`);
-          }
-        } catch (error) {
-          console.log(error);
-          itemLore.push("", `§7Item Value: §cAn error occurred while calculating the value of this item.`);
+      try {
+        const ITEM_PRICE = await getItemNetworth(item, { cache: true });
+        if (ITEM_PRICE?.price > 0) {
+          itemLore.push("", `§7Item Value: §6${Math.round(ITEM_PRICE.price).toLocaleString()} Coins §7(§6${helper.formatNumber(ITEM_PRICE.price)}§7)`);
         }
+
+        console.log(ITEM_PRICE);
+      } catch (error) {
+        console.log(error);
+        itemLore.push("", `§7Item Value: §cAn error occurred while calculating the value of this item.`);
       }
     }
 
