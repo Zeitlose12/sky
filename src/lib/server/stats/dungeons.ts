@@ -184,7 +184,7 @@ export function getDungeons(userProfile: Member) {
       classes: dungeonClasses,
       classAverage: Object.values(dungeonClasses).reduce((a, b) => a + b.level, 0) / Object.keys(dungeonClasses).length,
       classAverageWithProgress: Object.values(dungeonClasses).reduce((a, b) => a + b.levelWithProgress, 0) / Object.keys(dungeonClasses).length,
-      totalClassExp: Object.values(userProfile.dungeons.player_classes).reduce((a, b) => a + b?.experience, 0)
+      totalClassExp: Object.values(userProfile.dungeons?.player_classes ?? {}).reduce((a, b) => a + b?.experience, 0)
     },
     stats: {
       secrets: getSecrets(userProfile.dungeons),
