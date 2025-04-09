@@ -31,11 +31,12 @@
 
   const { form: formData, enhance, errors, tainted, submitting, isTainted, message } = form;
 
-  const iconMapper: Record<Role, typeof CodeXml | typeof Server | typeof GitPullRequestArrow | typeof Star> = {
+  const iconMapper: Record<Role, typeof CodeXml | typeof Server | typeof GitPullRequestArrow | typeof Star | string> = {
     [Role.MAINTAINER]: CodeXml,
     [Role.FACILITATOR]: Server,
     [Role.CONTRIBUTOR]: GitPullRequestArrow,
-    [Role.FAVORITE]: Star
+    [Role.FAVORITE]: Star,
+    [Role.TECHNOBLADE]: "/img/icons/technoblade.svg"
   };
 
   type Cta = {
@@ -161,7 +162,7 @@
           {user.name}
         </div>
         {#if user.quote}
-          <div class="text-text/80 pr-4 text-sm font-medium text-pretty">{@html user.quote}</div>
+          <div class={cn("text-text/80 pr-4 text-sm font-medium text-pretty", user.role === Role.TECHNOBLADE ? "italic" : "")}>{@html user.quote}</div>
         {/if}
       </div>
     </Button.Root>
@@ -179,7 +180,11 @@
           }}>
           {#snippet child({ props })}
             <div {...props} tabindex="0" role="button">
-              <Icon class={cn("size-5", options?.favorite ? "fill-[oklch(75.25%_0.0023_17.21)] stroke-[oklch(75.25%_0.0023_17.21)]" : "text-text/60")} />
+              {#if typeof Icon === "string"}
+                <img src={Icon} alt="Technoblade Icon" class="size-5" />
+              {:else}
+                <Icon class={cn("size-5", options?.favorite ? "fill-[oklch(75.25%_0.0023_17.21)] stroke-[oklch(75.25%_0.0023_17.21)]" : "text-text/60")} />
+              {/if}
             </div>
           {/snippet}
         </Tooltip.Trigger>

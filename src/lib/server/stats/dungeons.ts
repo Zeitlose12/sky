@@ -11,7 +11,7 @@ function getDungeonClasses(userProfile: Member) {
 
   return Object.keys(userProfile.dungeons.player_classes).reduce(
     (acc: Record<string, Skill>, key) => {
-      acc[key] = getLevelByXp(userProfile.dungeons.player_classes[key].experience, { type: "dungeoneering", texture: key });
+      acc[key] = getLevelByXp(userProfile.dungeons.player_classes?.[key]?.experience ?? 0, { type: "dungeoneering", texture: key });
 
       return acc;
     },
@@ -143,7 +143,7 @@ function formatCatacombsData(catacombs: Catacombs) {
 export function getFloorCompletions(dungeonsData: Member["dungeons"]) {
   const normalCompletions = dungeonsData?.dungeon_types?.catacombs?.tier_completions;
   const masterCompletions = dungeonsData?.dungeon_types?.master_catacombs?.tier_completions;
-  if (!normalCompletions && !masterCompletions) {
+  if (normalCompletions === undefined && masterCompletions === undefined) {
     return {
       normal: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 },
       master: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 },
@@ -154,12 +154,12 @@ export function getFloorCompletions(dungeonsData: Member["dungeons"]) {
   const normal = Object.fromEntries(
     Object.keys(normalCompletions ?? {})
       .filter((key) => key !== "0" && key !== "total")
-      .map((key) => [key, normalCompletions[key]])
+      .map((key) => [key, normalCompletions?.[key] ?? 0])
   );
   const master = Object.fromEntries(
     Object.keys(masterCompletions ?? {})
       .filter(([key]) => key !== "0" && key !== "total")
-      .map((key) => [key, masterCompletions[key] * 2])
+      .map((key) => [key, (masterCompletions?.[key] ?? 0) * 2])
   );
   const total = Object.fromEntries(Object.keys(normal).map((key) => [key, (normal[key] || 0) + (master[key] || 0)]));
 
@@ -184,7 +184,7 @@ export function getDungeons(userProfile: Member) {
       classes: dungeonClasses,
       classAverage: Object.values(dungeonClasses).reduce((a, b) => a + b.level, 0) / Object.keys(dungeonClasses).length,
       classAverageWithProgress: Object.values(dungeonClasses).reduce((a, b) => a + b.levelWithProgress, 0) / Object.keys(dungeonClasses).length,
-      totalClassExp: Object.values(userProfile.dungeons.player_classes).reduce((a, b) => a + b?.experience, 0)
+      totalClassExp: Object.values(userProfile.dungeons?.player_classes ?? {}).reduce((a, b) => a + b?.experience, 0)
     },
     stats: {
       secrets: getSecrets(userProfile.dungeons),

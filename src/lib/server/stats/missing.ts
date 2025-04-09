@@ -2,6 +2,7 @@ import * as constants from "$lib/server/constants/constants";
 import * as helper from "$lib/server/helper";
 import type { AccessoriesOutput, Member } from "$types/global";
 import type { Accessories, Accessory, ProcessedItem, SpecialAccessory } from "$types/stats";
+import { NEU_ITEMS } from "../helper/NotEnoughUpdates/parseNEURepository";
 import { getStatsFromItems } from "./items/stats";
 import { stripItems } from "./items/stripping";
 
@@ -181,6 +182,17 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
       helper.applyResourcePack(item, packs);
       if (item.texture_path === null) {
         item.texture_path = oldTexture;
+      }
+
+      const NEUItem = NEU_ITEMS.get(helper.getId(item));
+      if (NEUItem?.info) {
+        const [link1, link2] = NEUItem.info;
+        const isFandom = link1?.includes("hypixel-skyblock.fandom");
+
+        item.extra.wiki = {
+          fandom: (isFandom ? link1 : link2) ?? null,
+          official: (isFandom ? link2 : link1) ?? null
+        };
       }
     }
 

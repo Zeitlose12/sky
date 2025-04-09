@@ -86,8 +86,9 @@
 
     if (profile.dungeons !== undefined) {
       const dungeonsLevel = profile.dungeons?.level?.levelWithProgress;
-      if (dungeonsLevel > 0) {
-        output += `🪦 Dungeons: ${profile.dungeons.classes.classAverageWithProgress.toFixed(2)}\n`;
+      const classAverage = profile.dungeons.classes.classAverageWithProgress;
+      if (dungeonsLevel > 0 && classAverage > 0) {
+        output += `🪦 Dungeons: ${dungeonsLevel.toFixed(2)} (${classAverage.toFixed(2)})\n`;
       }
 
       output += `${skillEmojis["dungeons"]} ${profile.dungeons.level?.level ?? 0} `;

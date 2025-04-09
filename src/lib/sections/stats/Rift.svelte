@@ -59,7 +59,7 @@
 
         <Items subtitle="Armor">
           {#if armor.armor.length > 0}
-            {#each armor.armor as piece, index (index)}
+            {#each armor.armor.filter((piece) => piece.texture_path) as piece, index (index)}
               <Item {piece} />
             {/each}
           {:else}
@@ -72,7 +72,7 @@
 
         <Items subtitle="Equipment">
           {#if equipment.equipment.length > 0}
-            {#each equipment.equipment as piece, index (index)}
+            {#each equipment.equipment.filter((piece) => piece.texture_path) as piece, index (index)}
               <Item {piece} />
             {/each}
           {:else}
