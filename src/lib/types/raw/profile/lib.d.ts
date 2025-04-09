@@ -345,10 +345,10 @@ export type SlayerBoss = {
 };
 
 export type Dungeons = {
-  dungeon_types: Record<string, Catacombs>;
-  player_classes: Record<string, PlayerClass>;
-  selected_dungeon_class: string;
-  secrets: number;
+  dungeon_types?: Record<string, Catacombs>;
+  player_classes?: Record<string, PlayerClass>;
+  selected_dungeon_class?: string;
+  secrets?: number;
 };
 
 export type PlayerClass = {
