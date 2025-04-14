@@ -17,6 +17,31 @@ init({
   // sessions when an error occurs.
   replaysOnErrorSampleRate: 1.0,
 
+  // Filter out specific errors before they are sent to Sentry
+  beforeSend(event, hint) {
+    // Get the original exception
+    const error = hint?.originalException;
+
+    // Filter out HttpErrors
+    if (error && typeof error === "object") {
+      // Check if it's an HttpError (has body and status properties)
+      if ("body" in error && "status" in error) {
+        const status = error.status as number;
+
+        // Filter out 4xx client errors
+        if (status >= 400 && status < 500) {
+          return null; // Return null to prevent the event from being sent to Sentry
+        }
+      }
+
+      // if (error instanceof Error && error.message.includes("specific error text")) {
+      //   return null;
+      // }
+    }
+
+    return event;
+  },
+
   // If you don't want to use Session Replay, just remove the line below:
   integrations: [
     replayIntegration({
