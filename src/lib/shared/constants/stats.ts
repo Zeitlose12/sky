@@ -507,6 +507,13 @@ export const STATS_DATA: StatsData = {
     nameTiny: "Fr",
     symbol: "☠",
     color: "text-minecraft-5"
+  },
+  damage: {
+    name: "Damage",
+    nameLore: "Damage",
+    nameTiny: "DMG",
+    symbol: "❁",
+    color: "text-minecraft-c"
   }
 };
 
