@@ -54,8 +54,8 @@ init({
     extraErrorDataIntegration()
   ],
 
-  enabled: dev,
-  environment: !dev ? "development" : "production"
+  enabled: !dev,
+  environment: dev ? "development" : "production"
 });
 
 // If you have a custom error handler, pass it to `handleErrorWithSentry`
