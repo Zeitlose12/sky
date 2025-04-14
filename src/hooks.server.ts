@@ -18,7 +18,25 @@ sentryInit({
 
   // Disable Sentry during development
   enabled: !dev,
-  environment: dev ? "development" : "production"
+  environment: dev ? "development" : "production",
+
+  beforeSend(event, hint) {
+    const error = event.exception?.values?.[0];
+    const status = (hint.originalException as { status?: number })?.status;
+
+    if (error && typeof error === "object") {
+      if (error.value?.includes("HttpError")) {
+        return null; // Return null to prevent the event from being sent to Sentry
+      }
+    }
+
+    // Filter out 4xx client errors
+    if (status && status >= 400 && status < 500) {
+      return null; // Return null to prevent the event from being sent to Sentry
+    }
+
+    return event;
+  }
 });
 
 export const init: ServerInit = async () => {

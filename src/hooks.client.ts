@@ -19,24 +19,18 @@ init({
 
   // Filter out specific errors before they are sent to Sentry
   beforeSend(event, hint) {
-    // Get the original exception
-    const error = hint?.originalException;
+    const error = event.exception?.values?.[0];
+    const status = (hint.originalException as { status?: number })?.status;
 
-    // Filter out HttpErrors
     if (error && typeof error === "object") {
-      // Check if it's an HttpError (has body and status properties)
-      if ("body" in error && "status" in error) {
-        const status = error.status as number;
-
-        // Filter out 4xx client errors
-        if (status >= 400 && status < 500) {
-          return null; // Return null to prevent the event from being sent to Sentry
-        }
+      if (error.value?.includes("HttpError")) {
+        return null; // Return null to prevent the event from being sent to Sentry
       }
+    }
 
-      // if (error instanceof Error && error.message.includes("specific error text")) {
-      //   return null;
-      // }
+    // Filter out 4xx client errors
+    if (status && status >= 400 && status < 500) {
+      return null; // Return null to prevent the event from being sent to Sentry
     }
 
     return event;
