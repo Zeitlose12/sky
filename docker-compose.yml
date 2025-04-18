@@ -13,6 +13,13 @@ services:
       - "./cache:/app/cache"
     networks:
       - skycrypt-network
+    environment:
+      NODE_OPTIONS: "--max-old-space-size=12288"
+    deploy:
+      resources:
+        limits:
+          memory: 14G
+
   mongo:
     image: mongo:latest
     restart: unless-stopped
