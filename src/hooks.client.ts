@@ -1,13 +1,13 @@
 import { dev } from "$app/environment";
 import { PUBLIC_SENTRY_DSN } from "$env/static/public";
-import { browserTracingIntegration, contextLinesIntegration, extraErrorDataIntegration, handleErrorWithSentry, httpClientIntegration, init, replayIntegration } from "@sentry/sveltekit";
+import { browserTracingIntegration, contextLinesIntegration, extraErrorDataIntegration, handleErrorWithSentry, httpClientIntegration, init } from "@sentry/sveltekit";
 
 init({
   dsn: PUBLIC_SENTRY_DSN,
 
   tunnel: "/api/tunnel",
 
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0,
 
   // This sets the sample rate to be 10%. You may want this to be 100% while
   // in development and sample at a lower rate in production
@@ -23,7 +23,7 @@ init({
     const status = (hint.originalException as { status?: number })?.status;
 
     if (error && typeof error === "object") {
-      if (error.value?.includes("HttpError")) {
+      if (error.value?.includes("HttpError") || error.type === "SkyCryptError") {
         return null; // Return null to prevent the event from being sent to Sentry
       }
     }
@@ -37,16 +37,7 @@ init({
   },
 
   // If you don't want to use Session Replay, just remove the line below:
-  integrations: [
-    replayIntegration({
-      maskAllText: false,
-      blockAllMedia: false
-    }),
-    browserTracingIntegration(),
-    httpClientIntegration(),
-    contextLinesIntegration(),
-    extraErrorDataIntegration()
-  ],
+  integrations: [browserTracingIntegration(), httpClientIntegration(), contextLinesIntegration(), extraErrorDataIntegration()],
 
   enabled: !dev,
   environment: dev ? "development" : "production"
