@@ -144,24 +144,24 @@
   <Tooltip.Provider delayDuration={0}>
     {@render children()}
   </Tooltip.Provider>
-
-  {#if !isHover.current}
-    <Drawer.Root
-      bind:open={() => !!$content, (v) => v}
-      shouldScaleBackground={false}
-      setBackgroundColorOnScale={false}
-      onOpenChange={(open) => {
-        if (!open) content.set(undefined);
-      }}>
-      <Drawer.Portal>
-        <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
-        <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
-          <div class="mx-auto w-full max-w-md overflow-auto p-6">
-            {@render $content?.()}
-          </div>
-        </Drawer.Content>
-      </Drawer.Portal>
-    </Drawer.Root>
-  {/if}
   <SvelteQueryDevtools />
 </QueryClientProvider>
+
+{#if !isHover.current}
+  <Drawer.Root
+    bind:open={() => !!$content, (v) => v}
+    shouldScaleBackground={false}
+    setBackgroundColorOnScale={false}
+    onOpenChange={(open) => {
+      if (!open) content.set(undefined);
+    }}>
+    <Drawer.Portal>
+      <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
+      <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
+        <div class="mx-auto w-full max-w-md overflow-auto p-6">
+          {@render $content?.()}
+        </div>
+      </Drawer.Content>
+    </Drawer.Portal>
+  </Drawer.Root>
+{/if}

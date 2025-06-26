@@ -5,12 +5,13 @@
   import Main from "$lib/layouts/stats/Main.svelte";
   import { api } from "$lib/shared/api";
   import type { ValidStats } from "$types/stats";
+  import type { StatsV2 } from "$types/statsv2";
   import { createQuery } from "@tanstack/svelte-query";
   import { tick, untrack } from "svelte";
 
   let { ign, profile } = page.params;
 
-  const user = createQuery({
+  const user = createQuery<StatsV2>({
     queryKey: ["profile", ign, profile],
     queryFn: () => api(fetch).getProfile(ign, profile)
   });

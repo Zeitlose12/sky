@@ -3,8 +3,8 @@
   import { RARITIES, RARITY_COLORS } from "$lib/shared/constants/items";
   import { getRarityClass } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
-  import { itemContent, showItem } from "$lib/stores/internal";
-  import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
+  import { getItemQuery, itemContent, showItem } from "$lib/stores/internal";
+  import type { ItemV2 } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
   import { Avatar, Tooltip } from "bits-ui";
   import { IsInViewport } from "runed";
@@ -12,7 +12,7 @@
   import Content from "./item/item-content.svelte";
 
   type Props = {
-    piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
+    piece: ItemV2;
     isInventory?: boolean;
     showCount?: boolean;
     showRecombobulated?: boolean;
@@ -27,8 +27,10 @@
   let hasBeenInViewport = $state(false);
   let open = $state(false);
 
+  const item = getItemQuery(piece.uuid);
+
   const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
-  const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
+  const skyblockItem = $derived({ ...piece, ...$item.data });
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
   const recombobulated = $derived(showRecombobulated && (skyblockItem.recombobulated ?? false));
   const enchanted = $derived(skyblockItem.texture_path.includes("/api/leather/") ? false : skyblockItem.shiny);
@@ -37,6 +39,11 @@
 
   const isHover = getContext<IsHover>("isHover");
 
+  async function getItemData() {
+    if ($item.isSuccess) return;
+    await $item.refetch();
+  }
+
   $effect(() => {
     if (inViewport.current && !hasBeenInViewport) {
       hasBeenInViewport = true;
@@ -44,13 +51,21 @@
   });
 </script>
 
-<Tooltip.Root bind:open disableHoverableContent={true} ignoreNonKeyboardFocus={true}>
+<Tooltip.Root
+  bind:open
+  disableHoverableContent={true}
+  ignoreNonKeyboardFocus={true}
+  delayDuration={100}
+  onOpenChange={async (open) => {
+    if (open) getItemData();
+  }}>
   <Tooltip.Trigger
     class="nice-colors-dark"
     bind:ref={targetNode}
     onclick={() => {
+      itemContent.set(skyblockItem);
+      if (!isHover.current) getItemData();
       if (skyblockItem.containsItems) return;
-      itemContent.set(piece);
       showItem.set(true);
     }}>
     <div class={cn(`relative flex aspect-square items-center justify-center overflow-clip`, isInventory ? "p-0" : `rounded-lg p-2 ${bgColor}`)}>
@@ -85,7 +100,12 @@
           {#if open}
             <div {...wrapperProps}>
               <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-                <Content {piece} {tab} />
+                {#if $item.error}
+                  An error has occurred:
+                  {$item.error.message}
+                {:else}
+                  <Content piece={skyblockItem} {tab} isLoading={$item.isPending} />
+                {/if}
               </div>
             </div>
           {/if}

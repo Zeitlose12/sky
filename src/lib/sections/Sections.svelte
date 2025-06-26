@@ -20,7 +20,8 @@
   const COMPONENTS = {
     Armor: {
       component: () => import("$lib/sections/stats/Armor.svelte"),
-      valid: (profile: ValidStats) => profile.items?.armor && profile.items?.equipment && profile.items?.wardrobe
+      valid: (profile: ValidStats) => true
+      // profile.items?.armor && profile.items?.equipment && profile.items?.wardrobe
     },
     Weapons: {
       component: () => import("$lib/sections/stats/Weapons.svelte"),

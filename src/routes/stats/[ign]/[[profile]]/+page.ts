@@ -1,4 +1,5 @@
 import { api } from "$lib/shared/api";
+import type { StatsV2 } from "$types/statsv2";
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 
@@ -9,7 +10,7 @@ export const load = (async ({ parent, params, fetch }) => {
   const { ign, profile } = params;
 
   try {
-    await queryClient.prefetchQuery({
+    await queryClient.prefetchQuery<StatsV2>({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["profile", ign, profile],
       queryFn: () => api(fetch).getProfile(ign, profile)

@@ -50,6 +50,9 @@ export type ItemV2 = {
   texture_pack: string;
   wiki?: { fandom?: string; official?: string } | null;
   uuid: string;
+  rarity: string;
+  Count?: number;
+  containsItems?: ItemV2[];
 };
 
 export type CategoryItemsV2 = {
