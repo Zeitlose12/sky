@@ -16,7 +16,7 @@ export async function GET({ params }) {
   }
 
   const items = JSON.parse(rawItems as string);
-  const allItems = processItems(items, "items", [], { pack: true, category: false });
+  const allItems = processItems(items, "items", [], { pack: false, category: false });
 
   const output = {
     weapons: getWeapons(allItems),

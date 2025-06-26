@@ -10,7 +10,7 @@ export async function getMainItems(profileId: string, packs: string[]) {
   const items = rawItems ? JSON.parse(rawItems) : null;
 
   for (const key in items) {
-    items[key] = processItems(items[key], key, packs, { category: true, pack: false });
+    items[key] = processItems(items[key], key, packs, { category: false, pack: false });
   }
 
   const armor = getArmor(items.armor);
