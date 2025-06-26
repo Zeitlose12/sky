@@ -33,7 +33,8 @@ export default ts.config(
           ignoreRestSiblings: true
         }
       ],
-      "svelte/no-at-html-tags": "off"
+      "svelte/no-at-html-tags": "off",
+      "no-console": ["error", { allow: ["info", "warn", "dir", "timeLog", "assert", "clear", "count", "countReset", "group", "groupEnd", "table", "dirxml", "error", "groupCollapsed", "Console", "profile", "profileEnd", "timeStamp", "context"] }]
     }
   },
   {
