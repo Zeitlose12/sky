@@ -6,7 +6,7 @@ import { REDIS } from "../db/redis";
 import { sendWebhookMessage } from "../lib";
 import { decodeItems } from "./items/decoding";
 
-export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[]): Promise<GetItemsItems> {
+export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[], profileId: string): Promise<GetItemsItems> {
   try {
     const INVENTORY = userProfile.inventory;
     const RIFT_INVENTORY = userProfile.rift?.inventory;
@@ -125,6 +125,10 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
     for (const item of allItems) {
       REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5); // 5 minutes cache
     }
+
+    REDIS.set(`items:${profileId}:all`, JSON.stringify(allItems), "EX", 60 * 5); // 5 minutes cache
+
+    REDIS.set(`items:${profileId}:all:object`, JSON.stringify(output), "EX", 60 * 5);
 
     return output;
   } catch (error) {

@@ -14,7 +14,7 @@ export async function GET({ params }) {
   }
 
   const item = JSON.parse(rawItem);
-  const processedItems = processItems([item], "item", [], { endpoint: true });
+  const processedItems = processItems([item], "item", [], { category: true, pack: false });
 
   return json(stripItem(processedItems[0]));
 }

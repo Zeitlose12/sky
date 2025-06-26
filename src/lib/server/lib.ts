@@ -9,12 +9,12 @@ import { REDIS } from "./db/redis";
 const headers = { Accept: "application/json", "User-Agent": "SkyCrypt", "API-KEY": HYPIXEL_API_KEY };
 
 export async function getProfiles(paramPlayer: string) {
-  const uuid = await getUUID(paramPlayer);
+  const uuid = await getUUID(paramPlayer, { cache: true });
   if (!uuid) {
     throw new SkyCryptError("Player not found");
   }
 
-  const profiles = await fetchProfiles(uuid);
+  const profiles = await fetchProfiles(uuid, { cache: true });
   const output = [];
   for (const profile of profiles) {
     output.push({

@@ -2,14 +2,17 @@ import type { GetItemsItems, Member, Profile } from "$types/global";
 import type { Player } from "$types/raw/player/lib";
 import { FAIRY_SOULS } from "../constants/constants";
 import { REDIS } from "../db/redis";
-import { getDisplayName } from "../lib";
+import { getDisplayName, getProfiles } from "../lib";
+import { getAPISettings } from "./api_settings";
 import { getItems } from "./items";
+import { getProfileMembers } from "./members";
 import { getRank } from "./rank";
 import { getSkills } from "./skills";
+import { getSkyblockLevel } from "./skyblock_level";
 
 export async function getMainStats(userProfile: Member, profile: Profile, player: Player) {
   const timeNow = Date.now();
-  getItems(userProfile, null, []).then((items: GetItemsItems) => {
+  getItems(userProfile, null, [], profile.profile_id).then((items: GetItemsItems) => {
     REDIS.set(`profile:${profile.profile_id}:items`, JSON.stringify(items), {
       EX: 60 * 5 // Cache for 5 minutes
     });
@@ -21,6 +24,8 @@ export async function getMainStats(userProfile: Member, profile: Profile, player
 
     console.log(`Items set for ${profile.profile_id} after ${Date.now() - timeNow}ms`);
   });
+
+  const [profiles, members] = await Promise.all([getProfiles(profile.uuid), getProfileMembers(profile.members)]);
 
   return {
     displayName: getDisplayName(player.displayname, profile.uuid),
@@ -42,6 +47,11 @@ export async function getMainStats(userProfile: Member, profile: Profile, player
     fairySouls: {
       found: userProfile.fairy_soul?.total_collected ?? 0,
       total: FAIRY_SOULS[profile.game_mode ?? "normal"] ?? FAIRY_SOULS["normal"]
-    }
+    },
+
+    profiles,
+    members,
+    skyblock_level: getSkyblockLevel(userProfile),
+    apiSettings: getAPISettings(profile, userProfile, null)
   };
 }

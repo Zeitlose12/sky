@@ -69,8 +69,8 @@ function getCategories(type: string, item: Item) {
   return [...new Set(categories.concat(constants.TYPE_TO_CATEGORIES[type as keyof typeof constants.TYPE_TO_CATEGORIES]))];
 }
 
-// Process items returned by API
-export function processItems(items: ProcessedItem[], source: string, packs: string[], options: { endpoint: false }): ProcessedItem[] {
+// options = ignore that part
+export function processItems(items: ProcessedItem[], source: string, packs: string[], options: { pack: false; category: false }): ProcessedItem[] {
   for (const item of items) {
     if (!item.tag?.ExtraAttributes?.id && item.exp === undefined) {
       continue;
@@ -86,7 +86,7 @@ export function processItems(items: ProcessedItem[], source: string, packs: stri
 
     item.extra = { source };
 
-    if (!options?.endpoint) {
+    if (!options?.pack) {
       helper.applyResourcePack(item, packs);
     }
 
@@ -101,7 +101,7 @@ export function processItems(items: ProcessedItem[], source: string, packs: stri
 
     item.rarity = null;
     item.categories = [];
-    if (lore.length > 0 && !options?.endpoint) {
+    if (lore.length > 0 && !options?.category) {
       // item categories, rarity, recombobulated, dungeon, shiny
       const itemType = parseItemTypeFromLore(lore, item);
 
