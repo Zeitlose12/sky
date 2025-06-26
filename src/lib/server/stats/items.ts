@@ -1,19 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { getArmor } from "$lib/server/stats/items/armor";
-import { getEquipment } from "$lib/server/stats/items/equipment";
-import { processItems } from "$lib/server/stats/items/processing";
-import { getWardrobe } from "$lib/server/stats/items/wardrobe";
 import type { GetItemsItems, Member, MuseumRaw } from "$types/global";
-import { getItemNetworth } from "skyhelper-networth";
-import { addToItemLore, formatNumber } from "../helper";
+import { v4 } from "uuid";
+import { REDIS } from "../db/redis";
 import { sendWebhookMessage } from "../lib";
-import { getPets, getSkilllTools, getWeapons } from "./items/category";
 import { decodeItems } from "./items/decoding";
-import { decodeMusemItems } from "./items/museum";
-import { getMuseumItems } from "./museum";
 
-export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[]): GetItemsItems {
+export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[]): Promise<GetItemsItems> {
   try {
     const INVENTORY = userProfile.inventory;
     const RIFT_INVENTORY = userProfile.rift?.inventory;
@@ -50,25 +43,24 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
       }, {})
     };
 
+    const allItems = [];
     const entries = Object.entries(outputPromises);
     const values = entries.map(([_, value]) => value);
     const decodedItems = await decodeItems(values);
-    const newItems = await Promise.all(
-      entries.map(async ([key, _], idx) => {
-        if (!decodedItems[idx]) {
-          return [key, []];
-        }
-
-        const processed = await processItems(decodedItems[idx], key, packs);
-        return [key, processed];
-      })
-    );
+    const newItems = entries.map(([key, _], idx) => [key, decodedItems[idx]]);
 
     const output = { backpack: [] };
     const backpackIconMap = new Map(newItems.filter(([key]) => key.startsWith("backpack_icon_")));
     for (const [key, value] of newItems) {
       if (!key.includes("backpack")) {
-        output[key] = value;
+        const itemsWithUUID = [];
+        for (const item of value) {
+          item.uuid = v4();
+          itemsWithUUID.push(item);
+          allItems.push(item);
+        }
+
+        output[key] = itemsWithUUID;
         continue;
       }
 
@@ -77,24 +69,37 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
         const iconKey = `backpack_icon_${backpackIndex}`;
         const backpackIcon = backpackIconMap.get(iconKey)[0];
 
+        const itemsWithUUID = [];
+        for (const item of value) {
+          item.uuid = v4();
+          itemsWithUUID.push(item);
+          allItems.push(item);
+        }
+
+        const uuid = v4();
+        backpackIcon.uuid = uuid;
+        allItems.push(backpackIcon);
+
         if (backpackIcon) {
           output.backpack.push({
             ...backpackIcon,
-            containsItems: value
+            containsItems: itemsWithUUID
           });
 
-          const filteredItems = value.filter((item) => item.tag || item.exp);
+          /*const filteredItems = value.filter((item) => item.tag || item.exp);
           const itemNetworthPromises = filteredItems.map((item) => getItemNetworth(item, { cache: true })).concat(getItemNetworth(backpackIcon));
           const itemNetworth = await Promise.all(itemNetworthPromises);
           const totalValue = itemNetworth.reduce((acc, cur) => acc + (cur?.price ?? 0), 0);
 
           addToItemLore(output.backpack.at(-1), ["", `§7Total Value: §6${Math.round(totalValue).toLocaleString()} Coins §7(§6${formatNumber(totalValue)}§7)`]);
+          */
         }
       }
     }
 
-    output.museumItems = userMuseum ? await decodeMusemItems(userMuseum, packs) : null;
+    // output.museumItems = userMuseum ? await decodeMusemItems(userMuseum, packs) : null;
 
+    /*
     output.armor = getArmor(output.armor);
     output.equipment = getEquipment(output.equipment);
     output.wardrobe = getWardrobe(output.wardrobe);
@@ -114,6 +119,12 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
       .map((item) => item.items)
       .flat();
     output.museum = museum?.inventory ?? [];
+
+    */
+
+    for (const item of allItems) {
+      REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5); // 5 minutes cache
+    }
 
     return output;
   } catch (error) {

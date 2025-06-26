@@ -65,6 +65,7 @@ export type ProcessedItem = {
   id: number;
   Damage: number;
   Count: number;
+  uuid: string;
   tag: {
     display: {
       Lore: string[];

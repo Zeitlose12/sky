@@ -81,12 +81,14 @@
     "@napi-rs/canvas": "^0.1.68",
     "@rollup/rollup-linux-x64-gnu": "^4.38.0",
     "@sentry/sveltekit": "^9.10.1",
+    "dotenv-cli": "^8.0.0",
     "farming-weight": "^0.8.3",
     "minecraft-data": "^3.85.0",
     "mongodb": "^6.15.0",
     "prismarine-nbt": "^2.7.0",
     "redis": "^4.7.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "uuid": "^11.1.0"
   },
   "engines": {
     "node": "^22",

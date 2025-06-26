@@ -157,3 +157,64 @@ export function stripAllItems(items: GetItemsItems) {
     museumItems: null
   };
 }
+
+export function stripItemsV3(items: Array<ProcessedItem | ProcessedPet>, keys?: string[]): ProcessedSkyBlockItem[] {
+  if (items.length === 0) {
+    return [];
+  }
+
+  return items.map((item) => stripItemV3(item, keys ?? []));
+}
+
+export function stripItemV3(item: ProcessedItem | ProcessedPet, keys?: string[]): ProcessedSkyBlockItem {
+  if (!item || (!item.display_name && !(item as ProcessedItem).tag?.display?.Name)) {
+    return {} as ProcessedSkyBlockItem;
+  }
+
+  if ((item as ProcessedPet).lore !== undefined) {
+    return stripPetDataV3(item as ProcessedPet) as unknown as ProcessedSkyBlockItem;
+  }
+
+  const itemData = item as ProcessedItem;
+  const output = {
+    texture_path: itemData.texture_path
+  } as ProcessedSkyBlockItem;
+
+  if (itemData.Count > 1) {
+    output.Count = itemData.Count;
+  }
+
+  if (itemData.recombobulated) {
+    output.recombobulated = itemData.recombobulated;
+  }
+
+  if (itemData.rarity && itemData.rarity !== "common") {
+    output.rarity = itemData.rarity;
+  }
+
+  if (itemData.shiny || itemData.glowing || isEnchanted(itemData) || helper.getId(itemData) === "POTION") {
+    output.shiny = true;
+  }
+
+  if (itemData.uuid) {
+    output.uuid = itemData.uuid;
+  }
+
+  if (keys?.length) {
+    for (const key of keys) {
+      output[key] = getNestedValue(itemData, key);
+    }
+  }
+
+  return output;
+}
+
+function stripPetDataV3(pet: ProcessedPet): ProcessedSkyblockPet {
+  const output = {
+    display_name: pet.display_name,
+    texture_path: pet.texture_path,
+    rarity: pet.rarity
+  } as ProcessedSkyblockPet;
+
+  return output;
+}
