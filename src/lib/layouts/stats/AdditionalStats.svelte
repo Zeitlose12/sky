@@ -13,23 +13,23 @@
 </script>
 
 <div class="additional-stats flex flex-col gap-2 @md:flex-row @md:flex-wrap">
-  <AdditionStat text="Joined" data={formatDistanceToNowStrict(profile.stats.joined, { addSuffix: true })} asterisk={true}>
-    Joined on {dateFormat(profile.stats.joined, "dd MMMM yyyy 'at' HH:mm")}
+  <AdditionStat text="Joined" data={formatDistanceToNowStrict(profile.joined, { addSuffix: true })} asterisk={true}>
+    Joined on {dateFormat(profile.joined, "dd MMMM yyyy 'at' HH:mm")}
   </AdditionStat>
-  <AdditionStat text="Purse" data={`${formatNumber(profile.stats.purse)} Coins`} />
-  <AdditionStat text="Bank Account" data={`${formatNumber(profile.stats.bank + profile.stats.personalBank)} Coins`} asterisk={profile.stats.bank && profile.stats.personalBank ? true : false}>
+  <AdditionStat text="Purse" data={`${formatNumber(profile.purse)} Coins`} />
+  <AdditionStat text="Bank Account" data={`${formatNumber(profile.bank + profile.personalBank)} Coins`} asterisk={profile.bank && profile.personalBank ? true : false}>
     <div>
       <h3 class="text-text/85 font-bold">
         Bank:
         <span class="text-text">
-          {formatNumber(profile.stats.bank)}
+          {formatNumber(profile.bank)}
         </span>
       </h3>
       {#if profile.stats.personalBank}
         <h3 class="text-text/85 font-bold">
           Personal Bank:
           <span class="text-text">
-            {formatNumber(profile.stats.personalBank)}
+            {formatNumber(profile.personalBank)}
           </span>
         </h3>
       {/if}
@@ -66,10 +66,10 @@
       </div>
     </div>
   </AdditionStat>
-  <AdditionStat text="Fairy Souls" data={`${profile.stats.fairySouls.found} / ${profile.stats.fairySouls.total}`} asterisk={true}>
-    {calculatePercentage(profile.stats.fairySouls.found, profile.stats.fairySouls.total)}% of fairy souls found.
+  <AdditionStat text="Fairy Souls" data={`${profile.fairySouls.found} / ${profile.fairySouls.total}`} asterisk={true}>
+    {calculatePercentage(profile.fairySouls.found, profile.fairySouls.total)}% of fairy souls found.
   </AdditionStat>
-  <AdditionStat text="Networth" data={formatNumber(profile.stats.networth.networth)} asterisk={true}>
+  <!-- <AdditionStat text="Networth" data={formatNumber(profile.stats.networth.networth)} asterisk={true}>
     <div class="max-w-xs space-y-2 font-bold">
       <div>
         <h3 class="text-text/85">Networth</h3>
@@ -99,5 +99,5 @@
         </span>
       </p>
     </div>
-  </AdditionStat>
+  </AdditionStat> -->
 </div>

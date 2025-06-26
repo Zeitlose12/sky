@@ -1,16 +1,12 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
   import { getProfileCtx } from "$ctx/profile.svelte";
   import { PUBLIC_DISCORD_INVITE } from "$env/static/public";
   import ItemContent from "$lib/components/item/item-content.svelte";
-  import Navbar from "$lib/components/Navbar.svelte";
-  import SEO from "$lib/components/SEO.svelte";
   import { IsHover } from "$lib/hooks/is-hover.svelte";
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
-  import Stats from "$lib/layouts/stats/Stats.svelte";
-  import Sections from "$lib/sections/Sections.svelte";
+  import ArmorV2 from "$lib/sections/stats/ArmorV2.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
   import { Button, Dialog } from "bits-ui";
@@ -24,15 +20,15 @@
   const profile = $derived(ctx.profile);
 </script>
 
-<SEO />
+<!-- <SEO /> -->
 
 <div class="@container/parent relative">
   <div class="@container fixed top-1/2 left-0 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @[75rem]/parent:block">
-    {#if browser && window.innerWidth >= 1200}
+    <!-- {#if browser && window.innerWidth >= 1200}
       {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
         <Skin3D class="h-full" />
       {/await}
-    {/if}
+    {/if} -->
   </div>
 
   <!-- ! Enable once 132549134 from https://webkit.org/blog/16186/release-notes-for-safari-technology-preview-206/ is added to stable  -->
@@ -52,18 +48,19 @@
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
-      <Stats />
+      <!-- <Stats /> -->
       <AdditionalStats />
     </div>
 
-    <Navbar />
+    <!-- <Navbar /> -->
 
     <div class="flex flex-col flex-nowrap gap-y-5 p-4 @[75rem]/parent:p-8">
-      {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
+      <!-- {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
         <Notice />
-      {/await}
+      {/await} -->
 
-      <Sections />
+      <!-- <ArmorV2 order={0} /> -->
+      <!-- <Sections /> -->
     </div>
   </main>
 </div>

@@ -3,24 +3,30 @@
   import { page } from "$app/state";
   import { setProfileCtx } from "$ctx/profile.svelte";
   import Main from "$lib/layouts/stats/Main.svelte";
+  import { api } from "$lib/shared/api";
   import type { ValidStats } from "$types/stats";
+  import { createQuery } from "@tanstack/svelte-query";
   import { tick, untrack } from "svelte";
-  import type { PageData } from "./$types";
 
-  let { data }: { data: PageData } = $props();
+  let { ign, profile } = page.params;
+
+  const user = createQuery({
+    queryKey: ["profile", ign, profile],
+    queryFn: () => api(fetch).getProfile(ign, profile)
+  });
 
   // Initialize the profile context
-  setProfileCtx(data.user as unknown as ValidStats);
+  setProfileCtx($user.data as unknown as ValidStats);
 
   // Update the profile context when the data changes
   $effect(() => {
     const abortController = new AbortController();
-    setProfileCtx(data.user as unknown as ValidStats);
+    setProfileCtx($user.data as unknown as ValidStats);
 
     untrack(() => {
-      if (!data.user) return;
+      if (!$user.data) return;
 
-      const { username, profile_cute_name } = data.user;
+      const { username, profile_cute_name } = $user.data;
       if (!username) return;
 
       const current = page.url.pathname;
@@ -49,6 +55,15 @@
   });
 </script>
 
-{#if data.user && data.user.profiles}
-  <Main />
+{#if $user.isPending}
+  Loading...
+{/if}
+{#if $user.error}
+  An error has occurred:
+  {$user.error.message}
+{/if}
+{#if $user.isSuccess}
+  {#if $user.data}
+    <Main />
+  {/if}
 {/if}
