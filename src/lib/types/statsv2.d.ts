@@ -69,3 +69,27 @@ export type CategoryItemsV2 = {
     highest_priority_tool: ItemV2 | null;
   };
 };
+
+export type AccessoriesV2 = {
+  accessories: ItemV2[];
+  missing: ItemV2[];
+  upgrades: ItemV2[];
+  stats: ItemStats;
+  enrichments: Record<string, number>;
+  unique: number;
+  total: number;
+  recombobulated: number;
+  totalRecombobulated: number;
+  selectedPower: string | null;
+  magicalPower: {
+    total: number;
+    accessories: number;
+    abiphone: number;
+    riftPrism: number;
+    hegemony: {
+      rarity: string | null;
+      amount: number;
+    };
+    rarities: Record<string, { amount: number; magicalPower: number }>;
+  };
+};
