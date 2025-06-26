@@ -1,6 +1,6 @@
 import type Skills from "$lib/layouts/stats/Skills.svelte";
 import type { ItemStats } from "./processed/profile/stats";
-import type { APISettings, ProcessedSkyBlockItem, Rank, Skill } from "./stats";
+import type { APISettings, Rank, Skill } from "./stats";
 
 export type StatsV2 = {
   displayName: string;
@@ -29,16 +29,16 @@ export type StatsV2 = {
 
 export type ItemsV2 = {
   armor: {
-    armor: ProcessedSkyBlockItem[];
+    armor: ItemV2[];
     stats: ItemStats;
     set_name?: string;
     set_rarity?: string;
   };
   equipment: {
-    equipment: ProcessedSkyBlockItem[];
+    equipment: ItemV2[];
     stats: ItemStats;
   };
-  wardrobe: ProcessedSkyBlockItem[][];
+  wardrobe: ItemV2[][];
 };
 
 export type ItemV2 = {
@@ -49,6 +49,7 @@ export type ItemV2 = {
   shiny: boolean;
   texture_pack: string;
   wiki?: { fandom?: string; official?: string } | null;
+  uuid: string;
 };
 
 export type CategoryItemsV2 = {
