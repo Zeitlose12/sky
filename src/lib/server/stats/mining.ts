@@ -3,8 +3,10 @@ import * as helper from "$lib/server/helper";
 import { getLevelByXp } from "$lib/server/stats/leveling/leveling";
 import type { Member } from "$types/global";
 import type { Player } from "$types/raw/player/lib";
+import { v4 } from "uuid";
+import { REDIS } from "../db/redis";
 import { getHotmItems } from "./hotm";
-import { stripItems } from "./items/stripping";
+import { stripItemsV3 } from "./items/stripping";
 
 export function calcHotmTokens(hotmTier: number, potmTier: number) {
   let tokens = 0;
@@ -106,6 +108,12 @@ export function getMining(userProfile: Member, player: Player, packs: string[]) 
 
   const crystalNucleusRunsAmount = crystalNucleusRuns.length ? Math.min(...crystalNucleusRuns) : 0;
 
+  const hotm = getHotmItems(userProfile, packs);
+  for (const item of hotm) {
+    item.uuid = v4();
+    REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5);
+  }
+
   return {
     level: HOTM,
     peak_of_the_mountain: {
@@ -145,7 +153,7 @@ export function getMining(userProfile: Member, player: Player, packs: string[]) 
       }
     },
     forge: getForge(userProfile),
-    hotm: stripItems(getHotmItems(userProfile, packs)),
+    hotm: stripItemsV3(hotm),
     glaciteTunnels: getGlaciteTunnels(userProfile)
   };
 }

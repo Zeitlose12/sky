@@ -170,6 +170,7 @@ export type ProcessedSkyblockPet = {
   active: boolean;
   stats?: ItemStats;
   wiki?: { fandom?: string; official?: string } | null;
+  uuid: string;
 };
 
 export type getTextureParams = {

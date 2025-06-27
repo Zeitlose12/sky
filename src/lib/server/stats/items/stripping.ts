@@ -213,7 +213,8 @@ function stripPetDataV3(pet: ProcessedPet): ProcessedSkyblockPet {
   const output = {
     display_name: pet.display_name,
     texture_path: pet.texture_path,
-    rarity: pet.rarity
+    rarity: pet.rarity,
+    uuid: pet.uuid
   } as ProcessedSkyblockPet;
 
   return output;

@@ -4,7 +4,9 @@ import { NEU_CONSTANTS, NEU_ITEMS } from "$lib/server/helper/NotEnoughUpdates/pa
 import { formatNumber, uniqBy } from "$lib/shared/helper";
 import type { GetItemsItems, Member, Pet, Pets, ProcessedPet, ProcessedSkyblockPet, Profile } from "$types/global";
 import { getItemNetworth } from "skyhelper-networth";
-import { stripItems } from "./items/stripping";
+import { v4 } from "uuid";
+import { REDIS } from "../db/redis";
+import { stripItemsV3 } from "./items/stripping";
 
 let getMaxPetIdsCache = {} as { lastUpdated: number; data: Record<string, number> };
 function getMaxPetIds() {
@@ -438,8 +440,13 @@ export async function getPets(userProfile: Member, items: GetItemsItems, profile
   output.totalPetExp = (output.pets as unknown as ProcessedPet[]).reduce((a, b) => a + b.level.xp, 0);
   output.totalCandyUsed = (output.pets as unknown as ProcessedPet[]).reduce((a, b) => a + b.candyUsed, 0);
 
-  output.pets = stripItems(output.pets as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
-  output.missing = stripItems(output.missing as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
+  for (const item of output.pets.concat(output.missing)) {
+    item.uuid = v4();
+    REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5);
+  }
+
+  output.pets = stripItemsV3(output.pets as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
+  output.missing = stripItemsV3(output.missing as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
 
   return output;
 }
