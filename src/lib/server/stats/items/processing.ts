@@ -84,7 +84,9 @@ export function processItems(items: ProcessedItem[], source: string, packs: stri
       item.texture_path = `/api/potion/${type}/${color}`;
     }
 
-    item.extra = { source };
+    if (!item.extra?.source) {
+      item.extra = { source };
+    }
 
     if (!options?.pack) {
       helper.applyResourcePack(item, packs);

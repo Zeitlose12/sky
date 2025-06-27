@@ -57,6 +57,7 @@ export type ItemV2 = {
   isInactive?: boolean;
   isUnique?: boolean;
   source?: string;
+  sourceTab?: { name: string; icon: string };
 };
 
 export type WeaponsV2 = {

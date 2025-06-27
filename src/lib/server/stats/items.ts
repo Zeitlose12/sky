@@ -59,6 +59,7 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
         const itemsWithUUID = [];
         for (const item of value) {
           item.uuid = v4();
+          item.extra = { source: key };
           itemsWithUUID.push(item);
           allItems.push(item);
         }
@@ -75,12 +76,15 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
         const itemsWithUUID = [];
         for (const item of value) {
           item.uuid = v4();
+          item.extra = { source: `backpack_${backpackIndex}` };
+
           itemsWithUUID.push(item);
           allItems.push(item);
         }
 
         const uuid = v4();
         backpackIcon.uuid = uuid;
+        backpackIcon.extra = { source: `backpack_icon_${backpackIndex}` };
         allItems.push(backpackIcon);
 
         if (backpackIcon) {
