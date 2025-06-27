@@ -5,7 +5,9 @@ import { v4 } from "uuid";
 import { REDIS } from "../db/redis";
 import { sendWebhookMessage } from "../lib";
 import { decodeItems } from "./items/decoding";
+import { decodeMusemItems } from "./items/museum";
 import { processItems } from "./items/processing";
+import { getMuseumItems } from "./museum";
 
 export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[], profileId: string): Promise<GetItemsItems> {
   try {
@@ -84,7 +86,7 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
         if (backpackIcon) {
           output.backpack.push({
             ...backpackIcon,
-            containsItems: processItems(itemsWithUUID)
+            containsItems: processItems(itemsWithUUID, "backpack", packs)
           });
 
           /*const filteredItems = value.filter((item) => item.tag || item.exp);
@@ -122,6 +124,27 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
     output.museum = museum?.inventory ?? [];
 
     */
+
+    const museumItems = userMuseum ? await decodeMusemItems(userMuseum, packs) : null;
+    const allMuseumItems = [...Object.values(museumItems?.items ?? {}), ...(museumItems?.specialItems ?? [])]
+      .filter((item) => item && item.borrowing === false)
+      .map((item) => item.items)
+      .flat();
+
+    const museum = museumItems ? getMuseumItems(museumItems) : null;
+    output.museum = museum?.inventory;
+
+    const museumInventory = museum?.inventory ?? [];
+    for (const item of museumInventory.concat(museumInventory.map((i) => i.containsItems)).flat()) {
+      if (!item) {
+        continue;
+      }
+
+      item.uuid = v4();
+      allItems.push(item);
+    }
+
+    REDIS.set(`profile:${profileId}:allMuseum`, JSON.stringify(allMuseumItems), "EX", 60 * 5); // 5 minutes cache
 
     for (const item of allItems) {
       REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5); // 5 minutes cache

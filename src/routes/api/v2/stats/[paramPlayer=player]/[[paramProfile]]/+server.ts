@@ -18,14 +18,15 @@ if (acceptsGzip) {
   });
 }
 */
-export async function GET({ params }) {
+export async function GET({ params, cookies }) {
   const timeNow = Date.now();
   const { paramPlayer, paramProfile = null } = params;
 
   const uuid = await getUUID(paramPlayer, { cache: true });
+  const packs = JSON.parse(cookies.get("disabledPacks") || "[]");
   const [profile, player] = await Promise.all([getProfile(uuid, paramProfile, { cache: true }), fetchPlayer(uuid, { cache: true })]);
 
-  const stats = await getMainStats(profile.members[profile.uuid], profile, player);
+  const stats = await getMainStats(profile.members[profile.uuid], profile, player, packs);
   if (dev) {
     console.log(`/api/stats/${paramPlayer}${paramProfile ? `/${paramProfile}` : ""} took ${Date.now() - timeNow}ms`);
   }

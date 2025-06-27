@@ -1,4 +1,5 @@
 import type Skills from "$lib/layouts/stats/Skills.svelte";
+import type { NetworthResult } from "skyhelper-networth";
 import type { ItemStats } from "./processed/profile/stats";
 import type { APISettings, BestiaryCategory, CatacombsData, CollectionCategory, ForgeItem, MinionCategory, MinionCategoryType, ProcessedExperimentationGame, Rank, Skill, SlayerInfo, TrophyFish } from "./stats";
 
@@ -117,6 +118,7 @@ export type InventoryV2All = {
   talisman_bag: ItemV2[];
   fishing_bag: ItemV2[];
   quiver: ItemV2[];
+  museum: ItemV2[];
 };
 
 export type InventoryV2 = ItemV2[];
@@ -514,3 +516,5 @@ export type PetItemV2 = {
   uuid: string;
   texture_pack: string;
 };
+
+export type NetworthV2 = NetworthResult;
