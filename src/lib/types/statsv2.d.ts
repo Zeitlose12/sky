@@ -108,6 +108,7 @@ export type PetsV2 = {
 
 export type InventoryV2All = {
   inventory: ItemV2[];
+  backpack: ItemV2[];
   enderchest: ItemV2[];
   personal_vault: ItemV2[];
   rift_inventory: ItemV2[];

@@ -87,8 +87,6 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
             containsItems: processItems(itemsWithUUID)
           });
 
-          console.log(itemsWithUUID);
-
           /*const filteredItems = value.filter((item) => item.tag || item.exp);
           const itemNetworthPromises = filteredItems.map((item) => getItemNetworth(item, { cache: true })).concat(getItemNetworth(backpackIcon));
           const itemNetworth = await Promise.all(itemNetworthPromises);
