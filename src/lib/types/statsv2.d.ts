@@ -364,6 +364,16 @@ export type RiftV2 = {
       unlockedAt: number;
     }[];
   };
+  armor: {
+    armor: ItemV2[];
+    stats: ItemStats;
+    set_name?: string;
+    set_rarity?: string;
+  };
+  equipment: {
+    equipment: ItemV2[];
+    stats: ItemStats;
+  };
 };
 
 export type MiscV2 = {
