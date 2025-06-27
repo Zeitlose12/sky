@@ -512,4 +512,5 @@ export type PetItemV2 = {
   stats?: ItemStats;
   wiki?: { fandom?: string; official?: string } | null;
   uuid: string;
+  texture_pack: string;
 };
