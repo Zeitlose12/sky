@@ -1,15 +1,12 @@
 <script lang="ts">
-  import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { RARITIES, RARITY_COLORS } from "$lib/shared/constants/items";
   import { getRarityClass } from "$lib/shared/helper";
-  import { cn, flyAndScale } from "$lib/shared/utils";
-  import { getItemQuery, itemContent, showItem } from "$lib/stores/internal";
+  import { cn } from "$lib/shared/utils";
+  import { getItemQuery, itemContent, itemTab, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
   import type { ItemV2 } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
-  import { Avatar, Tooltip } from "bits-ui";
+  import { Avatar, Tooltip, type AvatarImageLoadingStatus } from "bits-ui";
   import { IsInViewport } from "runed";
-  import { getContext } from "svelte";
-  import Content from "./item/item-content.svelte";
 
   type Props = {
     piece: ItemV2;
@@ -26,6 +23,7 @@
   let targetNode = $state<HTMLButtonElement | null>(null);
   let hasBeenInViewport = $state(false);
   let open = $state(false);
+  let loadingStatus = $state<AvatarImageLoadingStatus>();
 
   const item = getItemQuery(piece.uuid);
 
@@ -37,80 +35,68 @@
   const shine = $derived(enchanted || skyblockItem.shiny);
   const showNumbers = $derived(showCount && (skyblockItem.Count ?? 0) > 1);
 
-  const isHover = getContext<IsHover>("isHover");
-
   async function getItemData() {
     if ($item.isSuccess) return;
     await $item.refetch();
   }
 
+  async function loadItemData(openValue: boolean, modal: boolean = false) {
+    if (openValue) {
+      itemContent.set(skyblockItem);
+      itemTab.set(tab);
+      getItemData();
+      if (modal) {
+        if (skyblockItem.containsItems) return;
+        showItem.set(true);
+      } else {
+        if (targetNode) {
+          tooltipAnchor.set(targetNode);
+          showItemTooltip.set(true);
+        }
+      }
+    } else {
+      showItemTooltip.set(false);
+      tooltipAnchor.set(null!);
+      itemContent.set(undefined!);
+      itemTab.set(undefined!);
+    }
+  }
+
   $effect(() => {
     if (inViewport.current && !hasBeenInViewport) {
       hasBeenInViewport = true;
+      loadingStatus = "loading";
     }
   });
 </script>
 
-<Tooltip.Root
-  bind:open
-  disableHoverableContent={true}
-  ignoreNonKeyboardFocus={true}
-  delayDuration={100}
-  onOpenChange={async (open) => {
-    if (open) getItemData();
-  }}>
-  <Tooltip.Trigger
-    class="nice-colors-dark"
-    bind:ref={targetNode}
-    onclick={() => {
-      itemContent.set(skyblockItem);
-      if (!isHover.current) getItemData();
-      if (skyblockItem.containsItems) return;
-      showItem.set(true);
-    }}>
-    <div class={cn(`relative flex aspect-square items-center justify-center overflow-clip`, isInventory ? "p-0" : `rounded-lg p-2 ${bgColor}`)}>
-      <div class={cn("absolute inset-0 rounded-lg", { shine: shine })}></div>
-      {#if hasBeenInViewport}
-        <Avatar.Root>
-          <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="lazy data-[enchanted=true]:enchanted h-auto w-14 select-none [image-rendering:pixelated]" data-enchanted={enchanted} />
-          <Avatar.Fallback>
-            <Image class={cn(isInventory ? "size-8 sm:size-14" : "size-14")} />
-          </Avatar.Fallback>
-        </Avatar.Root>
-      {:else}
-        <div>
+<Tooltip.Root bind:open disableHoverableContent={true} ignoreNonKeyboardFocus={true} disabled={!inViewport.current} delayDuration={100} onOpenChange={async (open) => await loadItemData(open)}>
+  <Tooltip.Trigger class={cn(`nice-colors-dark relative flex aspect-square items-center justify-center overflow-clip`, isInventory ? "p-0" : `rounded-lg p-2 ${bgColor}`)} bind:ref={targetNode} onpointerdown={async () => await loadItemData(true, true)}>
+    {#snippet child({ props })}
+      <div {...props}>
+        {#if shine}
+          <div class="shine absolute inset-0 rounded-lg"></div>
+        {/if}
+        {#if hasBeenInViewport || loadingStatus === "loading" || loadingStatus === "error"}
+          <Avatar.Root bind:loadingStatus>
+            {#snippet child({ props })}
+              <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="lazy data-[enchanted=true]:enchanted h-auto w-14 select-none [image-rendering:pixelated]" data-enchanted={enchanted} {...props} />
+            {/snippet}
+          </Avatar.Root>
+        {:else}
           <Image class={cn(isInventory ? "size-8 sm:size-14" : "size-14")} />
-        </div>
-      {/if}
+        {/if}
 
-      {#if recombobulated}
-        <div class="absolute -top-3 -right-3 z-10 size-6 rotate-45 bg-(--color)" style="--color: var(--§{RARITY_COLORS[RARITIES[RARITIES.indexOf(piece.rarity ?? 'common') - 1]]})"></div>
-      {/if}
-      {#if showNumbers}
-        <div class="text-shadow-[.1em_.1em_.1em_#000] absolute right-0.5 bottom-0.5 text-sm font-semibold text-white sm:text-2xl">
-          {skyblockItem.Count}
-        </div>
-      {/if}
-    </div>
+        {#if recombobulated}
+          <div class="absolute -top-3 -right-3 z-10 size-6 rotate-45 bg-(--color)" style="--color: var(--§{RARITY_COLORS[RARITIES[RARITIES.indexOf(piece.rarity ?? 'common') - 1]]})"></div>
+        {/if}
+
+        {#if showNumbers}
+          <div class="text-shadow-[.1em_.1em_.1em_#000] absolute right-0.5 bottom-0.5 text-sm font-semibold text-white sm:text-2xl">
+            {skyblockItem.Count}
+          </div>
+        {/if}
+      </div>
+    {/snippet}
   </Tooltip.Trigger>
-  <Tooltip.Portal>
-    {#if isHover.current}
-      <Tooltip.Content forceMount class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96vh-3rem)] max-w-lg flex-col overflow-clip rounded-lg select-text" sideOffset={8} side="right" align="center">
-        {#snippet child({ wrapperProps, props, open })}
-          {#if open}
-            <div {...wrapperProps}>
-              <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-                {#if $item.error}
-                  An error has occurred:
-                  {$item.error.message}
-                {:else}
-                  <Content piece={skyblockItem} {tab} isLoading={$item.isPending} />
-                {/if}
-              </div>
-            </div>
-          {/if}
-        {/snippet}
-      </Tooltip.Content>
-    {/if}
-  </Tooltip.Portal>
 </Tooltip.Root>

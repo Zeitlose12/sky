@@ -6,8 +6,12 @@ import type { Snippet } from "svelte";
 import { writable } from "svelte/store";
 
 export const showItem = writable<boolean>(false);
+export const showItemTooltip = writable<boolean>(false);
+export const itemTab = writable<{ name: string; icon: string } | undefined>(undefined);
+export const tooltipAnchor = writable<HTMLElement>(null!);
 export const itemContent = writable<ItemV2 | undefined>();
 export const isLoadingItem = writable<boolean>(false);
+
 export const inviewportSections = writable<Record<SectionName, boolean>>({
   Armor: false,
   Weapons: false,

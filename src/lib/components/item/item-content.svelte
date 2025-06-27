@@ -12,7 +12,7 @@
   import { derived as derivedStore } from "svelte/store";
 
   type Props = {
-    piece: ItemV2;
+    piece?: ItemV2;
     isDrawer?: boolean;
     tab?: {
       name: string;
@@ -23,16 +23,16 @@
   let { piece, isDrawer, tab, isLoading }: Props = $props();
 
   const skyblockItem = $derived(piece);
-  const itemName = $derived(skyblockItem.display_name ?? "???");
+  const itemName = $derived(skyblockItem?.display_name ?? "???");
   const itemNameHtml = $derived(renderLore(itemName));
   const isMulticolor = $derived((itemNameHtml.match(/<\/span>/g) || []).length > 1);
-  const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
-  const enchanted = $derived(skyblockItem.texture_path.includes("/api/leather/") ? false : skyblockItem.shiny);
-  const packData = $derived(packConfigs.find((pack) => pack.id === skyblockItem.texture_pack));
+  const bgColor = $derived(getRarityClass(piece?.rarity ?? ("common".toLowerCase() as string), "bg"));
+  const enchanted = $derived(skyblockItem?.texture_path.includes("/api/leather/") ? false : skyblockItem?.shiny);
+  const packData = $derived(packConfigs.find((pack) => pack.id === skyblockItem?.texture_pack));
 
   // Get the wiki link for the item
   export const wikiInfo = derivedStore<typeof wikiOrderPreferences, { url: string; name: string } | undefined>(wikiOrderPreferences, ($wikiOrderPreferences) => {
-    const wiki = skyblockItem.wiki as unknown as ProcessedSkyBlockItem["wiki"];
+    const wiki = skyblockItem?.wiki as unknown as ProcessedSkyBlockItem["wiki"];
     if (!wiki) return undefined;
 
     // Try to get the preferred wiki link first, then fall back to any available link
@@ -58,7 +58,7 @@
 
 <div class={cn(`nice-colors-dark flex flex-nowrap items-center justify-center gap-4 p-5`, { "rounded-t-[10px]": isDrawer }, bgColor)}>
   <Avatar.Root class="shrink-0 px-2">
-    <Avatar.Image loading="lazy" src={piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none shrink-0 overflow-hidden [image-rendering:pixelated]" data-enchanted={enchanted} />
+    <Avatar.Image loading="lazy" src={piece?.texture_path} alt={piece?.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none shrink-0 overflow-hidden [image-rendering:pixelated]" data-enchanted={enchanted} />
     <Avatar.Fallback>
       <Image class="size-8" />
     </Avatar.Fallback>
@@ -86,14 +86,16 @@
     </div>
   {:else}
     <div class="w-full p-6 leading-snug font-semibold">
-      {#each skyblockItem.lore as lore, index (index)}
-        {@html renderLore(lore)}
-      {/each}
+      {#if skyblockItem?.lore}
+        {#each skyblockItem?.lore as lore, index (index)}
+          {@html renderLore(lore)}
+        {/each}
+      {/if}
 
-      {#if Array.isArray(skyblockItem.containsItems) && !skyblockItem.containsItems.every((item) => Object.keys(item).length === 0)}
+      {#if Array.isArray(skyblockItem?.containsItems) && !skyblockItem?.containsItems.every((item) => Object.keys(item).length === 0)}
         <div class="border-text/10 mt-4 border-t pt-4">
           <div class="grid grid-cols-9 gap-1">
-            {#each skyblockItem.containsItems.slice(0, Math.min(skyblockItem.containsItems.length, 54)) as containedItem, index (index)}
+            {#each skyblockItem?.containsItems.slice(0, Math.min(skyblockItem?.containsItems.length, 54)) as containedItem, index (index)}
               {#if containedItem.texture_path}
                 <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
                   <ContainedItem piece={containedItem} isInventory={true} />

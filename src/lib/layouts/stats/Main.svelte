@@ -10,8 +10,8 @@
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Sections from "$lib/sections/Sections.svelte";
   import { flyAndScale } from "$lib/shared/utils";
-  import { isLoadingItem, itemContent, showItem } from "$lib/stores/internal";
-  import { Button, Dialog } from "bits-ui";
+  import { isLoadingItem, itemContent, itemTab, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
+  import { Button, Dialog, Tooltip } from "bits-ui";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
@@ -20,6 +20,13 @@
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
+
+  function resetItem() {
+    showItemTooltip.set(false);
+    tooltipAnchor.set(null!);
+    itemContent.set(undefined!);
+    itemTab.set(undefined!);
+  }
 </script>
 
 <!-- <SEO /> -->
@@ -66,11 +73,36 @@
   </main>
 </div>
 
+<Tooltip.Root
+  bind:open={$showItemTooltip}
+  disableHoverableContent={true}
+  ignoreNonKeyboardFocus={true}
+  delayDuration={100}
+  onOpenChange={(open) => {
+    if (!open) resetItem();
+  }}>
+  <Tooltip.Portal>
+    {#if isHover.current}
+      <Tooltip.Content forceMount class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96vh-3rem)] max-w-lg flex-col overflow-clip rounded-lg select-text" sideOffset={8} side="right" align="center" customAnchor={$tooltipAnchor}>
+        {#snippet child({ wrapperProps, props, open })}
+          {#if open}
+            <div {...wrapperProps}>
+              <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
+                <ItemContent piece={$itemContent!} isLoading={$isLoadingItem} tab={$itemTab} />
+              </div>
+            </div>
+          {/if}
+        {/snippet}
+      </Tooltip.Content>
+    {/if}
+  </Tooltip.Portal>
+</Tooltip.Root>
+
 {#if isHover.current}
   <Dialog.Root
     bind:open={$showItem}
     onOpenChange={(open) => {
-      if (!open) itemContent.set(undefined);
+      if (!open) resetItem();
     }}>
     <Dialog.Portal>
       <Dialog.Overlay forceMount class="fixed inset-0 z-40 bg-black/80">
@@ -84,9 +116,7 @@
         {#snippet child({ props, open })}
           {#if open}
             <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-              {#if $itemContent}
-                <ItemContent piece={$itemContent} isLoading={$isLoadingItem} />
-              {/if}
+              <ItemContent piece={$itemContent!} isLoading={$isLoadingItem} />
             </div>
           {/if}
         {/snippet}
@@ -99,14 +129,12 @@
     shouldScaleBackground={true}
     setBackgroundColorOnScale={false}
     onOpenChange={(open) => {
-      if (!open) itemContent.set(undefined);
+      if (!open) resetItem();
     }}>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
       <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
-        {#if $itemContent}
-          <ItemContent piece={$itemContent} isDrawer={true} isLoading={$isLoadingItem} />
-        {/if}
+        <ItemContent piece={$itemContent!} isDrawer={true} isLoading={$isLoadingItem} />
       </Drawer.Content>
     </Drawer.Portal>
   </Drawer.Root>
