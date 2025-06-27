@@ -87,8 +87,8 @@ export type AccessoriesV2 = {
 };
 
 export type PetsV2 = {
-  pets: ItemV2[];
-  missing: ItemV2[];
+  pets: PetItemV2[];
+  missing: PetItemV2[];
   amount: number;
   total: number;
   amountSkins: number;
@@ -499,4 +499,17 @@ export type SkillsV2 = {
   farming: FarmingV2;
   enchanting: EnchantingV2;
   fishing: FishingV2;
+};
+
+export type PetItemV2 = {
+  display_name: string;
+  lore: string[];
+  type: string;
+  rarity: string;
+  texture_path: string;
+  level: number;
+  active: boolean;
+  stats?: ItemStats;
+  wiki?: { fandom?: string; official?: string } | null;
+  uuid: string;
 };

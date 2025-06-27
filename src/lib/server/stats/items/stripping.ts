@@ -171,7 +171,7 @@ export function stripItemV3(item: ProcessedItem | ProcessedPet, keys?: string[])
     return {} as ProcessedSkyBlockItem;
   }
 
-  if ((item as ProcessedPet).lore !== undefined) {
+  if ((item as ProcessedPet).level !== undefined) {
     return stripPetDataV3(item as ProcessedPet) as unknown as ProcessedSkyBlockItem;
   }
 
@@ -221,8 +221,12 @@ export function stripItemV3(item: ProcessedItem | ProcessedPet, keys?: string[])
 function stripPetDataV3(pet: ProcessedPet): ProcessedSkyblockPet {
   const output = {
     display_name: pet.display_name,
-    texture_path: pet.texture_path,
+    // lore: pet.lore,
+    //type: pet.type,
     rarity: pet.rarity,
+    texture_path: pet.texture_path,
+    level: pet.level?.level,
+    active: pet.active,
     uuid: pet.uuid
   } as ProcessedSkyblockPet;
 
