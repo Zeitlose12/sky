@@ -75,7 +75,7 @@ function stripPetData(pet: ProcessedPet): ProcessedSkyblockPet {
     type: pet.type,
     rarity: pet.rarity,
     texture_path: pet.texture_path,
-    level: pet.level.level,
+    level: pet.level?.level,
     active: pet.active
   } as ProcessedSkyblockPet;
 

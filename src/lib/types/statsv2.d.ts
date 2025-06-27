@@ -184,6 +184,10 @@ export type MiningV2 = {
       }[];
     };
   };
+  tools: {
+    tools: ItemV2[];
+    highest_priority_tool: ItemV2;
+  };
 };
 
 export type FarmingV2 = {
@@ -205,6 +209,10 @@ export type FarmingV2 = {
     cropsWeight: number;
     bonusSources: Record<string, number>;
     crops: { name: string; id: string; amount: number }[];
+  };
+  tools: {
+    tools: ItemV2[];
+    highest_priority_tool: ItemV2;
   };
 };
 
@@ -228,6 +236,10 @@ export type FishingV2 = {
     };
     trophyFish: TrophyFish[];
   } | null;
+  tools: {
+    tools: ItemV2[];
+    highest_priority_tool: ItemV2;
+  };
 };
 
 export type SlayerV2 = {
