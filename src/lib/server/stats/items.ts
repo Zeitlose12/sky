@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 import { REDIS } from "../db/redis";
 import { sendWebhookMessage } from "../lib";
 import { decodeItems } from "./items/decoding";
+import { processItems } from "./items/processing";
 
 export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[], profileId: string): Promise<GetItemsItems> {
   try {
@@ -83,8 +84,10 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
         if (backpackIcon) {
           output.backpack.push({
             ...backpackIcon,
-            containsItems: itemsWithUUID
+            containsItems: processItems(itemsWithUUID)
           });
+
+          console.log(itemsWithUUID);
 
           /*const filteredItems = value.filter((item) => item.tag || item.exp);
           const itemNetworthPromises = filteredItems.map((item) => getItemNetworth(item, { cache: true })).concat(getItemNetworth(backpackIcon));

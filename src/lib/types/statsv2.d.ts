@@ -53,6 +53,8 @@ export type ItemV2 = {
   rarity: string;
   Count?: number;
   containsItems?: ItemV2[];
+  isInactive?: boolean;
+  isUnique?: boolean;
 };
 
 export type CategoryItemsV2 = {

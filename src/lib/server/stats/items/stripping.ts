@@ -177,7 +177,8 @@ export function stripItemV3(item: ProcessedItem | ProcessedPet, keys?: string[])
 
   const itemData = item as ProcessedItem;
   const output = {
-    texture_path: itemData.texture_path
+    texture_path: itemData.texture_path,
+    containsItems: itemData.containsItems?.map((item) => stripItemV3(item, keys))
   } as ProcessedSkyBlockItem;
 
   if (itemData.Count > 1) {
@@ -200,6 +201,14 @@ export function stripItemV3(item: ProcessedItem | ProcessedPet, keys?: string[])
     output.uuid = itemData.uuid;
   }
 
+  if (itemData.isInactive) {
+    output.isInactive = itemData.isInactive;
+  }
+
+  if (itemData.isUnique) {
+    output.isUnique = itemData.isUnique;
+  }
+
   if (keys?.length) {
     for (const key of keys) {
       output[key] = getNestedValue(itemData, key);
@@ -216,6 +225,11 @@ function stripPetDataV3(pet: ProcessedPet): ProcessedSkyblockPet {
     rarity: pet.rarity,
     uuid: pet.uuid
   } as ProcessedSkyblockPet;
+
+  if (pet.active) {
+    output.stats = pet.stats;
+    output.active = true;
+  }
 
   return output;
 }
