@@ -470,3 +470,10 @@ export type EnchantingV2 = {
     [string: string]: ProcessedExperimentationGame;
   };
 };
+
+export type SkillsV2 = {
+  mining: MiningV2;
+  farming: FarmingV2;
+  enchanting: EnchantingV2;
+  fishing: FishingV2;
+};
