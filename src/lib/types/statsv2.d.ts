@@ -57,23 +57,9 @@ export type ItemV2 = {
   isUnique?: boolean;
 };
 
-export type CategoryItemsV2 = {
-  weapons: {
-    weapons: ItemV2[];
-    highest_priority_weapon: ItemV2 | null;
-  };
-  farming_tools: {
-    tools: ItemV2[];
-    highest_priority_tool: ItemV2 | null;
-  };
-  fishing_tools: {
-    tools: ItemV2[];
-    highest_priority_tool: ItemV2 | null;
-  };
-  mining_tools: {
-    tools: ItemV2[];
-    highest_priority_tool: ItemV2 | null;
-  };
+export type WeaponsV2 = {
+  weapons: ItemV2[];
+  highest_priority_weapon: ItemV2 | null;
 };
 
 export type AccessoriesV2 = {
