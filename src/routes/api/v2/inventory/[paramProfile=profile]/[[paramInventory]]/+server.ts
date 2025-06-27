@@ -16,6 +16,23 @@ export async function GET({ params, cookies }) {
     for (const key in items) {
       output[key] = stripItemsV3(processItems(items[key], key, [], { pack: false, category: false }));
     }
+  } else if (paramInventory === "search") {
+    const combinedItems = [];
+    for (const key in items) {
+      const item = processItems(items[key], key, [], { pack: false, category: false });
+      const containsItems = item.map((i) => i.containsItems || []).flat();
+      const allItems = item.concat(containsItems);
+
+      for (const i of allItems) {
+        if (i.containsItems) {
+          delete i.containsItems;
+        }
+      }
+
+      combinedItems.push(...stripItemsV3(allItems));
+    }
+
+    output = combinedItems.filter((item) => item.uuid);
   } else {
     output = stripItemsV3(processItems(items[paramInventory], paramInventory, [], { pack: false, category: false }));
   }
