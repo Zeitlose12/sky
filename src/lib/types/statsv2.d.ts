@@ -56,6 +56,7 @@ export type ItemV2 = {
   containsItems?: ItemV2[];
   isInactive?: boolean;
   isUnique?: boolean;
+  source?: string;
 };
 
 export type WeaponsV2 = {

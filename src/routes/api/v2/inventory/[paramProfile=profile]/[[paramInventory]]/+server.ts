@@ -29,7 +29,7 @@ export async function GET({ params, cookies }) {
         }
       }
 
-      combinedItems.push(...stripItemsV3(allItems, ["display_name"]));
+      combinedItems.push(...stripItemsV3(allItems, ["display_name", "extra.source"]));
     }
 
     output = combinedItems.filter((item) => item.uuid);

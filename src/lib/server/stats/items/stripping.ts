@@ -211,7 +211,8 @@ export function stripItemV3(item: ProcessedItem | ProcessedPet, keys?: string[])
 
   if (keys?.length) {
     for (const key of keys) {
-      output[key] = getNestedValue(itemData, key);
+      const keyName = key.split(".").at(-1) ?? key;
+      output[keyName] = getNestedValue(itemData, key);
     }
   }
 
