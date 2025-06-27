@@ -1,7 +1,6 @@
-import type Skills from "$lib/layouts/stats/Skills.svelte";
 import type { NetworthResult } from "skyhelper-networth";
 import type { ItemStats } from "./processed/profile/stats";
-import type { APISettings, BestiaryCategory, CatacombsData, CollectionCategory, ForgeItem, MinionCategory, MinionCategoryType, ProcessedExperimentationGame, Rank, Skill, SlayerInfo, TrophyFish } from "./stats";
+import type { APISettings, BestiaryCategory, CatacombsData, CollectionCategory, ForgeItem, MinionCategory, MinionCategoryType, ProcessedExperimentationGame, Rank, Skill, Skills, SlayerInfo, TrophyFish } from "./stats";
 
 export type StatsV2 = {
   displayName: string;

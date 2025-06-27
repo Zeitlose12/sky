@@ -1,12 +1,28 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
+  import { api, SectionName } from "$lib/shared/api";
   import { calculatePercentage, formatNumber } from "$lib/shared/helper";
+  import type { NetworthV2 } from "$types/statsv2";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
+  import { createQuery } from "@tanstack/svelte-query";
   import { format as dateFormat, formatDistanceToNowStrict } from "date-fns";
   import { format as numberFormat } from "numerable";
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
+  const profileUUID = $derived(profile.uuid);
+  const profileId = $derived(profile.profile_id);
+
+  const query = createQuery<NetworthV2>({
+    queryKey: [SectionName.NETWORTH, () => profileUUID, () => profileId],
+    queryFn: () => api(fetch).getSection(SectionName.NETWORTH, profileUUID, profileId)
+  });
+
+  const networth = $derived.by(() => {
+    if ($query.isPending || $query.error || !$query.data) return;
+    return $query.data;
+  });
 
   const defaultPatternDecimal: string = "0,0.##";
   const defaultPattern: string = "0,0";
@@ -25,7 +41,7 @@
           {formatNumber(profile.bank)}
         </span>
       </h3>
-      {#if profile.stats.personalBank}
+      {#if profile.personalBank}
         <h3 class="text-text/85 font-bold">
           Personal Bank:
           <span class="text-text">
@@ -69,35 +85,47 @@
   <AdditionStat text="Fairy Souls" data={`${profile.fairySouls.found} / ${profile.fairySouls.total}`} asterisk={true}>
     {calculatePercentage(profile.fairySouls.found, profile.fairySouls.total)}% of fairy souls found.
   </AdditionStat>
-  <!-- <AdditionStat text="Networth" data={formatNumber(profile.stats.networth.networth)} asterisk={true}>
-    <div class="max-w-xs space-y-2 font-bold">
-      <div>
-        <h3 class="text-text/85">Networth</h3>
-        <p class="text-text/80 font-medium italic">Networth calculations by SkyHelper.</p>
-      </div>
-      <div>
-        <ul class="[&_li]:text-text/85 [&_li_span]:text-text font-bold [&_li]:capitalize [&_li_span]:normal-case">
-          {#each Object.entries(profile.stats.networth.types) as [key, value], index (index)}
-            <li>
-              {key.replace(/_/g, " ")}:
-              <span>
-                {formatNumber(value.total)}
-              </span>
-            </li>
-          {/each}
-        </ul>
-      </div>
-      <p class="text-text/85">
-        Unsoulbound Networth:
-        <span class="text-text">
-          {formatNumber(profile.stats.networth.unsoulboundNetworth)}
-        </span>
-        <br />
-        Total Networth:
-        <span class="text-text">
-          {numberFormat(profile.stats.networth.networth, defaultPattern)} ({formatNumber(profile.stats.networth.networth)})
-        </span>
-      </p>
+
+  {#if $query.isPending}
+    <div class="text-text/60 my-0 flex items-center gap-1 font-bold">
+      Networth:
+      <LoaderCircle class="text-icon mx-auto animate-spin" />
     </div>
-  </AdditionStat> -->
+  {/if}
+  {#if $query.error}
+    <div class="text-text/60 my-0 flex items-center gap-1 font-bold">Networth: An error has occurred</div>
+  {/if}
+  {#if $query.isSuccess && $query.data && networth}
+    <AdditionStat text="Networth" data={formatNumber(networth.networth)} asterisk={true}>
+      <div class="max-w-xs space-y-2 font-bold">
+        <div>
+          <h3 class="text-text/85">Networth</h3>
+          <p class="text-text/80 font-medium italic">Networth calculations by SkyHelper.</p>
+        </div>
+        <div>
+          <ul class="[&_li]:text-text/85 [&_li_span]:text-text font-bold [&_li]:capitalize [&_li_span]:normal-case">
+            {#each Object.entries(networth.types) as [key, value], index (index)}
+              <li>
+                {key.replace(/_/g, " ")}:
+                <span>
+                  {formatNumber(value.total)}
+                </span>
+              </li>
+            {/each}
+          </ul>
+        </div>
+        <p class="text-text/85">
+          Unsoulbound Networth:
+          <span class="text-text">
+            {formatNumber(networth.unsoulboundNetworth)}
+          </span>
+          <br />
+          Total Networth:
+          <span class="text-text">
+            {numberFormat(networth.networth, defaultPattern)} ({formatNumber(networth.networth)})
+          </span>
+        </p>
+      </div>
+    </AdditionStat>
+  {/if}
 </div>

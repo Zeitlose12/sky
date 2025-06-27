@@ -24,6 +24,11 @@ export async function GET({ params }) {
   const timeNow = Date.now();
   const { itemId } = params;
 
+  // Simulate slow connection/delay
+  // const delay = 3000; // 1 second delay
+  // console.log(`Simulating ${delay}ms delay for /api/item/${itemId}`);
+  // await new Promise((resolve) => setTimeout(resolve, delay));
+
   const rawItem = await REDIS.get(`item:${itemId}`);
   if (dev) {
     console.log(`/api/item/${itemId} took ${Date.now() - timeNow}ms`);

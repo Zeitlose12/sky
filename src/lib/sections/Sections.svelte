@@ -25,55 +25,56 @@
     },
     Weapons: {
       component: () => import("$lib/sections/stats/Weapons.svelte"),
-      valid: (profile: ValidStats) => profile.items?.weapons
+      valid: (profile: ValidStats) => true
     },
     Accessories: {
       component: () => import("$lib/sections/stats/Accessories.svelte"),
-      valid: (profile: ValidStats) => profile.accessories
+      valid: (profile: ValidStats) => true
+      // profile.accessories
     },
     Pets: {
       component: () => import("$lib/sections/stats/Pets.svelte"),
-      valid: (profile: ValidStats) => profile.pets
+      valid: (profile: ValidStats) => true
     },
     Inventory: {
       component: () => import("$lib/sections/stats/Inventory.svelte"),
-      valid: (profile: ValidStats) => profile.items
+      valid: (profile: ValidStats) => true
     },
     Skills: {
       component: () => import("$lib/sections/stats/SkillsSection.svelte"),
-      valid: (profile: ValidStats) => profile.skills
+      valid: (profile: ValidStats) => true
     },
     Dungeons: {
       component: () => import("$lib/sections/stats/Dungeons.svelte"),
-      valid: (profile: ValidStats) => profile.dungeons
+      valid: (profile: ValidStats) => true
     },
     Slayer: {
       component: () => import("$lib/sections/stats/Slayer.svelte"),
-      valid: (profile: ValidStats) => profile.slayer
+      valid: (profile: ValidStats) => true
     },
     Minions: {
       component: () => import("$lib/sections/stats/Minions.svelte"),
-      valid: (profile: ValidStats) => profile.minions
+      valid: (profile: ValidStats) => true
     },
     Bestiary: {
       component: () => import("$lib/sections/stats/Bestiary.svelte"),
-      valid: (profile: ValidStats) => profile.bestiary
+      valid: (profile: ValidStats) => true
     },
     Collections: {
       component: () => import("$lib/sections/stats/Collections.svelte"),
-      valid: (profile: ValidStats) => profile.collections
+      valid: (profile: ValidStats) => true
     },
     Crimson_Isle: {
       component: () => import("$lib/sections/stats/CrimsonIsle.svelte"),
-      valid: (profile: ValidStats) => profile.crimson_isle
+      valid: (profile: ValidStats) => true
     },
     Rift: {
       component: () => import("$lib/sections/stats/Rift.svelte"),
-      valid: (profile: ValidStats) => profile.rift
+      valid: (profile: ValidStats) => true
     },
     Misc: {
       component: () => import("$lib/sections/stats/MiscSection.svelte"),
-      valid: (profile: ValidStats) => profile.misc
+      valid: (profile: ValidStats) => true
     }
   } as const;
 

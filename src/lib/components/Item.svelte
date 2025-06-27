@@ -2,24 +2,20 @@
   import { RARITIES, RARITY_COLORS } from "$lib/shared/constants/items";
   import { getRarityClass } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
-  import { getItemQuery, itemContent, itemTab, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
-  import type { ItemV2 } from "$types/statsv2";
+  import { getItemQuery, itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
+  import type { ItemV2, PetItemV2 } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
   import { Avatar, Tooltip, type AvatarImageLoadingStatus } from "bits-ui";
   import { IsInViewport } from "runed";
 
   type Props = {
-    piece: ItemV2;
+    piece: ItemV2 | PetItemV2;
     isInventory?: boolean;
     showCount?: boolean;
     showRecombobulated?: boolean;
-    tab?: {
-      name: string;
-      icon: string;
-    };
   };
 
-  let { piece, isInventory, showCount, showRecombobulated, tab }: Props = $props();
+  let { piece, isInventory, showCount, showRecombobulated }: Props = $props();
   let targetNode = $state<HTMLButtonElement | null>(null);
   let hasBeenInViewport = $state(false);
   let open = $state(false);
@@ -43,7 +39,6 @@
   async function loadItemData(openValue: boolean, modal: boolean = false) {
     if (openValue) {
       itemContent.set(skyblockItem);
-      itemTab.set(tab);
       getItemData();
       if (modal) {
         if (skyblockItem.containsItems) return;
@@ -58,7 +53,6 @@
       showItemTooltip.set(false);
       tooltipAnchor.set(null!);
       itemContent.set(undefined!);
-      itemTab.set(undefined!);
     }
   }
 

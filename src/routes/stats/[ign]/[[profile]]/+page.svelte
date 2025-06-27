@@ -2,32 +2,32 @@
   import { replaceState } from "$app/navigation";
   import { page } from "$app/state";
   import { setProfileCtx } from "$ctx/profile.svelte";
+  import Error from "$lib/components/Error.svelte";
   import Main from "$lib/layouts/stats/Main.svelte";
   import { api } from "$lib/shared/api";
-  import type { ValidStats } from "$types/stats";
   import type { StatsV2 } from "$types/statsv2";
   import { createQuery } from "@tanstack/svelte-query";
   import { tick, untrack } from "svelte";
 
   let { ign, profile } = page.params;
 
-  const user = createQuery<StatsV2>({
+  const query = createQuery<StatsV2>({
     queryKey: ["profile", ign, profile],
     queryFn: () => api(fetch).getProfile(ign, profile)
   });
 
   // Initialize the profile context
-  setProfileCtx($user.data as unknown as ValidStats);
+  setProfileCtx($query.data!);
 
   // Update the profile context when the data changes
   $effect(() => {
     const abortController = new AbortController();
-    setProfileCtx($user.data as unknown as ValidStats);
+    setProfileCtx($query.data!);
 
     untrack(() => {
-      if (!$user.data) return;
+      if (!$query.data) return;
 
-      const { username, profile_cute_name } = $user.data;
+      const { username, profile_cute_name } = $query.data;
       if (!username) return;
 
       const current = page.url.pathname;
@@ -56,15 +56,14 @@
   });
 </script>
 
-{#if $user.isPending}
+{#if $query.isPending}
   Loading...
 {/if}
-{#if $user.error}
-  An error has occurred:
-  {$user.error.message}
+{#if $query.error}
+  <Error />
 {/if}
-{#if $user.isSuccess}
-  {#if $user.data}
+{#if $query.isSuccess}
+  {#if $query.data}
     <Main />
   {/if}
 {/if}

@@ -2,13 +2,14 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
+  import Error from "$lib/components/Error.svelte";
   import Item from "$lib/components/Item.svelte";
   import Wardrobe from "$lib/components/Wardrobe.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
-  import { api } from "$lib/shared/api";
+  import { api, SectionName } from "$lib/shared/api";
   import { getRarityClass } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
-  import type { ItemsV2 } from "$types/statsv2";
+  import type { ArmorV2 } from "$types/statsv2";
   import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { createQuery } from "@tanstack/svelte-query";
   import { ScrollArea } from "bits-ui";
@@ -17,35 +18,35 @@
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
+  const profileUUID = $derived(profile.uuid);
   const profileId = $derived(profile.profile_id);
 
-  const items = createQuery<ItemsV2>({
-    queryKey: ["items", profileId],
-    queryFn: () => api(fetch).getItems(profileId)
+  const query = createQuery<ArmorV2>({
+    queryKey: [SectionName.ARMOR, profileUUID, profileId],
+    queryFn: () => api(fetch).getSection(SectionName.ARMOR, profileUUID, profileId)
   });
 
   const { armor, equipment, wardrobe } = $derived.by(() => {
-    if ($items.isPending || $items.error || !$items.data) {
+    if ($query.isPending || $query.error || !$query.data) {
       return { armor: null, equipment: null, wardrobe: null };
     }
-    return $items.data;
+    return $query.data;
   });
   const firstWardrobeItems = $derived.by(() => {
-    if ($items.isPending || $items.error || !$items.data || !wardrobe) return [];
+    if ($query.isPending || $query.error || !$query.data || !wardrobe) return [];
     if (wardrobe.length === 0) return [];
     return wardrobe.map((wardrobeItems) => wardrobeItems.find((piece) => piece));
   });
 </script>
 
 <CollapsibleSection id="Armor" {order}>
-  {#if $items.isPending}
+  {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
-  {#if $items.error}
-    An error has occurred:
-    {$items.error.message}
+  {#if $query.error}
+    <Error />
   {/if}
-  {#if $items.isSuccess && armor}
+  {#if $query.isSuccess && armor}
     <Items>
       {#snippet text()}
         {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.uuid)}

@@ -1,11 +1,14 @@
 <script lang="ts">
+  import { getDynamicCtx } from "$ctx/dynamic.svelte";
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Item from "$lib/components/Item.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
+  import { SectionName } from "$lib/shared/api";
   import { renderLore } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
+  import type { SkillsV2 } from "$types/statsv2";
   import { formatDate, formatDistanceToNowStrict } from "date-fns";
   import { format } from "numerable";
   import { fade } from "svelte/transition";
@@ -15,6 +18,9 @@
 
   const highestPriorityMiningTool = $derived(profile.items.mining_tools.highest_priority_tool);
   const miningTools = $derived(profile.items.mining_tools.tools);
+
+  const ctxx = getDynamicCtx<() => SkillsV2 | undefined>(SectionName.SKILLS);
+  const misc = $derived(ctxx?.data?.());
 </script>
 
 <SectionSubtitle>Mining Tools</SectionSubtitle>

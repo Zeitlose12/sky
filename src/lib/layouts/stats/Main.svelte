@@ -1,35 +1,30 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import { getProfileCtx } from "$ctx/profile.svelte";
-  import { PUBLIC_DISCORD_INVITE } from "$env/static/public";
   import ItemContent from "$lib/components/item/item-content.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
+  import SEO from "$lib/components/SEO.svelte";
   import { IsHover } from "$lib/hooks/is-hover.svelte";
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Sections from "$lib/sections/Sections.svelte";
   import { flyAndScale } from "$lib/shared/utils";
-  import { isLoadingItem, itemContent, itemTab, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
-  import { Button, Dialog, Tooltip } from "bits-ui";
+  import { isLoadingItem, itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
+  import { Dialog, Tooltip } from "bits-ui";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
 
   const isHover = getContext<IsHover>("isHover");
 
-  const ctx = getProfileCtx();
-  const profile = $derived(ctx.profile);
-
   function resetItem() {
     showItemTooltip.set(false);
     tooltipAnchor.set(null!);
     itemContent.set(undefined!);
-    itemTab.set(undefined!);
   }
 </script>
 
-<!-- <SEO /> -->
+<SEO />
 
 <div class="@container/parent relative">
   <div class="@container fixed top-1/2 left-0 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @[75rem]/parent:block">
@@ -44,16 +39,6 @@
   <!-- <div class="fixed right-0 top-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div> -->
 
   <main data-vaul-drawer-wrapper class="@container relative mx-auto mt-12 min-h-dvh backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
-    {#if profile.errors && Object.keys(profile.errors).length > 0}
-      <div class="space-y-5 bg-red-600 p-4 @[75rem]/parent:p-8">
-        <h3 class="text-2xl font-semibold">An unexpected error has occurred</h3>
-        {#each Object.entries(profile.errors) as [error, message], index (index)}
-          {error}: {message}
-        {/each}
-        <p>Please report this error on our <Button.Root target="_blank" href={PUBLIC_DISCORD_INVITE} class="underline">Discord</Button.Root></p>
-      </div>
-    {/if}
-
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
@@ -88,7 +73,7 @@
           {#if open}
             <div {...wrapperProps}>
               <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-                <ItemContent piece={$itemContent!} isLoading={$isLoadingItem} tab={$itemTab} />
+                <ItemContent piece={$itemContent!} isLoading={$isLoadingItem} />
               </div>
             </div>
           {/if}
