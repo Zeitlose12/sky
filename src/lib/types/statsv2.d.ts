@@ -27,7 +27,7 @@ export type StatsV2 = {
   apiSettings: APISettings;
 };
 
-export type ItemsV2 = {
+export type ArmorV2 = {
   armor: {
     armor: ItemV2[];
     stats: ItemStats;
