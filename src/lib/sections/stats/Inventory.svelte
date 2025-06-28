@@ -1,8 +1,8 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import Item from "$lib/components/Item.svelte";
+  import Section from "$lib/components/Section.svelte";
   import { api } from "$lib/shared/api";
   import type { InventoryV2, ItemV2 } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
@@ -330,7 +330,7 @@
   });
 </script>
 
-<CollapsibleSection id="Inventory" {order}>
+<Section id="Inventory" {order}>
   <!-- {#if !hasEmptyInventory} -->
   <Tabs.Root bind:value={openTab} class="bg-background/30 @container relative mb-0 rounded-lg p-5 pt-4">
     <Tabs.List>
@@ -374,7 +374,7 @@
   <!-- {:else}
     <p class="space-x-0.5 leading-6">{profile.username} doesn't have any items.</p>
   {/if} -->
-</CollapsibleSection>
+</Section>
 
 {#snippet itemSnippet(item: ItemV2)}
   <Item piece={item} isInventory={true} showRecombobulated={false} showCount={true} />

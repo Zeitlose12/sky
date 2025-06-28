@@ -4,11 +4,14 @@
   import { setProfileCtx } from "$ctx/profile.svelte";
   import Error from "$lib/components/Error.svelte";
   import Main from "$lib/layouts/stats/Main.svelte";
+  import type { SectionName } from "$lib/sections/types";
   import { api } from "$lib/shared/api";
+  import { tabValue } from "$lib/stores/internal";
+  import { sectionOrderPreferences } from "$lib/stores/preferences";
   import type { StatsV2 } from "$types/statsv2";
+  import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { createQuery } from "@tanstack/svelte-query";
   import { tick, untrack } from "svelte";
-
   let { ign, profile } = page.params;
 
   const query = createQuery<StatsV2>({
@@ -18,6 +21,17 @@
 
   // Initialize the profile context
   setProfileCtx($query.data!);
+
+  $effect.pre(() => {
+    const hash = page.url.hash;
+    if (hash) {
+      const sectionName = hash.substring(1) as SectionName;
+      const validSectionNames = $sectionOrderPreferences.map((section) => section.name);
+      if (validSectionNames.includes(sectionName)) {
+        tabValue.set(sectionName);
+      }
+    }
+  });
 
   // Update the profile context when the data changes
   $effect(() => {
@@ -56,11 +70,20 @@
   });
 </script>
 
-{#if $query.isPending}
-  Loading...
-{/if}
-{#if $query.error}
-  <Error />
+{#if $query.isPending || $query.error}
+  <div class="flex h-screen items-center justify-center">
+    {#if $query.isPending}
+      <div class="bg-text/[0.05] rounded-lg p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+          <LoaderCircle class="text-text/60 size-5 animate-spin" />
+          <span class="text-text/80 font-semibold">Loading profile...</span>
+        </div>
+      </div>
+    {/if}
+    {#if $query.error}
+      <Error />
+    {/if}
+  </div>
 {/if}
 {#if $query.isSuccess}
   {#if $query.data}

@@ -3,10 +3,10 @@
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
   import Chip from "$lib/components/Chip.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import Item from "$lib/components/Item.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
+  import Section from "$lib/components/Section.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { api, SectionName } from "$lib/shared/api";
@@ -39,7 +39,7 @@
   const armor = $derived(rift?.armor);
 </script>
 
-<CollapsibleSection id="Rift" {order}>
+<Section id="Rift" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -172,4 +172,4 @@
       </ScrollItems>
     </Items>
   {/if}
-</CollapsibleSection>
+</Section>

@@ -1,9 +1,9 @@
+import type { Garden } from "$types/processed/profile/garden";
 import type { AccessoriesV2, ArmorV2, BestiaryV2, CollectionsV2, CrimsonIsleV2, DungeonsV2, EnchantingV2, FarmingV2, FishingV2, InventoryV2, InventoryV2All, ItemV2, MiningV2, MinionsV2, MiscV2, NetworthV2, PetsV2, RiftV2, SkillsV2, SlayerV2, StatsV2, WeaponsV2 } from "$types/statsv2";
 
 // Enum for section names
 export enum SectionName {
   NETWORTH = "networth",
-
   SKILLS = "skills",
   ARMOR = "armor",
   MINING = "mining",
@@ -94,5 +94,16 @@ export const api = (customFetch = fetch) => ({
       }
       return data;
     })();
+  },
+  getGarden: async (profile: string): Promise<Garden> => {
+    const response = await customFetch(`/api/garden/${profile}`);
+    if (!response.ok && response.status !== 500) {
+      throw new Error(`${response.status} - Failed to fetch Garden - ${response.statusText}`);
+    }
+    const data = (await response.json()) as Garden & { message?: string };
+    if (data.message) {
+      throw new Error(data.message);
+    }
+    return data;
   }
 });

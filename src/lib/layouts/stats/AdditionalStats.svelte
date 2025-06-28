@@ -15,7 +15,7 @@
   const profileId = $derived(profile.profile_id);
 
   const query = createQuery<NetworthV2>({
-    queryKey: [SectionName.NETWORTH, () => profileUUID, () => profileId],
+    queryKey: [SectionName.NETWORTH, profileUUID, profileId],
     queryFn: () => api(fetch).getSection(SectionName.NETWORTH, profileUUID, profileId)
   });
 
@@ -51,37 +51,39 @@
       {/if}
     </div>
   </AdditionStat>
-  <AdditionStat text="Average Skill Level" data={profile.skills.averageSkillLevel.toFixed(2)} asterisk={true}>
-    <div class="max-w-xs space-y-2">
-      <div>
-        <h3 class="text-text/85 font-bold">
-          Total Skill XP:
-          <span class="text-text">
-            {numberFormat(profile.skills.totalSkillXp, defaultPattern)}
-          </span>
-        </h3>
-        <p class="text-text/80 font-medium">Total XP gained in all skills except Social and Runecrafting.</p>
+  {#if profile.skills?.averageSkillLevel}
+    <AdditionStat text="Average Skill Level" data={profile.skills?.averageSkillLevel.toFixed(2)} asterisk={true}>
+      <div class="max-w-xs space-y-2">
+        <div>
+          <h3 class="text-text/85 font-bold">
+            Total Skill XP:
+            <span class="text-text">
+              {numberFormat(profile.skills.totalSkillXp, defaultPattern)}
+            </span>
+          </h3>
+          <p class="text-text/80 font-medium">Total XP gained in all skills except Social and Runecrafting.</p>
+        </div>
+        <div>
+          <h3 class="text-text/85 font-bold">
+            Average Level:
+            <span class="text-text">
+              {profile.skills.averageSkillLevelWithProgress.toFixed(2)}
+            </span>
+          </h3>
+          <p class="text-text/80 font-medium">Average skill level over all skills except Social and Runecrafting, includes progress to next level.</p>
+        </div>
+        <div>
+          <h3 class="text-text/85 font-bold">
+            Average Level without progress:
+            <span class="text-text">
+              {numberFormat(profile.skills.averageSkillLevel, defaultPatternDecimal)}
+            </span>
+          </h3>
+          <p class="text-text/80 font-medium">Average skill level without including partial level progress.</p>
+        </div>
       </div>
-      <div>
-        <h3 class="text-text/85 font-bold">
-          Average Level:
-          <span class="text-text">
-            {profile.skills.averageSkillLevelWithProgress.toFixed(2)}
-          </span>
-        </h3>
-        <p class="text-text/80 font-medium">Average skill level over all skills except Social and Runecrafting, includes progress to next level.</p>
-      </div>
-      <div>
-        <h3 class="text-text/85 font-bold">
-          Average Level without progress:
-          <span class="text-text">
-            {numberFormat(profile.skills.averageSkillLevel, defaultPatternDecimal)}
-          </span>
-        </h3>
-        <p class="text-text/80 font-medium">Average skill level without including partial level progress.</p>
-      </div>
-    </div>
-  </AdditionStat>
+    </AdditionStat>
+  {/if}
   <AdditionStat text="Fairy Souls" data={`${profile.fairySouls.found} / ${profile.fairySouls.total}`} asterisk={true}>
     {calculatePercentage(profile.fairySouls.found, profile.fairySouls.total)}% of fairy souls found.
   </AdditionStat>

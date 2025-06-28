@@ -2,9 +2,9 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Chip from "$lib/components/Chip.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
+  import Section from "$lib/components/Section.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { api, SectionName } from "$lib/shared/api";
@@ -34,7 +34,7 @@
   });
 </script>
 
-<CollapsibleSection id="Crimson Isle" {order}>
+<Section id="Crimson_Isle" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -105,4 +105,4 @@
       {/if}
     </Items>
   {/if}
-</CollapsibleSection>
+</Section>

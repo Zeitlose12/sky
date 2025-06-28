@@ -1,15 +1,15 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import Item from "$lib/components/Item.svelte";
+  import Section from "$lib/components/Section.svelte";
   import Wardrobe from "$lib/components/Wardrobe.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { api, SectionName } from "$lib/shared/api";
-  import { getRarityClass } from "$lib/shared/helper";
+  import { getRarityClass, renderLore } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
-  import type { ArmorV2 } from "$types/statsv2";
+  import type { ArmorV2, WeaponsV2 } from "$types/statsv2";
   import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { createQuery } from "@tanstack/svelte-query";
   import { ScrollArea } from "bits-ui";
@@ -26,6 +26,16 @@
     queryFn: () => api(fetch).getSection(SectionName.ARMOR, profileUUID, profileId)
   });
 
+  const weaponsQuery = createQuery<WeaponsV2>({
+    queryKey: [SectionName.WEAPONS, profileUUID, profileId],
+    queryFn: () => api(fetch).getSection(SectionName.WEAPONS, profileUUID, profileId)
+  });
+
+  const weapons = $derived.by(() => {
+    if ($weaponsQuery.isPending || $weaponsQuery.error || !$weaponsQuery.data) return;
+    return $weaponsQuery.data;
+  });
+
   const { armor, equipment, wardrobe } = $derived.by(() => {
     if ($query.isPending || $query.error || !$query.data) {
       return { armor: null, equipment: null, wardrobe: null };
@@ -39,7 +49,7 @@
   });
 </script>
 
-<CollapsibleSection id="Armor" {order}>
+<Section id="Gear" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -47,7 +57,7 @@
     <Error />
   {/if}
   {#if $query.isSuccess && armor}
-    <Items>
+    <Items subtitle="Armor">
       {#snippet text()}
         {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.uuid)}
           {#if armor.set_name}
@@ -109,4 +119,34 @@
       </Items>
     {/if}
   {/if}
-</CollapsibleSection>
+  {#if $weaponsQuery.isPending}
+    <LoaderCircle class="text-icon mx-auto animate-spin" />
+  {/if}
+  {#if $weaponsQuery.error}
+    <Error />
+  {/if}
+  {#if $weaponsQuery.isSuccess && $weaponsQuery.data && weapons}
+    {#if weapons.weapons.length}
+      <Items subtitle="Weapons">
+        {#snippet text()}
+          <div>
+            {#if weapons.highest_priority_weapon?.display_name}
+              <p class="font-bold">
+                <span class="text-text/60">Active Weapon: </span>
+                {@html renderLore(weapons.highest_priority_weapon.display_name)}
+              </p>
+            {/if}
+          </div>
+        {/snippet}
+
+        {#if weapons.weapons.length}
+          {#each weapons.weapons as weapon, index (index)}
+            <Item piece={weapon} />
+          {/each}
+        {/if}
+      </Items>
+    {:else}
+      <p class="space-x-0.5 leading-6">{profile.username} has no weapons</p>
+    {/if}
+  {/if}
+</Section>

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
+  import Section from "$lib/components/Section.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Skillbar from "$lib/components/Skillbar.svelte";
   import { api, SectionName } from "$lib/shared/api";
@@ -49,7 +49,7 @@
   }
 </script>
 
-<CollapsibleSection id="Dungeons" {order}>
+<Section id="Dungeons" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -89,23 +89,23 @@
           <AdditionStat text="Highest Floor Beaten (Master)" data={format(dungeons.stats.highestFloorBeatenMaster)} maxed={dungeons.stats.highestFloorBeatenMaster === 7} />
           <AdditionStat text="Secrets Found" data={format(dungeons.stats?.secrets?.found ?? 0)} subData="({format((dungeons.stats?.secrets?.secretsPerRun ?? 0).toFixed(2))} S/R)" />
         </div>
-        <CollapsibleSection id="Catacombs">
+        <Section id="Catacombs">
           {#snippet subtitle()}
             <h4 class="text-text/90 my-5 text-xl font-semibold capitalize">Catacombs</h4>
           {/snippet}
           {@render cataCard(dungeons.catacombs)}
-        </CollapsibleSection>
+        </Section>
 
-        <CollapsibleSection id="Master Catacombs">
+        <Section id="Master_Catacombs">
           {#snippet subtitle()}
             <h4 class="text-text/90 my-5 text-xl font-semibold capitalize">Master Catacombs</h4>
           {/snippet}
           {@render cataCard(dungeons.master_catacombs, true)}
-        </CollapsibleSection>
+        </Section>
       {/if}
     </div>
   {/if}
-</CollapsibleSection>
+</Section>
 
 {#snippet cataCard(catacombs: CatacombsData[] | null, master: boolean = false)}
   {#if catacombs}

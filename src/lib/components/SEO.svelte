@@ -65,7 +65,7 @@
       ["runecrafting", "social", "fishing", "enchanting", "alchemy"]
     ];
     const skills = profile.skills?.skills as Record<string, Skill>;
-    if (skills !== undefined) {
+    if (skills !== undefined && Object.keys(skills).length > 0) {
       output += `📚 Skills: ${profile.skills.averageSkillLevelWithProgress.toFixed(2)}\n`;
 
       for (const skillGroup of sortedSkills) {

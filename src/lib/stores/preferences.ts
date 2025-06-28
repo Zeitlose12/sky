@@ -8,6 +8,4 @@ export const internalPreferences = persisted("internalPreferences", {
   hasSeenv2Toast: false
 });
 
-export const collapsePreferences = persisted<Record<string, boolean>>("collapsePreferences", {});
-
 export const sectionOrderPreferences = persisted<SectionID[]>("sectionOrderPreferences", sections);

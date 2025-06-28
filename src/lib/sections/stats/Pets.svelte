@@ -2,9 +2,9 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import Item from "$lib/components/Item.svelte";
+  import Section from "$lib/components/Section.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { api, SectionName } from "$lib/shared/api";
@@ -38,7 +38,7 @@
   const otherPets = $derived(pets?.pets.filter((pet) => !uniquePets.includes(pet)));
 </script>
 
-<CollapsibleSection id="Pets" {order}>
+<Section id="Pets" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -162,4 +162,4 @@
       </Items>
     {/if}
   {/if}
-</CollapsibleSection>
+</Section>

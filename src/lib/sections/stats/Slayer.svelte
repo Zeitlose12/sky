@@ -2,9 +2,9 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
   import ScrollItems from "$lib/components/scroll-items.svelte";
+  import Section from "$lib/components/Section.svelte";
   import { api, SectionName } from "$lib/shared/api";
   import { calculatePercentage } from "$lib/shared/helper";
   import type { SlayerV2 } from "$types/statsv2";
@@ -33,7 +33,7 @@
   });
 </script>
 
-<CollapsibleSection id="Slayer" {order}>
+<Section id="Slayer" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -104,4 +104,4 @@
       {/if}
     </div>
   {/if}
-</CollapsibleSection>
+</Section>

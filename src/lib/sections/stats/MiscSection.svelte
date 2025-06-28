@@ -1,8 +1,8 @@
 <script lang="ts">
   import { setDynamicCtx } from "$ctx/dynamic.svelte";
   import { getProfileCtx } from "$ctx/profile.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Error from "$lib/components/Error.svelte";
+  import Section from "$lib/components/Section.svelte";
   import { api, SectionName } from "$lib/shared/api";
   import type { MiscV2 } from "$types/statsv2";
   import LoaderCircle from "@lucide/svelte/icons/loader-circle";
@@ -42,7 +42,7 @@
   setDynamicCtx(SectionName.MISC, () => misc);
 </script>
 
-<CollapsibleSection id="Miscellaneous" class="mb-4" {order}>
+<Section id="Misc" {order}>
   {#if $query.isPending}
     <LoaderCircle class="text-icon mx-auto animate-spin" />
   {/if}
@@ -67,4 +67,4 @@
     <Claimed />
     <Uncategorized />
   {/if}
-</CollapsibleSection>
+</Section>

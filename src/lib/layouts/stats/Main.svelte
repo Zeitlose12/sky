@@ -48,11 +48,7 @@
 
     <Navbar />
 
-    <div class="flex flex-col flex-nowrap gap-y-5 p-4 @[75rem]/parent:p-8">
-      {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
-        <Notice />
-      {/await}
-
+    <div class="flex flex-col flex-nowrap gap-y-5 px-4 pb-4 @[75rem]/parent:px-8 @[75rem]/parent:pb-8">
       <Sections />
     </div>
   </main>
