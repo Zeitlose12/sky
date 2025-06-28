@@ -35,10 +35,9 @@
     {/if}
   </div>
 
-  <!-- ! Enable once 132549134 from https://webkit.org/blog/16186/release-notes-for-safari-technology-preview-206/ is added to stable  -->
-  <!-- <div class="fixed right-0 top-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div> -->
+  <div class="fixed top-0 right-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div>
 
-  <main data-vaul-drawer-wrapper class="@container relative mx-auto mt-12 min-h-dvh backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
+  <main data-vaul-drawer-wrapper class="@container relative mx-auto mt-12 @[75rem]/parent:ml-[30vw]">
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
