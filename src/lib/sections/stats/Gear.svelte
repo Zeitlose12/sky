@@ -59,7 +59,7 @@
   {#if $query.isSuccess && armor}
     <Items subtitle="Armor">
       {#snippet text()}
-        {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.uuid)}
+        {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
           {#if armor.set_name}
             <p class="text-text/60 space-x-0.5 leading-6 font-bold capitalize">
               <span>Set:</span>
@@ -69,11 +69,9 @@
         {/if}
       {/snippet}
 
-      {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.uuid)}
+      {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
         {#each armor.armor as piece, index (index)}
-          {#if piece.uuid}
-            <Item {piece} />
-          {/if}
+          <Item {piece} />
         {/each}
       {:else}
         <p class="space-x-0.5 leading-6">{profile.username} has no armor equipped</p>

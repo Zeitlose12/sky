@@ -18,9 +18,9 @@
   const isHover = getContext<IsHover>("isHover");
 
   function resetItem() {
-    showItemTooltip.set(false);
-    tooltipAnchor.set(null!);
-    itemContent.set(undefined!);
+    //showItemTooltip.set(false);
+    //tooltipAnchor.set(null!);
+    //itemContent.set(undefined!);
   }
 </script>
 

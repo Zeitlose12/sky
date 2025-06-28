@@ -1,6 +1,6 @@
 import type { NetworthResult } from "skyhelper-networth";
 import type { ItemStats } from "./processed/profile/stats";
-import type { APISettings, BestiaryCategory, CatacombsData, CollectionCategory, ForgeItem, MinionCategory, MinionCategoryType, ProcessedExperimentationGame, Rank, Skill, Skills, SlayerInfo, TrophyFish } from "./stats";
+import type { APISettings, BestiaryCategory, CatacombsData, CollectionCategory, ForgeItem, MinionCategory, MinionCategoryType, ProcessedExperimentationGame, ProcessedSkyBlockItem, Rank, Skill, Skills, SlayerInfo, TrophyFish } from "./stats";
 
 export type StatsV2 = {
   displayName: string;
@@ -29,16 +29,16 @@ export type StatsV2 = {
 
 export type ArmorV2 = {
   armor: {
-    armor: ItemV2[];
+    armor: ProcessedSkyBlockItem[];
     stats: ItemStats;
     set_name?: string;
     set_rarity?: string;
   };
   equipment: {
-    equipment: ItemV2[];
+    equipment: ProcessedSkyBlockItem[];
     stats: ItemStats;
   };
-  wardrobe: ItemV2[][];
+  wardrobe: ProcessedSkyBlockItem[][];
 };
 
 export type ItemV2 = {
@@ -60,8 +60,8 @@ export type ItemV2 = {
 };
 
 export type WeaponsV2 = {
-  weapons: ItemV2[];
-  highest_priority_weapon: ItemV2 | null;
+  weapons: ProcessedSkyBlockItem[];
+  highest_priority_weapon: ProcessedSkyBlockItem | null;
 };
 
 export type AccessoriesV2 = {

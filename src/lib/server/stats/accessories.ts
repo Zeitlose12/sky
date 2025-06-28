@@ -7,6 +7,7 @@ import type { Accessories, Accessory, GetItemsItems, Member } from "$types/globa
 
 export async function getAccessories(userProfile: Member, items: GetItemsItems, packs: string[]) {
   if (!items) {
+    console.log("No items found in profile, returning empty accessories");
     return null;
   }
 

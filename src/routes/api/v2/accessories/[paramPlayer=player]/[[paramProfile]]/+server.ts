@@ -21,7 +21,11 @@ export async function GET({ params, cookies }) {
 
   const profile = await getProfile(paramPlayer, paramProfile, { cache: true });
   const accessories = await getAccessories(profile.members[paramPlayer], items, packs);
+  console.log(accessories);
+  console.log(items);
+
   accessories.accessories = stripItemsV3(accessories.accessories);
+  accessories.upgrades = stripItemsV3(accessories.upgrades);
   accessories.missing = stripItemsV3(accessories.missing);
   if (dev) {
     console.log(`/api/accessories/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);

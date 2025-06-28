@@ -2,14 +2,14 @@
   import { RARITIES, RARITY_COLORS } from "$lib/shared/constants/items";
   import { getRarityClass } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
-  import { getItemQuery, itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
-  import type { ItemV2, PetItemV2 } from "$types/statsv2";
+  import { itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
+  import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$types/stats";
   import Image from "@lucide/svelte/icons/image";
   import { Avatar, Tooltip, type AvatarImageLoadingStatus } from "bits-ui";
   import { IsInViewport } from "runed";
 
   type Props = {
-    piece: ItemV2 | PetItemV2;
+    piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
     isInventory?: boolean;
     showCount?: boolean;
     showRecombobulated?: boolean;
@@ -21,25 +21,17 @@
   let open = $state(false);
   let loadingStatus = $state<AvatarImageLoadingStatus>();
 
-  const item = getItemQuery(piece.uuid);
-
   const inViewport = new IsInViewport(() => targetNode, { rootMargin: "200px 0px", threshold: 0 });
-  const skyblockItem = $derived({ ...piece, ...$item.data });
+  const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
   const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
   const recombobulated = $derived(showRecombobulated && (skyblockItem.recombobulated ?? false));
   const enchanted = $derived(skyblockItem.texture_path.includes("/api/leather/") ? false : skyblockItem.shiny);
   const shine = $derived(enchanted || skyblockItem.shiny);
   const showNumbers = $derived(showCount && (skyblockItem.Count ?? 0) > 1);
 
-  async function getItemData() {
-    if ($item.isSuccess) return;
-    await $item.refetch();
-  }
-
   async function loadItemData(openValue: boolean, modal: boolean = false) {
     if (openValue) {
-      itemContent.set(skyblockItem);
-      getItemData();
+      itemContent.set(piece as ProcessedSkyBlockItem);
       if (modal) {
         if (skyblockItem.containsItems) return;
         showItem.set(true);
@@ -50,9 +42,9 @@
         }
       }
     } else {
-      showItemTooltip.set(false);
-      tooltipAnchor.set(null!);
-      itemContent.set(undefined!);
+      //showItemTooltip.set(false);
+      //tooltipAnchor.set(null!);
+      //itemContent.set(undefined!);
     }
   }
 

@@ -145,7 +145,7 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
       }
 
       item.uuid = v4();
-      allItems.push(item);
+      // allItems.push(item);
     }
 
     REDIS.set(`profile:${profileId}:allMuseum`, JSON.stringify(allMuseumItems), "EX", 60 * 5); // 5 minutes cache

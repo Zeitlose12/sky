@@ -2,7 +2,8 @@ import { sections } from "$lib/sections/constants";
 import type { SectionName } from "$lib/sections/types";
 import { api } from "$lib/shared/api";
 import { sectionOrderPreferences } from "$lib/stores/preferences";
-import type { ItemV2, PetItemV2 } from "$types/statsv2";
+import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$types/global";
+import type { ItemV2 } from "$types/statsv2";
 import { createQuery, type CreateQueryResult } from "@tanstack/svelte-query";
 import type { Snippet } from "svelte";
 import { get, writable } from "svelte/store";
@@ -11,7 +12,7 @@ export const tabValue = writable<SectionName>(get(sectionOrderPreferences)[0].na
 export const showItem = writable<boolean>(false);
 export const showItemTooltip = writable<boolean>(false);
 export const tooltipAnchor = writable<HTMLElement>(null!);
-export const itemContent = writable<ItemV2 | PetItemV2 | undefined>();
+export const itemContent = writable<ProcessedSkyBlockItem | ProcessedSkyblockPet | undefined>();
 export const isLoadingItem = writable<boolean>(false);
 
 export const content = writable<Snippet | undefined>(undefined);

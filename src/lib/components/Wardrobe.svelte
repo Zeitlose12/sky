@@ -1,15 +1,15 @@
 <script lang="ts">
   import Item from "$lib/components/Item.svelte";
-  import type { ItemV2 } from "$types/statsv2";
+  import type { ProcessedSkyBlockItem } from "$types/stats";
 
-  let { wardrobeItems }: { wardrobeItems: ItemV2[] } = $props();
+  let { wardrobeItems }: { wardrobeItems: ProcessedSkyBlockItem[] } = $props();
 
   const pieces = ["helmet", "chestplate", "leggings", "boots"];
 </script>
 
 <div class="mt-2 flex flex-col gap-2">
   {#each wardrobeItems as piece, index (index)}
-    {#if piece && piece.uuid}
+    {#if piece && piece.display_name}
       <Item {piece} />
     {:else}
       <div class="bg-background/30 rounded-lg p-2">

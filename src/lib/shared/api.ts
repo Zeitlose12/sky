@@ -57,6 +57,7 @@ export const api = (customFetch = fetch) => ({
     if (data.message) {
       throw new Error(data.message);
     }
+
     return data;
   },
   getItem: async (itemUUID: string): Promise<ItemV2> => {

@@ -155,7 +155,7 @@ export type ProcessedSkyBlockItem = {
   texture_path: string;
   containsItems?: ProcessedSkyBlockItem[];
   shiny?: boolean;
-  texture_pack?: string;
+  texture_pack: string;
   wiki?: { fandom?: string; official?: string } | null;
   [key: string]: string | boolean;
 };
@@ -171,6 +171,7 @@ export type ProcessedSkyblockPet = {
   stats?: ItemStats;
   wiki?: { fandom?: string; official?: string } | null;
   uuid: string;
+  texture_pack: string;
 };
 
 export type getTextureParams = {
