@@ -18,7 +18,7 @@
 <section {id} class={cn("order-(--order) mx-auto scroll-m-32", className)} style="--order: {order};">
   <div class="flex items-center justify-between">
     {#if !subtitle}
-      <SectionTitle>{id}</SectionTitle>
+      <SectionTitle>{id.replaceAll("_", " ")}</SectionTitle>
     {:else}
       {@render subtitle()}
     {/if}
