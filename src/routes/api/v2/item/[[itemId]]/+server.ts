@@ -38,8 +38,8 @@ export async function GET({ params }) {
   const processedItems = processItems([item], "item", [], { category: false, pack: false });
 
   const itemData = stripItem(processedItems[0]);
-  const source = processedItems[0].extra.source;
-  itemData.sourceTab = { name: titleCase(source), icon: ICONS[source] };
+  const source = processedItems[0]?.extra?.source;
+  if (source) itemData.sourceTab = { name: titleCase(source), icon: ICONS[source] };
 
   return json(itemData);
 }

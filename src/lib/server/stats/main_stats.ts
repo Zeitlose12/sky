@@ -14,7 +14,7 @@ export async function getMainStats(userProfile: Member, profile: Profile, player
   const timeNow = Date.now();
 
   fetchMuseum(profile.profile_id).then((museumData) => {
-    getItems(userProfile, museumData[profile.uuid], packs, profile.profile_id).then((items: GetItemsItems) => {
+    getItems(userProfile, museumData?.[profile.uuid], packs, profile.profile_id).then((items: GetItemsItems) => {
       REDIS.set(`profile:${profile.profile_id}:items`, JSON.stringify(items), {
         EX: 60 * 5 // Cache for 5 minutes
       });
