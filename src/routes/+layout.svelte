@@ -15,8 +15,7 @@
   import { Tooltip } from "bits-ui";
   import { onMount, setContext, type Snippet } from "svelte";
   import SvelteSeo from "svelte-seo";
-  import type { ToasterProps } from "svelte-sonner";
-  import { Toaster, toast } from "svelte-sonner";
+  import { Toaster, toast, type ToasterProps } from "svelte-sonner";
   import { writable } from "svelte/store";
   import { Drawer } from "vaul-svelte";
   import "../app.css";
@@ -43,7 +42,6 @@
     // }
 
     if (!$internalPreferences.hasSeenv2Toast) {
-      // @ts-expect-error - Not updated for Svelte 5 yet
       toast.custom(V2Toast, {
         duration: Number.POSITIVE_INFINITY,
         onDismiss: () => {
@@ -63,8 +61,6 @@
         if (navigator.onLine) {
           toast.dismiss(toastId);
           toastId = toast.success("You are now online!", {
-            // @ts-expect-error - Not updated for Svelte 5 yet
-            // * https://github.com/wobsoriano/svelte-sonner/pull/126
             icon: Wifi,
             description: "Connection has been restored!",
             duration: 5000
@@ -72,8 +68,6 @@
         } else {
           toast.dismiss(toastId);
           toastId = toast.error("You are now offline!", {
-            // @ts-expect-error - Not updated for Svelte 5 yet
-            // * https://github.com/wobsoriano/svelte-sonner/pull/126
             icon: WifiOff,
             description: "Please check your connection and try again.",
             duration: 5000
