@@ -166,7 +166,7 @@ importers:
         specifier: ^1.27.3
         version: 1.27.3
       svelte:
-        specifier: 5.34.9
+        specifier: ^5.34.9
         version: 5.34.9
       svelte-check:
         specifier: ^4.2.2
@@ -217,8 +217,8 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
       vaul-svelte:
-        specifier: 1.0.0-next.6
-        version: 1.0.0-next.6(svelte@5.34.9)
+        specifier: 1.0.0-next.7
+        version: 1.0.0-next.7(svelte@5.34.9)
       vite:
         specifier: ^7.0.0
         version: 7.0.0(@types/node@24.0.7)(jiti@2.4.2)(lightningcss@1.30.1)
@@ -3110,9 +3110,6 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  style-to-object@1.0.8:
-    resolution: {integrity: sha512-xT47I/Eo0rwJmaXC4oilDGDWLohVhR6o/xAQcPQN8q6QBuZVL8qMYL85kLmST5cPjAorwvqIA4qXTRQoYHaL6g==}
-
   style-to-object@1.0.9:
     resolution: {integrity: sha512-G4qppLgKu/k6FwRpHiGiKPaPTFcG3g4wNVX/Qsfu+RqQM30E7Tyu/TEgxcL9PNLF5pdRLwQdE3YKKf+KF2Dzlw==}
 
@@ -3386,8 +3383,8 @@ packages:
     resolution: {integrity: sha512-BgWVbCI72aIQy937xbawcs+hrVaN/CZ2UwutgaJ36hGqRrLNM+f5LUT/YPRbo8IV/ASeFzXszezV+y2+rq3l8A==}
     engines: {node: '>= 0.10'}
 
-  vaul-svelte@1.0.0-next.6:
-    resolution: {integrity: sha512-leEKb9Qoj7JOrC0wLnqoczLhHZcwo7UHKBJ7SWBRhdFn0o+x9W1XioUK2OeiZHb5Bp7LyYKtUUjVWO3uJULUCw==}
+  vaul-svelte@1.0.0-next.7:
+    resolution: {integrity: sha512-7zN7Bi3dFQixvvbUJY9uGDe7Ws/dGZeBQR2pXdXmzQiakjrxBvWo0QrmsX3HK+VH+SZOltz378cmgmCS9f9rSg==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.0.0
@@ -6332,10 +6329,6 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  style-to-object@1.0.8:
-    dependencies:
-      inline-style-parser: 0.2.4
-
   style-to-object@1.0.9:
     dependencies:
       inline-style-parser: 0.2.4
@@ -6418,7 +6411,7 @@ snapshots:
     dependencies:
       clsx: 2.1.1
       runed: 0.23.4(svelte@5.34.9)
-      style-to-object: 1.0.8
+      style-to-object: 1.0.9
       svelte: 5.34.9
 
   svelte-toolbelt@0.9.3(svelte@5.34.9):
@@ -6609,7 +6602,7 @@ snapshots:
   validator@13.15.15:
     optional: true
 
-  vaul-svelte@1.0.0-next.6(svelte@5.34.9):
+  vaul-svelte@1.0.0-next.7(svelte@5.34.9):
     dependencies:
       runed: 0.23.4(svelte@5.34.9)
       svelte: 5.34.9

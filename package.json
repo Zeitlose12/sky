@@ -59,7 +59,7 @@
     "simple-git": "^3.27.0",
     "skinview3d": "^3.4.1",
     "skyhelper-networth": "^1.27.3",
-    "svelte": "5.34.9",
+    "svelte": "^5.34.9",
     "svelte-check": "^4.2.2",
     "svelte-dnd-action": "^0.9.63",
     "svelte-interactions": "^0.2.0",
@@ -76,7 +76,7 @@
     "typescript-eslint": "^8.35.0",
     "upng-js": "^2.1.0",
     "util": "^0.12.5",
-    "vaul-svelte": "1.0.0-next.6",
+    "vaul-svelte": "1.0.0-next.7",
     "vite": "^7.0.0",
     "vite-plugin-devtools-json": "^0.2.0",
     "zod": "^3.25.67"
