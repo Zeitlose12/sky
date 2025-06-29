@@ -134,7 +134,7 @@ export function getLevelByXp(
 export function getSkillLevelCaps(userProfile: Member, player: Player | null) {
   return {
     farming: 50 + (userProfile.jacobs_contest?.perks?.farming_level_cap || 0),
-    taming: Math.min(Math.max(player?.achievements?.skyblock_domesticator || 50, 50), 60),
+    taming: 50 + (userProfile.pets_data?.pet_care?.pet_types_sacrificed?.length || 0),
     runecrafting: 25
     // runecrafting: player.newPackageRank ? 25 : 3
   };
