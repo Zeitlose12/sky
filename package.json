@@ -128,5 +128,8 @@
       "simdjson",
       "svelte-preprocess"
     ]
+  },
+  "optionalDependencies": {
+    "simdjson": "^0.9.2"
   }
 }
