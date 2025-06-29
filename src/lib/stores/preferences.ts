@@ -9,3 +9,5 @@ export const internalPreferences = persisted("internalPreferences", {
 });
 
 export const sectionOrderPreferences = persisted<SectionID[]>("sectionOrderPreferences", sections);
+
+export const performanceMode = persisted<boolean>("performanceMode", false);

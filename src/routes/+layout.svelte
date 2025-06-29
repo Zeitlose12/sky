@@ -1,12 +1,14 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { page } from "$app/state";
   import Header from "$lib/components/header/Header.svelte";
+  import PerformanceMode from "$lib/components/PerformanceMode.svelte";
   import V2Toast from "$lib/components/temp/V2Toast.svelte";
   import { IsHover } from "$lib/hooks/is-hover.svelte";
   import { IsMobile } from "$lib/hooks/is-mobile.svelte";
   import themes from "$lib/shared/constants/themes";
   import { content } from "$lib/stores/internal";
-  import { internalPreferences } from "$lib/stores/preferences";
+  import { internalPreferences, performanceMode } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
   import Wifi from "@lucide/svelte/icons/wifi";
   import WifiOff from "@lucide/svelte/icons/wifi-off";
@@ -131,6 +133,10 @@
   }} />
 
 <Header />
+
+{#if browser && !$performanceMode}
+  <PerformanceMode />
+{/if}
 
 <div class="pointer-events-none fixed inset-0 z-[-1] h-dvh w-screen [background-image:var(--bg-url)] bg-cover bg-scroll bg-center bg-no-repeat"></div>
 

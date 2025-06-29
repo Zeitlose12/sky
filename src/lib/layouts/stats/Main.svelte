@@ -8,8 +8,9 @@
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Sections from "$lib/sections/Sections.svelte";
-  import { flyAndScale } from "$lib/shared/utils";
+  import { cn, flyAndScale } from "$lib/shared/utils";
   import { isLoadingItem, itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
+  import { performanceMode } from "$lib/stores/preferences";
   import { Dialog, Tooltip } from "bits-ui";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
@@ -35,7 +36,7 @@
     {/if}
   </div>
 
-  <div class="fixed top-0 right-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div>
+  <div class={cn("fixed top-0 right-0 min-h-dvh w-full @[75rem]/parent:w-[calc(100%-30vw)]", $performanceMode ? "bg-background-grey" : "backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100")}></div>
 
   <main data-vaul-drawer-wrapper class="@container relative mx-auto mt-12 @[75rem]/parent:ml-[30vw]">
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
