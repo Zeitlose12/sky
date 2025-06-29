@@ -39,7 +39,7 @@ export function getWeapons(allItems: ProcessedItem[]) {
     highest_priority_weapon: stripItem(highestPriorityWeapon)
   };
 }
-export function getSkilllTools(skill: string, allItems: ProcessedItem[]) {
+export function getSkillTools(skill: string, allItems: ProcessedItem[]) {
   const tools = getCategory(allItems, `${skill}_tool`);
 
   const highestPriorityTool = getCategory(allItems, `${skill}_tool`)[0];

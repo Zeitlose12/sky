@@ -41,7 +41,7 @@ export type ArmorV2 = {
   wardrobe: ProcessedSkyBlockItem[][];
 };
 
-export type ItemV2 = {
+export type ProcessedSkyBlockItem = {
   display_name: string;
   lore: string[];
   texture_path: string;
@@ -52,7 +52,7 @@ export type ItemV2 = {
   uuid: string;
   rarity: string;
   Count?: number;
-  containsItems?: ItemV2[];
+  containsItems?: ProcessedSkyBlockItem[];
   isInactive?: boolean;
   isUnique?: boolean;
   source?: string;
@@ -65,9 +65,9 @@ export type WeaponsV2 = {
 };
 
 export type AccessoriesV2 = {
-  accessories: ItemV2[];
-  missing: ItemV2[];
-  upgrades: ItemV2[];
+  accessories: ProcessedSkyBlockItem[];
+  missing: ProcessedSkyBlockItem[];
+  upgrades: ProcessedSkyBlockItem[];
   stats: ItemStats;
   enrichments: Record<string, number>;
   unique: number;
@@ -89,8 +89,8 @@ export type AccessoriesV2 = {
 };
 
 export type PetsV2 = {
-  pets: PetItemV2[];
-  missing: PetItemV2[];
+  pets: PetProcessedSkyBlockItem[];
+  missing: PetProcessedSkyBlockItem[];
   amount: number;
   total: number;
   amountSkins: number;
@@ -109,20 +109,20 @@ export type PetsV2 = {
 };
 
 export type InventoryV2All = {
-  inventory: ItemV2[];
-  backpack: ItemV2[];
-  enderchest: ItemV2[];
-  personal_vault: ItemV2[];
-  rift_inventory: ItemV2[];
-  rift_enderchest: ItemV2[];
-  potion_bag: ItemV2[];
-  talisman_bag: ItemV2[];
-  fishing_bag: ItemV2[];
-  quiver: ItemV2[];
-  museum: ItemV2[];
+  inventory: ProcessedSkyBlockItem[];
+  backpack: ProcessedSkyBlockItem[];
+  enderchest: ProcessedSkyBlockItem[];
+  personal_vault: ProcessedSkyBlockItem[];
+  rift_inventory: ProcessedSkyBlockItem[];
+  rift_enderchest: ProcessedSkyBlockItem[];
+  potion_bag: ProcessedSkyBlockItem[];
+  talisman_bag: ProcessedSkyBlockItem[];
+  fishing_bag: ProcessedSkyBlockItem[];
+  quiver: ProcessedSkyBlockItem[];
+  museum: ProcessedSkyBlockItem[];
 };
 
-export type InventoryV2 = ItemV2[];
+export type InventoryV2 = ProcessedSkyBlockItem[];
 
 export type MiningV2 = {
   level: Skill;
@@ -166,7 +166,7 @@ export type MiningV2 = {
     };
   };
   forge: ForgeItem[];
-  hotm: ItemV2[];
+  hotm: ProcessedSkyBlockItem[];
   glaciteTunnels: {
     mineshaftsEntered: number;
     fossilDust: number;
@@ -188,8 +188,8 @@ export type MiningV2 = {
     };
   };
   tools: {
-    tools: ItemV2[];
-    highest_priority_tool: ItemV2;
+    tools: ProcessedSkyBlockItem[];
+    highest_priority_tool: ProcessedSkyBlockItem;
   };
 };
 
@@ -214,8 +214,8 @@ export type FarmingV2 = {
     crops: { name: string; id: string; amount: number }[];
   };
   tools: {
-    tools: ItemV2[];
-    highest_priority_tool: ItemV2;
+    tools: ProcessedSkyBlockItem[];
+    highest_priority_tool: ProcessedSkyBlockItem;
   };
 };
 
@@ -240,8 +240,8 @@ export type FishingV2 = {
     trophyFish: TrophyFish[];
   } | null;
   tools: {
-    tools: ItemV2[];
-    highest_priority_tool: ItemV2;
+    tools: ProcessedSkyBlockItem[];
+    highest_priority_tool: ProcessedSkyBlockItem;
   };
 };
 
@@ -368,13 +368,13 @@ export type RiftV2 = {
     }[];
   };
   armor: {
-    armor: ItemV2[];
+    armor: ProcessedSkyBlockItem[];
     stats: ItemStats;
     set_name?: string;
     set_rarity?: string;
   };
   equipment: {
-    equipment: ItemV2[];
+    equipment: ProcessedSkyBlockItem[];
     stats: ItemStats;
   };
 };
@@ -504,7 +504,7 @@ export type SkillsV2 = {
   fishing: FishingV2;
 };
 
-export type PetItemV2 = {
+export type PetProcessedSkyBlockItem = {
   display_name: string;
   lore: string[];
   type: string;

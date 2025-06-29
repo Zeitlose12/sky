@@ -9,7 +9,7 @@ export async function GET({ params }) {
 
   const profile = await getProfile(paramPlayer, paramProfile as string, { cache: true });
 
-  const bestiary = getBestiary(profile);
+  const bestiary = getBestiary(profile.members[paramPlayer]);
 
   if (dev) {
     console.log(`/api/bestiary/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);

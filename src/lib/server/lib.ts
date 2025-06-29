@@ -3,9 +3,9 @@ import { DISCORD_WEBHOOK, HYPIXEL_API_KEY } from "$env/static/private";
 import { isPlayer } from "$params/player";
 import { isUUID } from "$params/uuid";
 import type { Profile, ProfilesResponse } from "$types/global";
+import simdjson from "simdjson";
 import { SkyCryptError } from "./constants/error";
 import { REDIS } from "./db/redis";
-
 const headers = { Accept: "application/json", "User-Agent": "SkyCrypt", "API-KEY": HYPIXEL_API_KEY };
 
 export async function getProfiles(paramPlayer: string) {
@@ -35,8 +35,7 @@ export async function fetchProfiles(uuid: string, options = { cache: false }): P
 
   const cache = await REDIS.get(`PROFILES:${uuid}`);
   if (cache) {
-    // TODO: implement ajv
-    return JSON.parse(cache);
+    return simdjson.parse(cache);
   }
 
   const response = await fetch(`https://api.hypixel.net/v2/skyblock/profiles?uuid=${uuid}`, {
@@ -137,7 +136,7 @@ export async function fetchPlayer(uuid: string, options = { cache: false }) {
 
   const cache = await REDIS.get(`PLAYER:${uuid}`);
   if (cache) {
-    return JSON.parse(cache);
+    return simdjson.parse(cache);
   }
 
   const response = await fetch(`https://api.hypixel.net/v2/player?uuid=${uuid}`, {

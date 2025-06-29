@@ -2,11 +2,8 @@ import * as constants from "$lib/server/constants/constants";
 import * as helper from "$lib/server/helper";
 import { NEU_CONSTANTS, NEU_ITEMS } from "$lib/server/helper/NotEnoughUpdates/parseNEURepository";
 import { formatNumber, uniqBy } from "$lib/shared/helper";
-import type { GetItemsItems, Member, Pet, Pets, ProcessedPet, ProcessedSkyblockPet, Profile } from "$types/global";
-import { getItemNetworth } from "skyhelper-networth";
-import { v4 } from "uuid";
-import { REDIS } from "../db/redis";
-import { stripItemsV3 } from "./items/stripping";
+import type { Member, Pet, Pets, ProcessedPet, ProcessedSkyblockPet, Profile } from "$types/global";
+import { stripItems } from "./items/stripping";
 
 let getMaxPetIdsCache = {} as { lastUpdated: number; data: Record<string, number> };
 function getMaxPetIds() {
@@ -401,14 +398,10 @@ function getPetScore(pets: ProcessedPet[]) {
   };
 }
 
-export async function getPets(userProfile: Member, items: GetItemsItems, profile: Profile) {
+export async function getPets(userProfile: Member, profile: Profile) {
   const output = {} as Pets;
 
   const allPets = JSON.parse(JSON.stringify(userProfile.pets_data?.pets ?? [])) as Pet[];
-  if (items?.pets !== undefined) {
-    allPets.push(...(items.pets as unknown as Pet[]));
-  }
-
   if (userProfile.rift?.dead_cats?.montezuma !== undefined) {
     const montezumaPet = userProfile.rift.dead_cats.montezuma;
     montezumaPet.active = false;
@@ -418,11 +411,7 @@ export async function getPets(userProfile: Member, items: GetItemsItems, profile
 
   const pets = allPets.filter((pet) => pet.exp !== undefined);
   if (pets.length === 0) {
-    return {};
-  }
-
-  for (const pet of pets) {
-    await getItemNetworth(pet, { cache: true, returnItemData: false });
+    return null;
   }
 
   output.pets = getProfilePets(userProfile, pets) as unknown as ProcessedSkyblockPet[];
@@ -440,13 +429,8 @@ export async function getPets(userProfile: Member, items: GetItemsItems, profile
   output.totalPetExp = (output.pets as unknown as ProcessedPet[]).reduce((a, b) => a + b.level.xp, 0);
   output.totalCandyUsed = (output.pets as unknown as ProcessedPet[]).reduce((a, b) => a + b.candyUsed, 0);
 
-  for (const item of output.pets.concat(output.missing)) {
-    item.uuid = v4();
-    REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5);
-  }
-
-  output.pets = stripItemsV3(output.pets as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
-  output.missing = stripItemsV3(output.missing as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
+  output.pets = stripItems(output.pets as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
+  output.missing = stripItems(output.missing as unknown as ProcessedPet[]) as unknown as ProcessedSkyblockPet[];
 
   return output;
 }

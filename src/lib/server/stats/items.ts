@@ -7,7 +7,6 @@ import { sendWebhookMessage } from "../lib";
 import { decodeItems } from "./items/decoding";
 import { decodeMusemItems } from "./items/museum";
 import { processItems } from "./items/processing";
-import { getMuseumItems } from "./museum";
 
 export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null, packs: string[], profileId: string): Promise<GetItemsItems> {
   try {
@@ -115,9 +114,9 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
 
     const allItems = Object.values(output).flat();
     output.weapons = getWeapons(allItems);
-    output.farming_tools = getSkilllTools("farming", allItems);
-    output.mining_tools = getSkilllTools("mining", allItems);
-    output.fishing_tools = getSkilllTools("fishing", allItems);
+    output.farming_tools = getSkillTools("farming", allItems);
+    output.mining_tools = getSkillTools("mining", allItems);
+    output.fishing_tools = getSkillTools("fishing", allItems);
     output.pets = getPets(allItems);
 
     const museum = output.museumItems ? getMuseumItems(output.museumItems) : null;
@@ -128,6 +127,8 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
     output.museum = museum?.inventory ?? [];
 
     */
+
+    /*
 
     const museumItems = userMuseum ? await decodeMusemItems(userMuseum, packs) : null;
     const allMuseumItems = [...Object.values(museumItems?.items ?? {}), ...(museumItems?.specialItems ?? [])]
@@ -147,16 +148,27 @@ export async function getItems(userProfile: Member, userMuseum: MuseumRaw | null
       item.uuid = v4();
       // allItems.push(item);
     }
+      
+    
 
+    
     REDIS.set(`profile:${profileId}:allMuseum`, JSON.stringify(allMuseumItems), "EX", 60 * 5); // 5 minutes cache
+    */
 
-    for (const item of allItems) {
-      REDIS.set(`item:${item.uuid}`, JSON.stringify(item), "EX", 60 * 5); // 5 minutes cache
+    // REDIS.set(`items:${profileId}:all`, JSON.stringify(allItems), "EX", 60 * 5); // 5 minutes cache
+    // REDIS.set(`items:${profileId}:all:object`, JSON.stringify(output), "EX", 60 * 5);
+
+    // ? NOTE: Cache /api/v2/armor data in the background
+    const mainItems = { armor: output.armor, equipment: output.equipment, wardrobe: output.wardrobe };
+    for (const key in mainItems) {
+      mainItems[key] = processItems(mainItems[key], key, packs, { category: false, pack: false });
     }
 
-    REDIS.set(`items:${profileId}:all`, JSON.stringify(allItems), "EX", 60 * 5); // 5 minutes cache
+    REDIS.set(`profile:${profileId}:main_items`, JSON.stringify(mainItems), { EX: 60 * 5 });
 
-    REDIS.set(`items:${profileId}:all:object`, JSON.stringify(output), "EX", 60 * 5);
+    // ? Museum
+    output.museum = userMuseum ? await decodeMusemItems(userMuseum, packs) : null;
+    REDIS.set(`profile:${profileId}:items`, JSON.stringify(output), { EX: 60 * 5 });
 
     return output;
   } catch (error) {

@@ -1,32 +1,39 @@
 import { dev } from "$app/environment";
 import { REDIS } from "$lib/server/db/redis.js";
-import { getProfile } from "$lib/server/lib.js";
+import { getProfile } from "$lib/server/lib";
 import { getAccessories } from "$lib/server/stats/accessories.js";
 import { processItems } from "$lib/server/stats/items/processing.js";
-import { stripItemsV3 } from "$lib/server/stats/items/stripping.js";
+import { stripItems } from "$lib/server/stats/items/stripping.js";
+import type { ProcessedItem } from "$types/stats.js";
 import { json } from "@sveltejs/kit";
-
+import simdjson from "simdjson";
 export async function GET({ params, cookies }) {
   const timeNow = Date.now();
+
   const { paramPlayer, paramProfile } = params;
-
-  const rawItems = await REDIS.get(`items:${paramProfile}:all:object`);
-  const items = JSON.parse(rawItems as string);
-
-  for (const key in items) {
-    items[key] = processItems(items[key], key, [], { pack: true, category: false });
-  }
-
   const packs = JSON.parse(cookies.get("disabledPacks") || "[]");
 
-  const profile = await getProfile(paramPlayer, paramProfile, { cache: true });
-  const accessories = await getAccessories(profile.members[paramPlayer], items, packs);
-  console.log(accessories);
-  console.log(items);
+  const allItemsRaw = await REDIS.get(`profile:${paramProfile}:items`);
+  const items = simdjson.parse(allItemsRaw as string);
+  for (const inventory of ["talisman_bag", "inventory", "enderchest", "backpack"]) {
+    items[inventory] = processItems(items[inventory], inventory, packs, { pack: false, category: false });
+  }
 
-  accessories.accessories = stripItemsV3(accessories.accessories);
-  accessories.upgrades = stripItemsV3(accessories.upgrades);
-  accessories.missing = stripItemsV3(accessories.missing);
+  items["backpack"] = items.backpack
+    .map((i: ProcessedItem) => i.containsItems ?? [])
+    .concat(items.backpack)
+    .flat();
+
+  const profile = await getProfile(paramPlayer, paramProfile as string, { cache: true });
+
+  const accessories = await getAccessories(profile.members[paramPlayer], items, packs);
+  if (!accessories) {
+    return json({ error: "No items found in profile" }, { status: 404 });
+  }
+
+  accessories.accessories = stripItems(accessories.accessories as unknown as ProcessedItem[], ["isInactive"]);
+  accessories.upgrades = stripItems(accessories.upgrades as unknown as ProcessedItem[]);
+  accessories.missing = stripItems(accessories.missing as unknown as ProcessedItem[]);
   if (dev) {
     console.log(`/api/accessories/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);
   }

@@ -21,7 +21,7 @@
   {#if enchanting.unlocked === false}
     <p class="space-x-0.5 leading-6">This player hasn't unlocked Enchanting yet.</p>
   {:else}
-    <Collapsible.Root>
+    <Collapsible.Root open>
       <Collapsible.Trigger class="group flex items-center gap-0.5">
         <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
         <SectionSubtitle class="my-0">Experiments</SectionSubtitle>

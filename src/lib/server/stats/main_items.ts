@@ -1,16 +1,16 @@
+import { error } from "console";
+import simdjson from "simdjson";
 import { REDIS } from "../db/redis";
 import { getArmor } from "./items/armor";
 import { getEquipment } from "./items/equipment";
-import { processItems } from "./items/processing";
 import { stripItems } from "./items/stripping";
 import { getWardrobe } from "./items/wardrobe";
 
-export async function getMainItems(profileId: string, packs: string[]) {
+export async function getMainItems(profileId: string) {
   const rawItems = await REDIS.get(`profile:${profileId}:main_items`);
-  const items = rawItems ? JSON.parse(rawItems) : null;
-
-  for (const key in items) {
-    items[key] = processItems(items[key], key, packs, { category: false, pack: false });
+  const items = rawItems ? simdjson.parse(rawItems) : null;
+  if (!items) {
+    return error(404, `No items found for profile ${profileId}. Please try again later.`);
   }
 
   const armor = getArmor(items.armor);
@@ -18,14 +18,12 @@ export async function getMainItems(profileId: string, packs: string[]) {
 
   return {
     armor: {
-      armor: stripItems(armor.armor),
-      stats: armor.stats,
-      set_name: armor.set_name,
-      set_rarity: armor.set_rarity
+      ...armor,
+      armor: stripItems(armor.armor)
     },
     equipment: {
-      equipment: stripItems(equipment.equipment),
-      stats: equipment.stats
+      ...equipment,
+      equipment: stripItems(equipment.equipment)
     },
     wardrobe: getWardrobe(items.wardrobe).map((set) => stripItems(set))
   };

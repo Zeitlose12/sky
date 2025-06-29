@@ -7,7 +7,7 @@ const getNestedValue = (obj: any, path: string) => {
   return path.split(".").reduce((acc, part) => acc?.[part], obj);
 };
 
-export function stripItem(item: ProcessedItem | ProcessedPet, keys?: string[]): ProcessedSkyBlockItem {
+export function stripItem(item: ProcessedItem | ProcessedPet | null, keys?: string[]): ProcessedSkyBlockItem {
   if (!item || (!item.display_name && !(item as ProcessedItem).tag?.display?.Name)) {
     return {} as ProcessedSkyBlockItem;
   }
@@ -102,8 +102,8 @@ function stripPetData(pet: ProcessedPet): ProcessedSkyblockPet {
   return output;
 }
 
-export function stripItems(items: Array<ProcessedItem | ProcessedPet>, keys?: string[]): ProcessedSkyBlockItem[] {
-  if (items.length === 0) {
+export function stripItems(items: ProcessedItem[] | ProcessedPet[] | null, keys?: string[]): ProcessedSkyBlockItem[] {
+  if (!items || items.length === 0) {
     return [];
   }
 
