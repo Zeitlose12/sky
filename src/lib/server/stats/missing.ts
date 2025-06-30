@@ -256,7 +256,5 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
     };
   }
 
-
-
   return output;
 }

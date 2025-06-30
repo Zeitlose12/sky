@@ -519,3 +519,16 @@ export type PetProcessedSkyBlockItem = {
 };
 
 export type NetworthV2 = NetworthResult;
+
+export type PlayerStatsInputv2 = {
+  skyblock_level?: number;
+  armor?: ItemStats;
+  equipment?: ItemStats;
+  skills?: Record<string, Skill>;
+  pets?: ItemStats;
+  slayers?: ItemStats;
+  bestiary?: number;
+  accessories?: ItemStats;
+  dungeons?: number;
+  petScore?: ItemStats;
+};

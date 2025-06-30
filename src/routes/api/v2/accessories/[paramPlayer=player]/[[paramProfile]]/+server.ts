@@ -7,6 +7,7 @@ import { stripItems } from "$lib/server/stats/items/stripping.js";
 import type { ProcessedItem } from "$types/stats.js";
 import { json } from "@sveltejs/kit";
 import simdjson from "simdjson";
+
 export async function GET({ params, cookies }) {
   const timeNow = Date.now();
 

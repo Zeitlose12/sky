@@ -211,7 +211,7 @@ export type ProfilePets = {
   pet_care: {
     coins_spent: number;
     pet_types_sacrificed: string[];
-  }
+  };
 };
 
 export type Mining = {
