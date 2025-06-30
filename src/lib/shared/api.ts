@@ -1,5 +1,5 @@
 import type { Garden } from "$types/processed/profile/garden";
-import type { AccessoriesV2, ArmorV2, BestiaryV2, CollectionsV2, CrimsonIsleV2, DungeonsV2, EnchantingV2, FarmingV2, FishingV2, InventoryV2, InventoryV2All, ItemV2, MiningV2, MinionsV2, MiscV2, NetworthV2, PetsV2, RiftV2, SkillsV2, SlayerV2, StatsV2, WeaponsV2 } from "$types/statsv2";
+import type { AccessoriesV2, ArmorV2, BestiaryV2, CollectionsV2, CrimsonIsleV2, DungeonsV2, EnchantingV2, FarmingV2, FishingV2, InventoryV2, InventoryV2All, ItemV2, MiningV2, MinionsV2, MiscV2, NetworthV2, PetsV2, PlayerStatsV2, RiftV2, SkillsV2, SlayerV2, StatsV2, WeaponsV2 } from "$types/statsv2";
 
 // Enum for section names
 export enum SectionName {
@@ -21,7 +21,8 @@ export enum SectionName {
   ACCESSORIES = "accessories",
   PETS = "pets",
   WEAPONS = "weapons",
-  INVENTORY = "inventory"
+  INVENTORY = "inventory",
+  STATS = "playerStats"
 }
 
 // Type mapping for section names to their corresponding types
@@ -45,6 +46,7 @@ type SectionTypeMap = {
   [SectionName.PETS]: PetsV2;
   [SectionName.WEAPONS]: WeaponsV2;
   [SectionName.INVENTORY]: InventoryV2;
+  [SectionName.STATS]: PlayerStatsV2;
 };
 
 export const api = (customFetch = fetch) => ({

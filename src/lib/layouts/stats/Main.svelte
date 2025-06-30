@@ -7,6 +7,7 @@
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
+  import Stats from "$lib/layouts/stats/Stats.svelte";
   import Sections from "$lib/sections/Sections.svelte";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import { isLoadingItem, itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
@@ -42,7 +43,7 @@
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
-      <!-- <Stats /> -->
+      <Stats />
       <AdditionalStats />
     </div>
 
