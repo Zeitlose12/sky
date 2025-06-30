@@ -4,7 +4,8 @@
   import Item from "$lib/components/Item.svelte";
   import Section from "$lib/components/Section.svelte";
   import { api } from "$lib/shared/api";
-  import type { InventoryV2, ItemV2 } from "$types/statsv2";
+  import type { ProcessedSkyBlockItem } from "$types/stats";
+  import type { InventoryV2 } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
   import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { createQuery } from "@tanstack/svelte-query";
@@ -213,7 +214,7 @@
     }
   ]);
 
-  const searchedItems = $derived.by<ItemV2[] | []>(() => {
+  const searchedItems = $derived.by<ProcessedSkyBlockItem[] | []>(() => {
     if (!$searchQuery.data) return [];
     const search = debouncedSearchValue.current?.trim();
     if (!search) return [];
@@ -376,7 +377,7 @@
   {/if} -->
 </Section>
 
-{#snippet itemSnippet(item: ItemV2)}
+{#snippet itemSnippet(item: ProcessedSkyBlockItem)}
   <Item piece={item} isInventory={true} showRecombobulated={false} showCount={true} />
 {/snippet}
 
@@ -476,7 +477,7 @@
         {#if item.texture_path}
           <div class="bg-text/[0.04] flex aspect-square items-center justify-center rounded-sm">
             {#if tab.id === "inventory"}
-              {@render itemSnippet({ ...item, rarity: item.rarity ?? "uncommon" } as ItemV2)}
+              {@render itemSnippet({ ...item, rarity: item.rarity ?? "uncommon" } as ProcessedSkyBlockItem)}
             {:else}
               {@render itemSnippet(item)}
             {/if}

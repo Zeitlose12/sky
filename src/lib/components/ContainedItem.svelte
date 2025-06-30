@@ -1,10 +1,10 @@
 <script lang="ts">
   import { cn } from "$lib/shared/utils";
-  import type { ItemV2 } from "$types/statsv2";
+  import type { ProcessedSkyBlockItem } from "$types/stats";
   import Image from "@lucide/svelte/icons/image";
   import { Avatar } from "bits-ui";
 
-  let { piece, isInventory }: { piece: ItemV2; isInventory?: boolean } = $props();
+  let { piece, isInventory }: { piece: ProcessedSkyBlockItem; isInventory?: boolean } = $props();
 </script>
 
 <div class="relative flex aspect-square items-center justify-center overflow-clip p-0">

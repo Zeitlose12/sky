@@ -4,14 +4,15 @@
   import { getRarityClass, removeFormatting, renderLore } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
   import { wikiOrderPreferences } from "$lib/stores/wiki";
-  import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
+  import type { ProcessedSkyBlockItem } from "$types/stats";
+  import type { PetProcessedSkyBlockItem } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
   import Info from "@lucide/svelte/icons/info";
   import { Avatar, Button } from "bits-ui";
   import { derived as derivedStore } from "svelte/store";
 
   type Props = {
-    piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
+    piece: ProcessedSkyBlockItem | PetProcessedSkyBlockItem;
     isDrawer?: boolean;
   };
   let { piece, isDrawer }: Props = $props();

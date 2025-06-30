@@ -3,13 +3,14 @@
   import { getRarityClass } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
   import { itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
-  import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$types/stats";
+  import type { ProcessedSkyBlockItem } from "$types/stats";
+  import type { PetProcessedSkyBlockItem } from "$types/statsv2";
   import Image from "@lucide/svelte/icons/image";
   import { Avatar, Tooltip, type AvatarImageLoadingStatus } from "bits-ui";
   import { IsInViewport } from "runed";
 
   type Props = {
-    piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
+    piece: ProcessedSkyBlockItem | PetProcessedSkyBlockItem;
     isInventory?: boolean;
     showCount?: boolean;
     showRecombobulated?: boolean;
