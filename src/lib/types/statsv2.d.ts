@@ -532,3 +532,5 @@ export type PlayerStatsInputv2 = {
   dungeons?: number;
   petScore?: ItemStats;
 };
+
+export type PlayerStatsV2 = Record<string, { base: number; total: number; [string: string]: number }>;
