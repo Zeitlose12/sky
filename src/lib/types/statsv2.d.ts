@@ -41,24 +41,6 @@ export type ArmorV2 = {
   wardrobe: ProcessedSkyBlockItem[][];
 };
 
-export type ProcessedSkyBlockItem = {
-  display_name: string;
-  lore: string[];
-  texture_path: string;
-  recombobulated: boolean;
-  shiny: boolean;
-  texture_pack: string;
-  wiki?: { fandom?: string; official?: string } | null;
-  uuid: string;
-  rarity: string;
-  Count?: number;
-  containsItems?: ProcessedSkyBlockItem[];
-  isInactive?: boolean;
-  isUnique?: boolean;
-  source?: string;
-  sourceTab?: { name: string; icon: string };
-};
-
 export type WeaponsV2 = {
   weapons: ProcessedSkyBlockItem[];
   highest_priority_weapon: ProcessedSkyBlockItem | null;
