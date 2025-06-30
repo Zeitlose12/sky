@@ -51,7 +51,7 @@
 
 <Section id="Dungeons" {order}>
   {#if $query.isPending}
-    <LoaderCircle class="text-icon mx-auto animate-spin" />
+    <LoaderCircle class="text-icon animate-spin" />
   {/if}
   {#if $query.error}
     <Error />

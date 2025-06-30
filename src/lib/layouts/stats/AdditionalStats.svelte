@@ -91,7 +91,7 @@
   {#if $query.isPending}
     <div class="text-text/60 my-0 flex items-center gap-1 font-bold">
       Networth:
-      <LoaderCircle class="text-icon mx-auto animate-spin" />
+      <LoaderCircle class="text-icon animate-spin" />
     </div>
   {/if}
   {#if $query.error}

@@ -459,7 +459,7 @@
 
 {#snippet inventorySection()}
   {#if isLoading}
-    <LoaderCircle class="text-icon mx-auto animate-spin" />
+    <LoaderCircle class="text-icon animate-spin" />
   {/if}
   {#if hasErrored[tab?.id as keyof typeof hasErrored]}
     <Error />
