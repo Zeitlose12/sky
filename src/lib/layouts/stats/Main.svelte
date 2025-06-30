@@ -18,12 +18,6 @@
   import { Drawer } from "vaul-svelte";
 
   const isHover = getContext<IsHover>("isHover");
-
-  function resetItem() {
-    //showItemTooltip.set(false);
-    //tooltipAnchor.set(null!);
-    //itemContent.set(undefined!);
-  }
 </script>
 
 <SEO />
@@ -55,14 +49,7 @@
   </main>
 </div>
 
-<Tooltip.Root
-  bind:open={$showItemTooltip}
-  disableHoverableContent={true}
-  ignoreNonKeyboardFocus={true}
-  delayDuration={100}
-  onOpenChange={(open) => {
-    if (!open) resetItem();
-  }}>
+<Tooltip.Root bind:open={$showItemTooltip} disableHoverableContent={true} ignoreNonKeyboardFocus={true} delayDuration={100}>
   <Tooltip.Portal>
     {#if isHover.current}
       <Tooltip.Content forceMount class="bg-background-lore font-icomoon z-50 flex max-h-[calc(96vh-3rem)] max-w-lg flex-col overflow-clip rounded-lg select-text" sideOffset={8} side="right" align="center" customAnchor={$tooltipAnchor}>
