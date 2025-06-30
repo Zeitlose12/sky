@@ -330,7 +330,7 @@
   });
 </script>
 
-<Section id="Inventory" {order}>
+<Section id="Inventory" {order} class="min-h-[600px]">
   <!-- {#if !hasEmptyInventory} -->
   <Tabs.Root bind:value={openTab} class="bg-background/30 @container relative mb-0 rounded-lg p-5 pt-4">
     <Tabs.List>
