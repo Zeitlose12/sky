@@ -2,8 +2,9 @@
   import Error from "$lib/components/Error.svelte";
   import type { SectionName } from "$lib/sections/types";
   import { titleCase } from "$lib/shared/helper";
+  import { cn } from "$lib/shared/utils";
   import { tabValue } from "$lib/stores/internal";
-  import { sectionOrderPreferences } from "$lib/stores/preferences";
+  import { performanceMode, sectionOrderPreferences } from "$lib/stores/preferences";
   import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { Tabs } from "bits-ui";
 
@@ -33,7 +34,7 @@
     <Tabs.Root value={$tabValue} class="contents" data-section={$tabValue}>
       <Tabs.Content value={$tabValue} class="section">
         {#await COMPONENTS[$tabValue]()}
-          <div class="bg-text/[0.05] rounded-lg p-6 backdrop-blur-sm">
+          <div class={cn("bg-text/[0.05] rounded-lg p-6", $performanceMode ? "bg-background-lore" : "backdrop-blur-sm")}>
             <div class="flex items-center gap-2">
               <LoaderCircle class="text-text/60 size-5 animate-spin" />
               <span class="text-text/80 font-semibold">Loading {titleCase($tabValue)}...</span>

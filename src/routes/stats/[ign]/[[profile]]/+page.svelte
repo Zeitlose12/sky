@@ -6,8 +6,9 @@
   import Main from "$lib/layouts/stats/Main.svelte";
   import type { SectionName } from "$lib/sections/types";
   import { api } from "$lib/shared/api";
+  import { cn } from "$lib/shared/utils";
   import { tabValue } from "$lib/stores/internal";
-  import { sectionOrderPreferences } from "$lib/stores/preferences";
+  import { performanceMode, sectionOrderPreferences } from "$lib/stores/preferences";
   import type { StatsV2 } from "$types/statsv2";
   import LoaderCircle from "@lucide/svelte/icons/loader-circle";
   import { createQuery } from "@tanstack/svelte-query";
@@ -73,7 +74,7 @@
 {#if $query.isPending || $query.error}
   <div class="flex h-screen items-center justify-center">
     {#if $query.isPending}
-      <div class="bg-text/[0.05] rounded-lg p-6 backdrop-blur-sm">
+      <div class={cn("bg-text/[0.05] rounded-lg p-6", $performanceMode ? "bg-background-grey" : "backdrop-blur-sm")}>
         <div class="flex items-center gap-2">
           <LoaderCircle class="text-text/60 size-5 animate-spin" />
           <span class="text-text/80 font-semibold">Loading profile...</span>
