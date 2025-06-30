@@ -10,7 +10,7 @@
   import Stats from "$lib/layouts/stats/Stats.svelte";
   import Sections from "$lib/sections/Sections.svelte";
   import { cn, flyAndScale } from "$lib/shared/utils";
-  import { isLoadingItem, itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
+  import { itemContent, showItem, showItemTooltip, tooltipAnchor } from "$lib/stores/internal";
   import { performanceMode } from "$lib/stores/preferences";
   import { Dialog, Tooltip } from "bits-ui";
   import { getContext } from "svelte";
@@ -68,11 +68,7 @@
 </Tooltip.Root>
 
 {#if isHover.current}
-  <Dialog.Root
-    bind:open={$showItem}
-    onOpenChange={(open) => {
-      if (!open) resetItem();
-    }}>
+  <Dialog.Root bind:open={$showItem}>
     <Dialog.Portal>
       <Dialog.Overlay forceMount class="fixed inset-0 z-40 bg-black/80">
         {#snippet child({ props, open })}
@@ -85,7 +81,7 @@
         {#snippet child({ props, open })}
           {#if open}
             <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-              <ItemContent piece={$itemContent!} isLoading={$isLoadingItem} />
+              <ItemContent piece={$itemContent!} />
             </div>
           {/if}
         {/snippet}
@@ -93,17 +89,11 @@
     </Dialog.Portal>
   </Dialog.Root>
 {:else}
-  <Drawer.Root
-    bind:open={$showItem}
-    shouldScaleBackground={true}
-    setBackgroundColorOnScale={false}
-    onOpenChange={(open) => {
-      if (!open) resetItem();
-    }}>
+  <Drawer.Root bind:open={$showItem} shouldScaleBackground={true} setBackgroundColorOnScale={false}>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
       <Drawer.Content class="bg-background-lore fixed right-0 bottom-0 left-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px]">
-        <ItemContent piece={$itemContent!} isDrawer={true} isLoading={$isLoadingItem} />
+        <ItemContent piece={$itemContent!} isDrawer={true} />
       </Drawer.Content>
     </Drawer.Portal>
   </Drawer.Root>
