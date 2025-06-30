@@ -31,6 +31,10 @@
     queryFn: () => api(fetch).getSection(SectionName.WEAPONS, profileUUID, profileId)
   });
 
+  const anyQueryLoading = $derived.by(() => {
+    return $query.isPending || $weaponsQuery.isPending;
+  });
+
   const weapons = $derived.by(() => {
     if ($weaponsQuery.isPending || $weaponsQuery.error || !$weaponsQuery.data) return;
     return $weaponsQuery.data;
@@ -50,9 +54,6 @@
 </script>
 
 <Section id="Gear" {order}>
-  {#if $query.isPending}
-    <LoaderCircle class="text-icon mx-auto animate-spin" />
-  {/if}
   {#if $query.error}
     <Error />
   {/if}
@@ -117,8 +118,8 @@
       </Items>
     {/if}
   {/if}
-  {#if $weaponsQuery.isPending}
-    <LoaderCircle class="text-icon mx-auto animate-spin" />
+  {#if anyQueryLoading}
+    <LoaderCircle class="text-icon animate-spin" />
   {/if}
   {#if $weaponsQuery.error}
     <Error />
