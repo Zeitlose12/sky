@@ -30,7 +30,7 @@
     tank: "🛡️"
   } as Record<string, string>;
 
-  const slayerEmojis = {
+  const _slayerEmojis = {
     zombie: "🧟",
     spider: "🕸️",
     wolf: "🐺",

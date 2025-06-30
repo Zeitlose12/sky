@@ -11,7 +11,6 @@
   let frameCount = 0;
   let lastTime = 0;
   let shownToast = $state(false);
-  let lowFpsStart = 0;
   let lowFpsStreak = 0;
 
   // Start measuring FPS once component mounts
