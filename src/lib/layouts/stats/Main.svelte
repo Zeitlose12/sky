@@ -70,7 +70,7 @@
           {#if open}
             <div {...wrapperProps}>
               <div {...props} transition:flyAndScale={{ y: 8, duration: 150 }}>
-                <ItemContent piece={$itemContent!} isLoading={$isLoadingItem} />
+                <ItemContent piece={$itemContent!} />
               </div>
             </div>
           {/if}
