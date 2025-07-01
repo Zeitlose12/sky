@@ -32,10 +32,10 @@
     <div class="flex gap-2">
       <Button.Root href="/" class="flex items-center justify-center gap-2 font-bold" data-sveltekit-preload="hover">
         <Avatar.Root class="size-6 shrink-0 rounded-lg select-none">
-          <Avatar.Image loading="lazy" src="/img/app-icons/svg.svg" alt="SkyCrypt" class="pointer-events-none h-6 select-none" />
+          <Avatar.Image loading="lazy" src="/img/app-icons/svg.svg" alt="TimelessView" class="pointer-events-none h-6 select-none" />
           <Avatar.Fallback class="text-text/60 flex h-full items-center justify-center text-lg font-semibold uppercase">SC</Avatar.Fallback>
         </Avatar.Root>
-        SkyCrypt
+        TimelessView
       </Button.Root>
       <HeaderInfo />
     </div>
