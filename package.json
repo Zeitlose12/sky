@@ -85,6 +85,7 @@
     "@napi-rs/canvas": "^0.1.68",
     "@rollup/rollup-linux-x64-gnu": "^4.38.0",
     "@sentry/sveltekit": "^9.33.0",
+    "@sveltejs/adapter-auto": "^6.0.1",
     "dotenv-cli": "^8.0.0",
     "farming-weight": "^0.8.3",
     "minecraft-data": "^3.85.0",
