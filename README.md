@@ -1,12 +1,12 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="static/img/logo_black.png">
-    <img alt="SkyCrypt 🍣" height="96px" src="static/img/logo.png">
+    <img alt="TimelessView 🍣" height="96px" src="static/img/logo.png">
   </picture>
 </p>
 <h1 align="center">A Hypixel Skyblock Profile Viewer v2</h1>
 
-This is the new version of [SkyCrypt](https://github.com/SkyCryptWebsite/SkyCrypt), a website that provides information about the game Hypixel SkyBlock. This version is built from the ground up to replace the original SkyCrypt for a more modern and maintainable codebase.
+This is the new version of [TimelessView](https://github.com/TimelessViewWebsite/TimelessView), a website that provides information about the game Hypixel SkyBlock. This version is built from the ground up to replace the original TimelessView for a more modern and maintainable codebase.
 
 Originally inspired by [LeaPhant's skyblock-stats](https://github.com/LeaPhant/skyblock-stats).
 
