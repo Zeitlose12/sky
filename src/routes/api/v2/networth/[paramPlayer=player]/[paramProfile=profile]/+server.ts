@@ -1,4 +1,3 @@
-import { dev } from "$app/environment";
 import { REDIS } from "$lib/server/db/redis";
 import { getProfile } from "$lib/server/lib";
 import type { ProcessedSkyBlockItem } from "$types/stats.js";
@@ -6,9 +5,7 @@ import { json } from "@sveltejs/kit";
 import simdjson from "simdjson";
 import { getPreDecodedNetworth } from "skyhelper-networth";
 
-export async function GET({ params, cookies }) {
-  const timeNow = Date.now();
-
+export async function GET({ params }) {
   const { paramPlayer, paramProfile } = params;
   const [profile, allItemsRaw] = await Promise.all([getProfile(paramPlayer, paramProfile as string, { cache: true }), REDIS.get(`profile:${paramProfile}:items`)]);
   const allItems = simdjson.parse(allItemsRaw as string);
@@ -43,10 +40,6 @@ export async function GET({ params, cookies }) {
   };
 
   const networth = await getPreDecodedNetworth(userProfile, items, bank, networthOptions);
-
-  if (dev) {
-    console.log(`/api/networth/${paramProfile} took ${Date.now() - timeNow}ms`);
-  }
 
   return json(networth);
 }

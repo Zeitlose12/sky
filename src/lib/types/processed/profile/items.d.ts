@@ -157,6 +157,8 @@ export type ProcessedSkyBlockItem = {
   shiny?: boolean;
   texture_pack: string;
   wiki?: { fandom?: string; official?: string } | null;
+  source?: string;
+  sourceTab?: { name: string; icon: string } | null;
   [key: string]: string | boolean;
 };
 

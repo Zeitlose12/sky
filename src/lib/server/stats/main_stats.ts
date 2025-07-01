@@ -12,10 +12,7 @@ import { getSkyblockLevel } from "./skyblock_level";
 export async function getMainStats(userProfile: Member, profile: Profile, player: Player, packs: string[]) {
   const [profiles, members, museumData] = await Promise.all([getProfiles(profile.uuid), getProfileMembers(profile.members), fetchMuseum(profile.profile_id)]);
 
-  const timeNow = Date.now();
-  getItems(userProfile, museumData?.[profile.uuid], packs, profile.profile_id).then(() => {
-    console.log(`Items fetched for ${profile.profile_id} in ${Date.now() - timeNow}ms`);
-  });
+  getItems(userProfile, museumData?.[profile.uuid], packs, profile.profile_id);
 
   return {
     displayName: getDisplayName(player.displayname, profile.uuid),

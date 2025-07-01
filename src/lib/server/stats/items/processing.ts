@@ -70,7 +70,7 @@ function getCategories(type: string, item: Item) {
 }
 
 // options = ignore that part
-export function processItems(items: ProcessedItem[], source: string, packs: string[], options: { pack: false; category: false }): ProcessedItem[] {
+export function processItems(items: ProcessedItem[], source: string, packs: string[], options: { pack?: boolean; category?: boolean }): ProcessedItem[] {
   for (const item of items) {
     if (!item.tag?.ExtraAttributes?.id && item.exp === undefined) {
       continue;

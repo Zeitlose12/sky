@@ -86,9 +86,9 @@ export const api = (customFetch = fetch) => ({
     return data;
   },
   // Generic inventory function - returns InventoryV2 if tab specified, InventoryV2All if not
-  getInventory: <T extends string | undefined = undefined>(profile?: string, inventoryTab?: T): Promise<T extends string ? InventoryV2 : InventoryV2All> => {
+  getInventory: <T extends string | undefined = undefined>(ign: string, profile: string, inventoryTab?: T): Promise<T extends string ? InventoryV2 : InventoryV2All> => {
     return (async () => {
-      const response = await customFetch(`/api/v2/inventory/${profile || ""}${inventoryTab ? `/${inventoryTab}` : ""}`);
+      const response = await customFetch(`/api/v2/inventory/${ign}/${profile}${inventoryTab ? `/${inventoryTab}` : ""}`);
       if (!response.ok && response.status !== 500) {
         throw new Error(`${response.status} - Failed to fetch inventory - ${response.statusText}`);
       }

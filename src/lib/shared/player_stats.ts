@@ -123,7 +123,7 @@ export function getPlayerStats(profile: PlayerStatsInputv2) {
       }
 
       stats[name][`slayers`] ??= 0;
-      stats[name][`slayers`] += value;
+      stats[name][`slayers`] += value ?? 0;
     }
   }
 

@@ -40,7 +40,7 @@ sentryInit({
 });
 
 export const init: ServerInit = async () => {
-  console.log("[SkyCrypt] Starting...");
+  console.info("[SkyCrypt] Starting...");
   const timeNow = performance.now();
 
   await intializeNEURepository().then(() => {
@@ -50,20 +50,20 @@ export const init: ServerInit = async () => {
   await resourcesInit();
 
   await startMongo().then(() => {
-    console.log("[MONGO] MongoDB successfully connected");
+    console.info("[MONGO] MongoDB successfully connected");
 
     indexCollectons();
   });
 
   await startRedis().then(() => {
-    console.log("[REDIS] Redis successfully connected");
+    console.info("[REDIS] Redis successfully connected");
   });
 
   await getPrices(true).then(() => {
-    console.log("[NETWORTH] Prices successfully fetched!");
+    console.info("[NETWORTH] Prices successfully fetched!");
   });
 
-  console.log(`[SkyCrypt] Started in ${(performance.now() - timeNow).toFixed(2)}ms`);
+  console.info(`[SkyCrypt] Started in ${(performance.now() - timeNow).toFixed(2)}ms`);
 };
 export const handleError = handleErrorWithSentry();
 export const handle = sequence(sentryHandle());

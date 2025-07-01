@@ -1,4 +1,3 @@
-import { dev } from "$app/environment";
 import { REDIS } from "$lib/server/db/redis.js";
 import { getProfile } from "$lib/server/lib";
 import { getAccessories } from "$lib/server/stats/accessories.js";
@@ -9,8 +8,6 @@ import { json } from "@sveltejs/kit";
 import simdjson from "simdjson";
 
 export async function GET({ params, cookies }) {
-  const timeNow = Date.now();
-
   const { paramPlayer, paramProfile } = params;
   const packs = JSON.parse(cookies.get("disabledPacks") || "[]");
 
@@ -35,9 +32,6 @@ export async function GET({ params, cookies }) {
   accessories.accessories = stripItems(accessories.accessories as unknown as ProcessedItem[], ["isInactive"]);
   accessories.upgrades = stripItems(accessories.upgrades as unknown as ProcessedItem[]);
   accessories.missing = stripItems(accessories.missing as unknown as ProcessedItem[]);
-  if (dev) {
-    console.log(`/api/accessories/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);
-  }
 
   return json(accessories);
 }

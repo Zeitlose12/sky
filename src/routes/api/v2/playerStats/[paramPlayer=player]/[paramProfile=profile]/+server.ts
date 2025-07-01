@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { dev } from "$app/environment";
 import { REDIS } from "$lib/server/db/redis.js";
 import { fetchPlayer, getProfile } from "$lib/server/lib.js";
 import { getAccessories } from "$lib/server/stats/accessories.js";
@@ -16,7 +15,6 @@ import { json } from "@sveltejs/kit";
 import simdjson from "simdjson";
 
 export async function GET({ params, cookies }) {
-  const timeNow = Date.now();
   const { paramPlayer, paramProfile } = params;
 
   const packs = JSON.parse(cookies.get("disabledPacks") || "[]");
@@ -63,10 +61,6 @@ export async function GET({ params, cookies }) {
   };
 
   const playerStats = getPlayerStats(output);
-
-  if (dev) {
-    console.log(`/api/misc/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);
-  }
 
   return json(playerStats);
 }

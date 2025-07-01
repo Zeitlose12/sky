@@ -35,7 +35,7 @@ export function getWeapons(allItems: ProcessedItem[]) {
   const highestPriorityWeapon = getCategory(allItems, "sword")[0];
 
   return {
-    weapons: weapons,
+    weapons: stripItems(weapons),
     highest_priority_weapon: stripItem(highestPriorityWeapon)
   };
 }

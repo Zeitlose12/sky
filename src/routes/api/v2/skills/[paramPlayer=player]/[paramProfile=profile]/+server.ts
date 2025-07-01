@@ -1,4 +1,3 @@
-import { dev } from "$app/environment";
 import { REDIS } from "$lib/server/db/redis.js";
 import { fetchPlayer, getProfile } from "$lib/server/lib.js";
 import { getEnchanting } from "$lib/server/stats/enchanting";
@@ -11,7 +10,6 @@ import { json } from "@sveltejs/kit";
 import simdjson from "simdjson";
 
 export async function GET({ params, cookies }) {
-  const timeNow = Date.now();
   const { paramPlayer, paramProfile } = params;
 
   const packs = JSON.parse(cookies.get("disabledPacks") || "[]");
@@ -29,10 +27,6 @@ export async function GET({ params, cookies }) {
   const farming = getFarming(profile, profile.members[paramPlayer]);
   const enchanting = getEnchanting(profile.members[paramPlayer]);
   const fishing = getFishing(profile.members[paramPlayer]);
-
-  if (dev) {
-    console.log(`/api/skills/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);
-  }
 
   return json({
     mining: {

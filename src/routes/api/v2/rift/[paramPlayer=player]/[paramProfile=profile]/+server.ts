@@ -1,4 +1,3 @@
-import { dev } from "$app/environment";
 import { REDIS } from "$lib/server/db/redis";
 import { getProfile } from "$lib/server/lib.js";
 import { getArmor } from "$lib/server/stats/items/armor";
@@ -10,7 +9,6 @@ import { json } from "@sveltejs/kit";
 import simdjson from "simdjson";
 
 export async function GET({ params, cookies }) {
-  const timeNow = Date.now();
   const { paramPlayer, paramProfile } = params;
 
   const profile = await getProfile(paramPlayer, paramProfile as string, { cache: true });
@@ -25,10 +23,6 @@ export async function GET({ params, cookies }) {
   const armor = getArmor(riftArmor);
   const equipment = getEquipment(riftEquipment);
   const rift = getRift(profile.members[paramPlayer]);
-
-  if (dev) {
-    console.log(`/api/rift/${paramPlayer}/${paramProfile} took ${Date.now() - timeNow}ms`);
-  }
 
   return json({
     ...rift,

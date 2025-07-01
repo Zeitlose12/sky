@@ -6,7 +6,7 @@ import { getLevelByXp, getSkillLevelCaps, getSocialSkillExperience } from "./lev
 export function getSkills(userProfile: Member, profile: Profile, player: Player | null): Skills {
   const output = { skills: {} } as Skills;
 
-  const skillLevelCaps = getSkillLevelCaps(userProfile, null);
+  const skillLevelCaps = getSkillLevelCaps(userProfile, player);
   if (userProfile.player_data?.experience) {
     const skills = userProfile.player_data.experience;
 
